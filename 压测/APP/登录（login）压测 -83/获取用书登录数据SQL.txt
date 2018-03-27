@@ -1,0 +1,1 @@
+SELECT IF(register_mode = 0, user_email, bind_phone) as loginName, `password` as pwd from ejet_user where user_status = 0;

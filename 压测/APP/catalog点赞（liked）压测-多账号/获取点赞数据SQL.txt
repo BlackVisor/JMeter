@@ -1,0 +1,4 @@
+SELECT DISTINCT r.user_id, r.cata_log_id, c.contact_user_id, if(register_mode = 0, user_email, bind_phone), u.`password`  from ejet_my_catalog_rela r
+LEFT JOIN ejet_user_contact c on r.user_id = c.user_id and c.contact_status = 0
+LEFT JOIN ejet_user u on c.contact_user_id = u.user_id and u.user_status = 0
+where r.del_status = 0 ORDER BY r.user_id, c.contact_user_id;

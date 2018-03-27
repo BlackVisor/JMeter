@@ -1,0 +1,1 @@
+SELECT '1025166', if(register_mode = 0, user_email, bind_phone), `password` from ejet_user where user_status = 0

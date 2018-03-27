@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="3.2" jmeter="3.2 r1790748">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="测试计划" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1503535527000</longProp>
+        <longProp name="ThreadGroup.end_time">1503535527000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+          <stringProp name="delimiter">,</stringProp>
+          <stringProp name="fileEncoding">utf-8</stringProp>
+          <stringProp name="filename">updateOffer.csv</stringProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="variableNames">offerId</stringProp>
+          <boolProp name="ignoreFirstLine">false</boolProp>
+        </CSVDataSet>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Accept-Language</stringProp>
+              <stringProp name="Header.value">zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Connection</stringProp>
+              <stringProp name="Header.value">keep-alive</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">User-Agent</stringProp>
+              <stringProp name="Header.value">Apache-HttpClient/4.2.5 (java 1.5)</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Accept-Encoding</stringProp>
+              <stringProp name="Header.value">gzip, deflate</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Cookie</stringProp>
+              <stringProp name="Header.value">tokenId=663c093f-a280-4bf8-add3-c6be9d8393e4</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库配置-开发" enabled="false">
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="checkQuery">Select 1</stringProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="dataSource">DB</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://offerplus.imwork.net:3306/cn_offerplus</stringProp>
+          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="password">R7evMxOvLX</stringProp>
+          <stringProp name="poolMax">10</stringProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <stringProp name="username">root</stringProp>
+        </JDBCDataSource>
+        <hashTree/>
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="聚合报告" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </LoopController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="6.update offer" enabled="false">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="data" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${data}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">data</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">offerplus.imwork.net</stringProp>
+            <stringProp name="HTTPSampler.port">82</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/web/offer/updateOffer.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import test.AesUtils;
+import test.signPwd;
+
+//key值
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+//创建aes加密对象
+AesUtils aes = new AesUtils();
+
+//以下为入参
+String []offerUnit = {&quot;Pieces&quot;, &quot;Set&quot;, &quot;Box&quot;, &quot;Pallets&quot;, &quot;Dozen&quot;};
+String []offerSellCry = {&quot;USD&quot;,&quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;};
+String []offerBuyCry = {&quot;USD&quot;,&quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;};
+
+
+JSONObject json = new JSONObject();
+
+//
+JSONArray ja = new JSONArray();
+JSONObject json1 = new JSONObject();
+JSONObject json2 = new JSONObject();
+JSONObject json3 = new JSONObject();
+JSONObject json4 = new JSONObject();
+JSONObject json5 = new JSONObject();
+
+json1.put(&quot;sheetName&quot;, &quot;MOQ&quot;);
+json1.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json1);
+json2.put(&quot;sheetName&quot;, &quot;Brand Name&quot;);
+json2.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json2);
+json3.put(&quot;sheetName&quot;, &quot;Stock&quot;);
+json3.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json3);
+json4.put(&quot;sheetName&quot;, &quot;Port&quot;);
+json4.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json4);
+json5.put(&quot;sheetName&quot;, &quot;CBM&quot;);
+json5.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json5);
+
+
+//json.put(&quot;offerArrSheet&quot;, JSON.toJSONString(ja));
+json.put(&quot;offerName&quot;, &quot;web offer&quot; + i);
+json.put(&quot;offerDescrip&quot;, &quot;this is web offer &quot; + i + &quot;&apos;s presstion&quot;);
+json.put(&quot;offerBuyPrice&quot;, &quot;12.3456&quot;);
+json.put(&quot;offerSellPrice&quot;, &quot;45678.232&quot;);
+//json.put(&quot;offerBuyCry&quot;, offerBuyCry[(int)(Math.random() * offerBuyCry.length)]);
+//json.put(&quot;offerSellCry&quot;, offerSellCry[(int)(Math.random() * offerSellCry.length)]);
+//json.put(&quot;offerUnit&quot;, offerUnit[(int)(Math.random() * offerUnit.length)]);
+json.put(&quot;contactStatus&quot;, &quot;0&quot;);
+//json.put(&quot;contactUserId&quot;, &quot;1010629&quot;);
+json.put(&quot;offerImg&quot;, &quot;2d406077-6051-45ba-a2ae-074842c3b1b7,aea82417-9b4e-4004-a9d3-c5ce29a64bfb,e0200d34-fd48-4ef2-94b2-3db52630117f,859aa84d-a708-4c1c-addf-8f067c851e5b,be50b008-2fe2-44a4-8741-8fcb2d6c71cc&quot;);
+json.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
+json.put(&quot;arrTagId&quot;,&quot;4699,4710,4768,4775,4783,4784,4785,4790,4791,4814,4817,4821,4822,4828,7516,7518,7519,7522,19008,19009,19011,19012,19013,19018,19019,19020,19021,19022,19051,19077,19078,19079,19080,19090,19091,19092,19095,19096,19100,19159,19165,19166,19167,19168,19169,19170,19171,19172,19173&quot;);
+json.put(&quot;offerId&quot;, &quot;2024815&quot;);
+
+
+//进行加密
+String encrypt = aes.aesEncrypt(JSON.toJSONString(json), KEY);
+
+//将加密数据。先进行urlEncoder之后传值给data作为入参
+vars.put(&quot;data&quot;, encrypt);</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="6.update offer" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">offerplus.imwork.net</stringProp>
+            <stringProp name="HTTPSampler.port">82</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/web/offer/updateOffer.do?${postPro}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import test.AesUtils;
+
+//key值
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+//创建aes加密对象
+AesUtils aes = new AesUtils();
+
+JSONArray ja = new JSONArray();
+JSONObject json1 = new JSONObject();
+JSONObject json2 = new JSONObject();
+JSONObject json3 = new JSONObject();
+JSONObject json4 = new JSONObject();
+JSONObject json5 = new JSONObject();
+json1.put(&quot;sheetName&quot;, &quot;MOQ&quot;);
+json1.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json1);
+json2.put(&quot;sheetName&quot;, &quot;Brand Name&quot;);
+json2.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json2);
+json3.put(&quot;sheetName&quot;, &quot;Stock&quot;);
+json3.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json3);
+json4.put(&quot;sheetName&quot;, &quot;Port&quot;);
+json4.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json4);
+json5.put(&quot;sheetName&quot;, &quot;CBM&quot;);
+json5.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json5);
+
+//以下为入参
+JSONObject json = new JSONObject();
+json.put(&quot;arrTagId&quot;,&quot;4699,4710,4768,4775,4783,4784,4785,4790,4791,4814,4817,4821,4822,4828,7516,7518,7519,7522,19008,19009,19011,19012,19013,19018,19019,19020,19021,19022,19051,19077,19078,19079,19080,19090,19091,19092,19095,19096,19100,19159,19165,19166,19167,19168,19169,19170,19171,19172,19173&quot;);
+json.put(&quot;offerId&quot;, &quot;2024815&quot;);
+json.put(&quot;offerName&quot;, &quot;this is updated test offer&quot;);
+json.put(&quot;offerDescrip&quot;, &quot;this is updated test offer Descrption&quot;);
+json.put(&quot;offerBuyPrice&quot;, &quot;112.3456&quot;);
+json.put(&quot;offerSellPrice&quot;, &quot;145678.232&quot;);
+json.put(&quot;offerBuyCry&quot;, &quot;AUD&quot;);
+json.put(&quot;offerSellCry&quot;, &quot;RUB&quot;);
+json.put(&quot;offerUnit&quot;, &quot;PCS&quot;);
+json.put(&quot;contactStatus&quot;, &quot;0&quot;);
+//json.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId_1&quot;));
+json.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
+//json.put(&quot;arrTagId&quot;, vars.get(&quot;offerTagId_1&quot;));
+json.put(&quot;offerImg&quot;, &quot;7c72c2c9-d06b-46df-850b-28558bec50e7,31d2306d-dc99-4d69-ad34-8c1c169e169d&quot;);
+//json.put(&quot;offerArrSheet&quot;, JSON.toJSONString(ja));
+
+//进行加密
+String encrypt = aes.aesWebEncrypt(JSON.toJSONString(json), KEY);
+
+//将加密数据。先进行urlEncoder之后传值给data作为入参
+vars.put(&quot;postPro&quot;, &quot;data=&quot; + java.net.URLEncoder.encode(encrypt) + &quot;&amp;timestamp=&quot; + String.valueOf(System.currentTimeMillis()));</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+    <WorkBench guiclass="WorkBenchGui" testclass="WorkBench" testname="工作台" enabled="true">
+      <boolProp name="WorkBench.save">true</boolProp>
+    </WorkBench>
+    <hashTree/>
+  </hashTree>
+</jmeterTestPlan>

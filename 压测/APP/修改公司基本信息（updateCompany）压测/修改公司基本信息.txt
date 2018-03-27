@@ -1,0 +1,2 @@
+SELECT if(register_mode = 0, user_email, bind_phone), `password`, user_id from ejet_user where user_status = 0 
+and (user_email like '@offerplus.com' or bind_phone like '1550000%') 

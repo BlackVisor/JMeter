@@ -1,0 +1,9 @@
+SELECT DISTINCT u.user_id as userId, r.cata_log_id as offerId, c.contact_user_id as contactId, if(register_mode = 0, user_email, bind_phone) as loginName, u.`password` as pwd, '1' as toType from ejet_my_catalog_rela r
+LEFT JOIN ejet_user_contact c on r.user_id = c.contact_user_id and c.contact_status = 0
+LEFT JOIN ejet_user u on c.user_id = u.user_id and u.user_status = 0
+where r.del_status = 0 and u.bind_phone = '15669952730';
+
+SELECT DISTINCT r.user_id as userId, r.offer_id as offerId, r.contact_user_id as contactId, if(register_mode = 0, user_email, bind_phone) as loginName, u.`password` as pwd, '2' as toType  from ejet_my_rece_rela r
+LEFT JOIN ejet_user_contact c on r.user_id = c.contact_user_id and c.contact_status = 0
+LEFT JOIN ejet_user u on c.user_id = u.user_id and u.user_status = 0
+where r.del_status = 0 and u.bind_phone = '15669952730';
