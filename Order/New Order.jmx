@@ -26,7 +26,7 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="false">
           <stringProp name="filename">order.csv</stringProp>
           <stringProp name="fileEncoding">utf-8</stringProp>
           <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt</stringProp>
@@ -38,7 +38,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="false">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="Accept-Language" elementType="Header">
               <stringProp name="Header.name">Accept-Language</stringProp>
@@ -59,13 +59,13 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
           <boolProp name="displayJMeterProperties">false</boolProp>
           <boolProp name="displayJMeterVariables">true</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-开发" enabled="true">
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-开发" enabled="false">
           <stringProp name="dataSource">DB</stringProp>
           <stringProp name="poolMax">10</stringProp>
           <stringProp name="timeout">10000</stringProp>
@@ -81,31 +81,80 @@
           <stringProp name="password">R7evMxOvLX</stringProp>
         </JDBCDataSource>
         <hashTree/>
-        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号的token" enabled="true">
-          <stringProp name="dataSource">DB</stringProp>
-          <stringProp name="query">select token_id from ejet_user_separate where user_id = ${userId} and server_type = &quot;C&quot; limit 1</stringProp>
-          <stringProp name="queryArguments"></stringProp>
-          <stringProp name="queryArgumentsTypes"></stringProp>
-          <stringProp name="queryTimeout"></stringProp>
-          <stringProp name="queryType">Select Statement</stringProp>
-          <stringProp name="resultSetHandler">Store as String</stringProp>
-          <stringProp name="resultVariable"></stringProp>
-          <stringProp name="variableNames">tokenId</stringProp>
-        </JDBCSampler>
-        <hashTree>
-          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <boolProp name="resetInterpreter">false</boolProp>
-            <stringProp name="script">vars.put(&quot;tokenId&quot;, vars.get(&quot;tokenId_1&quot;));</stringProp>
-          </BeanShellPostProcessor>
-          <hashTree/>
-        </hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="事务控制器" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号的token" enabled="false">
+            <stringProp name="dataSource">DB</stringProp>
+            <stringProp name="query">select token_id from ejet_user_separate where user_id = ${userId} and server_type = &quot;C&quot; limit 1</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">tokenId</stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">vars.put(&quot;tokenId&quot;, vars.get(&quot;tokenId_1&quot;));</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的系统联系人信息" enabled="false">
+            <stringProp name="dataSource">DB</stringProp>
+            <stringProp name="query">select contact_user_id from (
+
+SELECT user_id, contact_user_id ,RAND() sort_column from ejet_user_contact where user_id = (SELECT user_id from ejet_user where user_id = &apos;${userId}&apos;) and contact_status = 0 limit 100
+
+) t order by sort_column limit 1</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">contact_user_id</stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">vars.put(&quot;contactUserId&quot;, vars.get(&quot;contact_user_id_1&quot;));</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的自定义联系人信息" enabled="false">
+            <stringProp name="dataSource">DB</stringProp>
+            <stringProp name="query">select inter_contact_id from (
+
+select inter_contact_id,RAND() sort_column from ejet_interim_contacts  where user_id = 
+(SELECT user_id from ejet_user where user_id = &apos;${userId}&apos;) limit 100
+
+) t order by sort_column limit 1</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">inter_contact_id</stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">vars.put(&quot;interContactId&quot;, vars.get(&quot;inter_contact_id_1&quot;));</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="New Order" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -134,7 +183,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="false">
               <boolProp name="resetInterpreter">false</boolProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -167,25 +216,25 @@ Random rand = new Random();
 int r1 = rand.nextInt(100) % 2;//随机 0，1，用于判断是否自定义联系人
 if(r1==1){
 	map.put(&quot;contactType&quot;,&quot;1&quot;);//用户类型 0用户 1自定义联系人
-	map.put(&quot;contactUserId&quot;, vars.get(&quot;inter_contact_id_1&quot;));
+	map.put(&quot;contactUserId&quot;, vars.get(&quot;interContactId&quot;));
 }else{
 	map.put(&quot;contactType&quot;,&quot;0&quot;);//用户类型 0用户 1自定义联系人
-	map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId_1&quot;));
+	map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId&quot;));
 }
 int r2 = rand.nextInt(100) % 2;
 map.put(&quot;isBind&quot;,r2.toString());//0不绑定 1绑定
 int r3 = rand.nextInt(100) % 2;
 map.put(&quot;role&quot;,r3.toString());//0买家 1卖家
 int r4 = rand.nextInt(100) % 2;
-map.put(&quot;allow_partial_shipment&quot;,r4.toString());//部分发货：0否 1是
+map.put(&quot;allowPartialShipment&quot;,r4.toString());//部分发货：0否 1是
 
 int irandom = rand.nextInt(1000) + 1;
-String oid = &quot;O-&quot; + vars.get(&quot;userId_1&quot;) + &quot;-&quot; + irandom;
+String oid = &quot;O-&quot; + ${userId} + &quot;-&quot; + irandom;
 map.put(&quot;orderId&quot;,oid);
 
 
 JSONArray productsList = new JSONArray();
-for (int i = 0; i &lt; 6; i ++) {
+for (int i = 0; i &lt; 11; i ++) {
     
     //新建一个产品
     JSONObject product = new JSONObject();
@@ -198,7 +247,7 @@ for (int i = 0; i &lt; 6; i ++) {
     JSONObject json4 = new JSONObject();
     JSONObject json5 = new JSONObject();
 
-	int r10 = rand.nextInt(100) + 1;
+    int r10 = rand.nextInt(100) + 1;
     json1.put(&quot;sheetName&quot;, &quot;MOQ&quot;);
     json1.put(&quot;sheetValue&quot;, &quot;MOQ:&quot;+i);
     ja.add(json1);
@@ -216,9 +265,10 @@ for (int i = 0; i &lt; 6; i ++) {
     ja.add(json5);
     
     product.put(&quot;productArrSheet&quot;, ja);
-    product.put(&quot;productName&quot;, &quot;newOrder&quot; + i);
+    
+    product.put(&quot;productName&quot;, &quot;new order&quot; + i);
     product.put(&quot;productImg&quot;, &quot;2d406077-6051-45ba-a2ae-074842c3b1b7,aea82417-9b4e-4004-a9d3-c5ce29a64bfb,e0200d34-fd48-4ef2-94b2-3db52630117f,859aa84d-a708-4c1c-addf-8f067c851e5b,be50b008-2fe2-44a4-8741-8fcb2d6c71cc&quot;);
-    product.put(&quot;productDescrip&quot;, &quot;this is newOrder description&quot; + i + &quot;-&quot; + r10.toString());
+    product.put(&quot;productDescrip&quot;, &quot;this is new order description&quot; + i + &quot;-&quot; + r10.toString());
     product.put(&quot;productQuantity&quot;, r10.toString());
 
     Random rand3 = new Random();
@@ -230,7 +280,7 @@ for (int i = 0; i &lt; 6; i ++) {
     product.put(&quot;productPrice&quot;, s1);
     product.put(&quot;productPriceCry&quot;, &quot;USD&quot;);
     product.put(&quot;productUnit&quot;, &quot;PCS&quot;);
-    product.put(&quot;remark&quot;, &quot;this is newOrder remark&quot; + i + &quot;-&quot; + r10.toString());
+    product.put(&quot;remark&quot;, &quot;this is new order remark&quot; + i + &quot;-&quot; + r10.toString());
     product.put(&quot;remarkImg&quot;, &quot;FtMuoocpgtHtS_TV0vuhm4Ka3NT0,FmyQFC3_y0_em0Y7fepdPqDP7e_M&quot;);
     
     //将此product添加到productsList列表
@@ -277,7 +327,7 @@ vars.put(&quot;otherFees&quot;, JSONObject.toJSONString(otherFees));
 map.put(&quot;feeCurrency&quot;, &quot;USD&quot;);
 map.put(&quot;priceTerms&quot;, &quot;FOB&quot;);
 map.put(&quot;placeDelivery&quot;, &quot;shanghai Port&quot;);
-map.put(&quot;leadTime&quot;, 8999);//这里传&quot;8999&quot;会有问题？
+map.put(&quot;leadTime&quot;, &quot;8999&quot;);
 map.put(&quot;remark&quot;, &quot;this is order remark&quot;);
 map.put(&quot;remarkImg&quot;, &quot;Fij5kQdOosNqfImLyO2eqbZubbcj123,FjlqdhImVfzsFxwBVYHF3XzCFJbr456&quot;);
 
@@ -306,14 +356,12 @@ bankAccount.put(&quot;remark&quot;, &quot;received bank Account&quot;);
 map.put(&quot;bankAccount&quot;, JSONObject.toJSONString(bankAccount));
 vars.put(&quot;bankAccount&quot;, JSONObject.toJSONString(bankAccount));
 
-map.put(&quot;paymentWay&quot;, &quot;pay By Bank Account&quot;);
+map.put(&quot;paymentWay&quot;, &quot;Pay By Bank Account&quot;);
 
 String tradeTerms = &quot;[\&quot;payment term1\&quot;, \&quot;payment term2\&quot;, \&quot;payment term3\&quot;]&quot;;
 
 vars.put(&quot;tradeTerms&quot;, tradeTerms.toString());
 map.put(&quot;tradeTerms&quot;, tradeTerms.toString());
-
-map.put(&quot;send&quot;, &quot;true&quot;);
 
 String []str = new String[map.size()];
 
@@ -323,6 +371,7 @@ StringBuffer sb = new StringBuffer();
 StringBuffer sb2 = new StringBuffer();
 
 sb.append(&quot;&quot;);
+sb2.append(&quot;&quot;);
 int i = 0;
 while(it.hasNext()) {
     str[i] = (String) it.next();
@@ -333,10 +382,10 @@ while(it.hasNext()) {
 Arrays.sort(str);
 
 for (int j = 0; j &lt; str.length; j ++) {
-    if(str[j].equals(&quot;products&quot;) || str[j].equals(&quot;otherFees&quot;) || str[j].equals(&quot;bankAccount&quot;) || str[j].equals(&quot;tradeTerms&quot;)) {
+    if(str[j].equals(&quot;products&quot;) || str[j].equals(&quot;otherFees&quot;) || str[j].equals(&quot;bankAccount&quot;) || str[j].equals(&quot;tradeTerms&quot;) || str[j].equals(&quot;deliveryAddress&quot;)) {
         sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j])));
     } else {
-        sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j])));
     }
     sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
     if (j != str.length -1) {
@@ -357,7 +406,7 @@ postData = sb2.append(&quot;&amp;sign=&quot;).append(sign).toString();
 vars.put(&quot;postData&quot;, postData);</stringProp>
             </BeanShellTimer>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="false">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
               </collectionProp>
@@ -366,7 +415,7 @@ vars.put(&quot;postData&quot;, postData);</stringProp>
               <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="false">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">data</stringProp>
               <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
@@ -391,7 +440,8 @@ String isEncrypt = vars.get(&quot;isEncrypt&quot;);
 if (isEncrypt.equals(&quot;true&quot;)) {
 	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
 	AesUtils appAes = new AesUtils();
-	String encrypt = vars.get(&quot;data&quot;);
+	//String encrypt = vars.get(&quot;data&quot;);
+	String encrypt = -1;
 	
 	if (encrypt.equals(&quot;-1&quot;)) {
 		
@@ -440,6 +490,13 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             <hashTree/>
           </hashTree>
         </hashTree>
+        <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="true">
+          <boolProp name="displayJMeterProperties">false</boolProp>
+          <boolProp name="displayJMeterVariables">true</boolProp>
+          <boolProp name="displaySamplerProperties">true</boolProp>
+          <boolProp name="displaySystemProperties">false</boolProp>
+        </DebugPostProcessor>
+        <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
