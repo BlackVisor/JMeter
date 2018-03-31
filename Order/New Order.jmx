@@ -26,10 +26,10 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="false">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
           <stringProp name="filename">order.csv</stringProp>
           <stringProp name="fileEncoding">utf-8</stringProp>
-          <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt</stringProp>
+          <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,</stringProp>
           <boolProp name="ignoreFirstLine">false</boolProp>
           <stringProp name="delimiter">,</stringProp>
           <boolProp name="quotedData">false</boolProp>
@@ -38,7 +38,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="false">
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="Accept-Language" elementType="Header">
               <stringProp name="Header.name">Accept-Language</stringProp>
@@ -59,13 +59,13 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
           <boolProp name="displayJMeterProperties">false</boolProp>
           <boolProp name="displayJMeterVariables">true</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-开发" enabled="false">
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-开发" enabled="true">
           <stringProp name="dataSource">DB</stringProp>
           <stringProp name="poolMax">10</stringProp>
           <stringProp name="timeout">10000</stringProp>
@@ -86,7 +86,7 @@
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号的token" enabled="false">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号的token" enabled="true">
             <stringProp name="dataSource">DB</stringProp>
             <stringProp name="query">select token_id from ejet_user_separate where user_id = ${userId} and server_type = &quot;C&quot; limit 1</stringProp>
             <stringProp name="queryArguments"></stringProp>
@@ -106,7 +106,7 @@
             </BeanShellPostProcessor>
             <hashTree/>
           </hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的系统联系人信息" enabled="false">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的系统联系人信息" enabled="true">
             <stringProp name="dataSource">DB</stringProp>
             <stringProp name="query">select contact_user_id from (
 
@@ -130,7 +130,7 @@ SELECT user_id, contact_user_id ,RAND() sort_column from ejet_user_contact where
             </BeanShellPostProcessor>
             <hashTree/>
           </hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的自定义联系人信息" enabled="false">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的自定义联系人信息" enabled="true">
             <stringProp name="dataSource">DB</stringProp>
             <stringProp name="query">select inter_contact_id from (
 
@@ -170,20 +170,18 @@ select inter_contact_id,RAND() sort_column from ejet_interim_contacts  where use
             <stringProp name="HTTPSampler.port">${port}</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-            <stringProp name="HTTPSampler.path">/tradeOrder/newOrder.do</stringProp>
+            <stringProp name="HTTPSampler.path">/offerplus/tradeOrder/newOrder.do</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
             <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.proxyHost">localhost</stringProp>
-            <stringProp name="HTTPSampler.proxyPort">8888</stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="false">
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
               <boolProp name="resetInterpreter">false</boolProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
@@ -406,7 +404,7 @@ postData = sb2.append(&quot;&amp;sign=&quot;).append(sign).toString();
 vars.put(&quot;postData&quot;, postData);</stringProp>
             </BeanShellTimer>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="false">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
               </collectionProp>
@@ -415,7 +413,7 @@ vars.put(&quot;postData&quot;, postData);</stringProp>
               <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="false">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">data</stringProp>
               <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
@@ -425,50 +423,28 @@ vars.put(&quot;postData&quot;, postData);</stringProp>
             </RegexExtractor>
             <hashTree/>
             <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
-              <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
-import org.apache.jmeter.samplers.SampleResult; 
-import org.apache.jmeter.assertions.AssertionResult; 
-import org.json.*;
-import test.AesUtils;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+              <stringProp name="BeanShellAssertion.query">import test.AesUtils;
+
 
 String isEncrypt = vars.get(&quot;isEncrypt&quot;);
 if (isEncrypt.equals(&quot;true&quot;)) {
 	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
 	AesUtils appAes = new AesUtils();
-	//String encrypt = vars.get(&quot;data&quot;);
-	String encrypt = -1;
+	String encrypt = vars.get(&quot;data&quot;);
 	
 	if (encrypt.equals(&quot;-1&quot;)) {
-		
 		Failure = false;
+		
 	} else {
 		try{
 			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
-			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
-			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
-
-			// quotnId正则表达式规则
-	          //String regEx = &quot;\&quot;quotnId\&quot;:(.+?)}&quot;;
-	          // 编译正则表达式
-	          //Pattern pattern = Pattern.compile(regEx);
-	          // 忽略大小写的写法
-	          // Pattern pat = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
-	          //Matcher matcher = pattern.matcher(jsonStr);
-	          // 查找字符串中是否有匹配正则表达式的字符/字符串
-	          //while(matcher.find()) {
-	        	   //获取匹配字符串
-		        //String rs = matcher.group(1);
-		        //vars.put(&quot;sendQuotnId&quot;, rs);
-               }
+			String jsonStr = new String(appAes.aesDecryptByBytes(un,KEY).getBytes(), &quot;UTF-8&quot;);
+			Failure = false;
+			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 	
                
 		}catch(Exception e){
-			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
 			Failure = true;
+			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 	
 			
 		}
 	}
@@ -490,13 +466,6 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             <hashTree/>
           </hashTree>
         </hashTree>
-        <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="true">
-          <boolProp name="displayJMeterProperties">false</boolProp>
-          <boolProp name="displayJMeterVariables">true</boolProp>
-          <boolProp name="displaySamplerProperties">true</boolProp>
-          <boolProp name="displaySystemProperties">false</boolProp>
-        </DebugPostProcessor>
-        <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
