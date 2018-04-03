@@ -155,7 +155,7 @@ select inter_contact_id,RAND() sort_column from ejet_interim_contacts  where use
             </BeanShellPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="New Order" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="New Order" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -232,7 +232,7 @@ map.put(&quot;orderId&quot;,oid);
 
 
 JSONArray productsList = new JSONArray();
-for (int i = 0; i &lt; 11; i ++) {
+for (int i = 0; i &lt; 49; i ++) {
     
     //新建一个产品
     JSONObject product = new JSONObject();
@@ -360,6 +360,330 @@ String tradeTerms = &quot;[\&quot;payment term1\&quot;, \&quot;payment term2\&qu
 
 vars.put(&quot;tradeTerms&quot;, tradeTerms.toString());
 map.put(&quot;tradeTerms&quot;, tradeTerms.toString());
+
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+StringBuffer sb2 = new StringBuffer();
+
+sb.append(&quot;&quot;);
+sb2.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+    str[i] = (String) it.next();
+    i++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+    if(str[j].equals(&quot;products&quot;) || str[j].equals(&quot;otherFees&quot;) || str[j].equals(&quot;bankAccount&quot;) || str[j].equals(&quot;tradeTerms&quot;) || str[j].equals(&quot;deliveryAddress&quot;)) {
+        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j])));
+    } else {
+        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j])));
+    }
+    sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+    if (j != str.length -1) {
+        sb.append(&quot;&amp;&quot;);
+    }
+    if (j != str.length -1) {
+        sb2.append(&quot;&amp;&quot;);
+    }
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+String postData = &quot;&quot;;
+
+postData = sb2.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+//vars.put(&quot;postPro&quot;, java.net.URLEncoder.encode(postPro));
+vars.put(&quot;postData&quot;, postData);</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">data</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">-1</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import test.AesUtils;
+
+
+String isEncrypt = vars.get(&quot;isEncrypt&quot;);
+if (isEncrypt.equals(&quot;true&quot;)) {
+	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
+	AesUtils appAes = new AesUtils();
+	String encrypt = vars.get(&quot;data&quot;);
+	
+	if (encrypt.equals(&quot;-1&quot;)) {
+		Failure = false;
+		
+	} else {
+		try{
+			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
+			String jsonStr = new String(appAes.aesDecryptByBytes(un,KEY).getBytes(), &quot;UTF-8&quot;);
+			Failure = false;
+			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 	
+               
+		}catch(Exception e){
+			Failure = true;
+			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 	
+			
+		}
+	}
+} else {
+	Failure = false;
+	
+}
+
+
+
+
+
+
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Order Name是否重名" enabled="false">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${postData}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/offerplus/tradeOrder/checkOrderIdExist.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+//此处为接口必传参数
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+
+//入参的order name
+map.put(&quot;orderId&quot;, &quot;O-1001200-967&quot;);
+
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+StringBuffer sb2 = new StringBuffer();
+
+sb.append(&quot;&quot;);
+sb2.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+    str[i] = (String) it.next();
+    i++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+    if(str[j].equals(&quot;products&quot;) || str[j].equals(&quot;otherFees&quot;) || str[j].equals(&quot;bankAccount&quot;) || str[j].equals(&quot;tradeTerms&quot;) || str[j].equals(&quot;deliveryAddress&quot;)) {
+        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j])));
+    } else {
+        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j])));
+    }
+    sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+    if (j != str.length -1) {
+        sb.append(&quot;&amp;&quot;);
+    }
+    if (j != str.length -1) {
+        sb2.append(&quot;&amp;&quot;);
+    }
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+String postData = &quot;&quot;;
+
+postData = sb2.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+//vars.put(&quot;postPro&quot;, java.net.URLEncoder.encode(postPro));
+vars.put(&quot;postData&quot;, postData);</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">data</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">-1</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import test.AesUtils;
+
+
+String isEncrypt = vars.get(&quot;isEncrypt&quot;);
+if (isEncrypt.equals(&quot;true&quot;)) {
+	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
+	AesUtils appAes = new AesUtils();
+	String encrypt = vars.get(&quot;data&quot;);
+	
+	if (encrypt.equals(&quot;-1&quot;)) {
+		Failure = false;
+		
+	} else {
+		try{
+			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
+			String jsonStr = new String(appAes.aesDecryptByBytes(un,KEY).getBytes(), &quot;UTF-8&quot;);
+			Failure = false;
+			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 	
+               
+		}catch(Exception e){
+			Failure = true;
+			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 	
+			
+		}
+	}
+} else {
+	Failure = false;
+	
+}
+
+
+
+
+
+
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Order详情" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${postData}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/offerplus/tradeOrder/detail.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+//此处为接口必传参数
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+
+//入参的order name
+map.put(&quot;oId&quot;, &quot;438&quot;);
 
 String []str = new String[map.size()];
 
