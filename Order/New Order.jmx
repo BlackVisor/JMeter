@@ -75,7 +75,7 @@
           <boolProp name="keepAlive">true</boolProp>
           <stringProp name="connectionAge">5000</stringProp>
           <stringProp name="checkQuery">Select 1</stringProp>
-          <stringProp name="dbUrl">jdbc:mysql://offerplus.imwork.net:3306/cn_offerplus</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://hzdev.offerplus.com:3306/cn_offerplus</stringProp>
           <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
           <stringProp name="username">root</stringProp>
           <stringProp name="password">R7evMxOvLX</stringProp>
@@ -92,15 +92,19 @@
               <boolProp name="resetInterpreter">false</boolProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
-              <stringProp name="script">vars.put(&quot;seller&quot;, &quot;1001200&quot;);//卖家
+              <stringProp name="script">vars.put(&quot;supplier&quot;, &quot;1001200&quot;);//卖家
 vars.put(&quot;buyer&quot;, &quot;1001221&quot;);//买家
 vars.put(&quot;userId&quot;, vars.get(&quot;supplier&quot;));
-vars.put(&quot;contactUserId&quot;, vars.get(&quot;buyer&quot;));</stringProp>
+vars.put(&quot;contactUserId&quot;, vars.get(&quot;buyer&quot;));
+//打印日志时，用vars.get,不能直接用${}
+log.info(vars.get(&quot;userId&quot;));
+</stringProp>
             </BeanShellPreProcessor>
             <hashTree/>
             <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号的token" enabled="true">
               <stringProp name="dataSource">DB</stringProp>
-              <stringProp name="query">select token_id from ejet_user_separate where user_id = ${userId} and server_type = &quot;C&quot; limit 1</stringProp>
+              <stringProp name="query">/*${var}需要添加引号，如果var本身没有引号的话*/
+select token_id from ejet_user_separate where user_id = ${userId} and server_type = &quot;C&quot; limit 1</stringProp>
               <stringProp name="queryArguments"></stringProp>
               <stringProp name="queryArgumentsTypes"></stringProp>
               <stringProp name="queryTimeout"></stringProp>
@@ -120,11 +124,12 @@ vars.put(&quot;contactUserId&quot;, vars.get(&quot;buyer&quot;));</stringProp>
             </hashTree>
             <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的系统联系人信息" enabled="true">
               <stringProp name="dataSource">DB</stringProp>
-              <stringProp name="query">select contact_user_id from (
-
-SELECT user_id, contact_user_id ,RAND() sort_column from ejet_user_contact where user_id = (SELECT user_id from ejet_user where user_id = &apos;${userId}&apos;) and contact_status = 0 limit 100
-
-) order by sort_column limit 1</stringProp>
+              <stringProp name="query">/*sort_column用来随机排序*/
+select contact_user_id from (
+	SELECT user_id, contact_user_id ,RAND() sort_column from ejet_user_contact where user_id = 
+		(SELECT user_id from ejet_user where user_id = ${userId}) 
+	and contact_status = 0 limit 100
+) this order by sort_column limit 1</stringProp>
               <stringProp name="queryArguments"></stringProp>
               <stringProp name="queryArgumentsTypes"></stringProp>
               <stringProp name="queryTimeout"></stringProp>
@@ -145,12 +150,9 @@ SELECT user_id, contact_user_id ,RAND() sort_column from ejet_user_contact where
             <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的自定义联系人信息" enabled="true">
               <stringProp name="dataSource">DB</stringProp>
               <stringProp name="query">select inter_contact_id, inter_contact_email from (
-
-select inter_contact_id, inter_contact_email, RAND() sort_column from ejet_interim_contacts  where user_id = 
-${userId} and inter_contact_email &lt;&gt; &apos;&apos; and inter_contact_status = 0 limit 100
-
-) order by sort_column limit 1
-</stringProp>
+	select inter_contact_id, inter_contact_email, RAND() sort_column from ejet_interim_contacts  where user_id = ${userId} and inter_contact_email &lt;&gt; &apos;&apos; 							    
+	and inter_contact_status = 0 limit 100
+) this order by sort_column limit 1</stringProp>
               <stringProp name="queryArguments"></stringProp>
               <stringProp name="queryArgumentsTypes"></stringProp>
               <stringProp name="queryTimeout"></stringProp>
@@ -187,9 +189,8 @@ vars.put(&quot;interContactEmail&quot;, vars.get(&quot;inter_contact_email_1&quo
               <hashTree>
                 <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="4.自定义联系人邮箱有没有注册" enabled="true">
                   <stringProp name="dataSource">DB</stringProp>
-                  <stringProp name="query">
-/* 这里是要找下邮箱存不存在 */
-select user_email from ejet_user where user_email =&apos;${interContactEmail}&apos;   limit 1</stringProp>
+                  <stringProp name="query">/* 这里是要找下邮箱存不存在 */
+select user_email from ejet_user where user_email =&apos;${interContactEmail}&apos; limit 1</stringProp>
                   <stringProp name="queryArguments"></stringProp>
                   <stringProp name="queryArgumentsTypes"></stringProp>
                   <stringProp name="queryTimeout"></stringProp>
@@ -8040,6 +8041,13 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </hashTree>
           </hashTree>
         </hashTree>
+        <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="false">
+          <boolProp name="displayJMeterProperties">false</boolProp>
+          <boolProp name="displayJMeterVariables">true</boolProp>
+          <boolProp name="displaySamplerProperties">true</boolProp>
+          <boolProp name="displaySystemProperties">false</boolProp>
+        </DebugPostProcessor>
+        <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
