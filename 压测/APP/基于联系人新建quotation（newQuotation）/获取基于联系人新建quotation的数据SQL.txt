@@ -1,0 +1,3 @@
+SELECT u.user_id, u.`password`, c.contact_user_id from ejet_user_contact c
+LEFT JOIN ejet_user u on c.user_id = u.user_id
+where c.contact_status = 0 GROUP BY c.user_id ORDER BY c.user_id limit 300;
