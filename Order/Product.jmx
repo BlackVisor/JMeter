@@ -38,7 +38,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理JMeter请求到Fiddler" enabled="false">
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理JMeter请求到Fiddler" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -55,7 +55,7 @@
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
           <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-          <stringProp name="HTTPSampler.proxyHost">192.168.0.107</stringProp>
+          <stringProp name="HTTPSampler.proxyHost">192.168.1.70</stringProp>
           <stringProp name="HTTPSampler.proxyPort">8888</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -2361,7 +2361,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="保存productSetting" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="保存productSetting" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2400,6 +2400,8 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
+import com.alibaba.fastjson.JSON;
+import java.util.*;
 
 long L = System.currentTimeMillis();
 
@@ -2415,10 +2417,30 @@ map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //以下为接口可变参数
-map.put(&quot;productDefaultCry&quot;, &quot;&quot;);
-map.put(&quot;productStartCamera&quot;, &quot;&quot;);
-map.put(&quot;productAddBuyPrice&quot;, &quot;&quot;);
-map.put(&quot;productDefaultSheet&quot;, &quot;&quot;);
+Random random = new Random();
+//随机取币种
+String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;, &quot;JPY&quot;, &quot;RUB&quot;, &quot;INR&quot;, &quot;CAD&quot;, &quot;AUD&quot;, &quot;BRL&quot;, &quot;HKD&quot;, &quot;TRY&quot;, &quot;ILS&quot;, &quot;NZD&quot;, &quot;PKR&quot;, &quot;SGD&quot;, &quot;ZAR&quot;, &quot;THB&quot;, &quot;PHP&quot;, &quot;MXN&quot;, &quot;KRW&quot;, &quot;NOK&quot;, &quot;PLN&quot;, &quot;IDR&quot;, &quot;CLP&quot;, &quot;CZK&quot;, &quot;DKK&quot;, &quot;HUF&quot;, &quot;MYR&quot;, &quot;SEK&quot;, &quot;IQD&quot;, &quot;RSD&quot;, &quot;HRK&quot;, &quot;EGP&quot;, &quot;IRR&quot;, &quot;AED&quot;, &quot;SAR&quot;, &quot;QAR&quot;, &quot;LBP&quot;, &quot;LYD&quot;, &quot;JOD&quot;, &quot;BGN&quot;, &quot;VND&quot;, &quot;CUP&quot;, &quot;BOB&quot;, &quot;COP&quot;, &quot;DOP&quot;, &quot;ISK&quot;, &quot;MOP&quot;, &quot;MAD&quot;, &quot;TND&quot;};
+int currencyListLength = currencyList.length;
+int randomCurrency = random.nextInt(currencyListLength);
+map.put(&quot;productDefaultCry&quot;, currencyList[randomCurrency]);
+//随机取相机开启
+int camera = random.nextInt(2);
+map.put(&quot;productStartCamera&quot;, camera);
+//随机取添加买入价
+int addBuyPrice = random.nextInt(2);
+map.put(&quot;productAddBuyPrice&quot;, addBuyPrice);
+//随机取产品sheet
+String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing \&quot;}]&quot;;
+List&lt;String&gt; list = JSON.parseArray(jsonString, String.class);
+//num=随机取得sheet个数，如果指定sheet个数可以赋值给它
+int num = random.nextInt(list.size());
+ArrayList sheetArray = new ArrayList();
+for(int  i =0 ; i&lt;num ; i++){
+  int newNum = random.nextInt(list.size());
+  sheetArray.add(list.get(newNum));
+  list.remove(newNum);
+}
+map.put(&quot;productDefaultSheet&quot;, sheetArray);
 
 
 
@@ -2556,7 +2578,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             <stringProp name="HTTPSampler.port">${port}</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">${path}/ProductSetting.do</stringProp>
+            <stringProp name="HTTPSampler.path">${path}/productSetting.do</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -2595,12 +2617,6 @@ map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //以下为接口可变参数
-map.put(&quot;productDefaultCry&quot;, &quot;&quot;);
-map.put(&quot;productStartCamera&quot;, &quot;&quot;);
-map.put(&quot;productAddBuyPrice&quot;, &quot;&quot;);
-map.put(&quot;productDefaultSheet&quot;, &quot;&quot;);
-
-
 
 
 
