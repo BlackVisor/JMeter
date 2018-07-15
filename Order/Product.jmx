@@ -26,7 +26,19 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 内网" enabled="false">
+          <stringProp name="filename">config-内网.csv</stringProp>
+          <stringProp name="fileEncoding">utf-8</stringProp>
+          <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
+          <boolProp name="ignoreFirstLine">false</boolProp>
+          <stringProp name="delimiter">,</stringProp>
+          <boolProp name="quotedData">true</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 外网" enabled="true">
           <stringProp name="filename">config-外网.csv</stringProp>
           <stringProp name="fileEncoding">utf-8</stringProp>
           <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
@@ -38,7 +50,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理JMeter请求到Fiddler" enabled="true">
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理JMeter请求到Fiddler" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -2431,16 +2443,31 @@ int addBuyPrice = random.nextInt(2);
 map.put(&quot;productAddBuyPrice&quot;, addBuyPrice);
 //随机取产品sheet
 String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing \&quot;}]&quot;;
-List&lt;String&gt; list = JSON.parseArray(jsonString, String.class);
+//这里如果用List&lt;String&gt; list = new ArrayList&lt;String&gt;();会报错
+list = new ArrayList();
+list = JSON.parseArray(jsonString, String.class);
 //num=随机取得sheet个数，如果指定sheet个数可以赋值给它
 int num = random.nextInt(list.size());
 ArrayList sheetArray = new ArrayList();
-for(int  i =0 ; i&lt;num ; i++){
-  int newNum = random.nextInt(list.size());
-  sheetArray.add(list.get(newNum));
-  list.remove(newNum);
+for(int i=0; i&lt;num; i++){
+	int newNum = random.nextInt(list.size());
+	sheetArray.add(list.get(newNum));
+	list.remove(newNum);
 }
-map.put(&quot;productDefaultSheet&quot;, sheetArray);
+String[] productSheet = (String[])sheetArray.toArray(new String[num]);
+map.put(&quot;productDefaultSheet&quot;, productSheet);
+
+//String response_data = prev.getResponseDataAsString();
+//JSONObject data_obj = new JSONObject(response_data);
+//String apps_str = data_obj.get(&quot;body&quot;).get(&quot;apps&quot;).toString();
+//JSONArray apps_array = new JSONArray(apps_str);
+//String[] result = new String[apps_array.length()];
+//for(int i=0;i&lt;apps_array.length();i++){
+//    JSONObject app_obj = new JSONObject(apps_array.get(i).toString());
+//    String name = app_obj.get(&quot;name&quot;).toString();
+//    result[i] = name;
+//}
+//vars.put(&quot;result&quot;, Arrays.toString(result));
 
 
 
@@ -2563,7 +2590,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取productSetting" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取productSetting" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
