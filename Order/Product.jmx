@@ -26,7 +26,7 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 内网" enabled="false">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 内网" enabled="true">
           <stringProp name="filename">config-内网.csv</stringProp>
           <stringProp name="fileEncoding">utf-8</stringProp>
           <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
@@ -38,19 +38,23 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 外网" enabled="true">
-          <stringProp name="filename">config-外网.csv</stringProp>
-          <stringProp name="fileEncoding">utf-8</stringProp>
-          <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
-          <boolProp name="ignoreFirstLine">false</boolProp>
-          <stringProp name="delimiter">,</stringProp>
-          <boolProp name="quotedData">true</boolProp>
-          <boolProp name="recycle">true</boolProp>
-          <boolProp name="stopThread">false</boolProp>
-          <stringProp name="shareMode">shareMode.all</stringProp>
-        </CSVDataSet>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-内网" enabled="true">
+          <stringProp name="dataSource">DB</stringProp>
+          <stringProp name="poolMax">10</stringProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="checkQuery">Select 1</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://192.168.1.7:3306/cn_offerplus</stringProp>
+          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
+          <stringProp name="username">root</stringProp>
+          <stringProp name="password">R7evMxOvLX</stringProp>
+        </JDBCDataSource>
         <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理JMeter请求到Fiddler" enabled="false">
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理JMeter请求到Fiddler" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -72,6 +76,34 @@
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </ConfigTestElement>
+        <hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 外网" enabled="false">
+          <stringProp name="filename">config-外网.csv</stringProp>
+          <stringProp name="fileEncoding">utf-8</stringProp>
+          <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
+          <boolProp name="ignoreFirstLine">false</boolProp>
+          <stringProp name="delimiter">,</stringProp>
+          <boolProp name="quotedData">true</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-外网" enabled="false">
+          <stringProp name="dataSource">DB</stringProp>
+          <stringProp name="poolMax">10</stringProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="checkQuery">Select 1</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://hzdev.offerplus.com:3306/cn_offerplus</stringProp>
+          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
+          <stringProp name="username">root</stringProp>
+          <stringProp name="password">R7evMxOvLX</stringProp>
+        </JDBCDataSource>
         <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
           <collectionProp name="HeaderManager.headers">
@@ -100,39 +132,7 @@
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-内网" enabled="false">
-          <stringProp name="dataSource">DB</stringProp>
-          <stringProp name="poolMax">10</stringProp>
-          <stringProp name="timeout">10000</stringProp>
-          <stringProp name="trimInterval">60000</stringProp>
-          <boolProp name="autocommit">true</boolProp>
-          <stringProp name="transactionIsolation">DEFAULT</stringProp>
-          <boolProp name="keepAlive">true</boolProp>
-          <stringProp name="connectionAge">5000</stringProp>
-          <stringProp name="checkQuery">Select 1</stringProp>
-          <stringProp name="dbUrl">jdbc:mysql://192.168.1.7:3306/cn_offerplus</stringProp>
-          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
-          <stringProp name="username">root</stringProp>
-          <stringProp name="password">R7evMxOvLX</stringProp>
-        </JDBCDataSource>
-        <hashTree/>
-        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-外网" enabled="true">
-          <stringProp name="dataSource">DB</stringProp>
-          <stringProp name="poolMax">10</stringProp>
-          <stringProp name="timeout">10000</stringProp>
-          <stringProp name="trimInterval">60000</stringProp>
-          <boolProp name="autocommit">true</boolProp>
-          <stringProp name="transactionIsolation">DEFAULT</stringProp>
-          <boolProp name="keepAlive">true</boolProp>
-          <stringProp name="connectionAge">5000</stringProp>
-          <stringProp name="checkQuery">Select 1</stringProp>
-          <stringProp name="dbUrl">jdbc:mysql://hzdev.offerplus.com:3306/cn_offerplus</stringProp>
-          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
-          <stringProp name="username">root</stringProp>
-          <stringProp name="password">R7evMxOvLX</stringProp>
-        </JDBCDataSource>
-        <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="简单控制器" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product模块" enabled="true"/>
         <hashTree>
           <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="参数配置" enabled="true"/>
           <hashTree>
@@ -778,8 +778,6 @@ if (isEncrypt.equals(&quot;true&quot;)) {
 } else {
 	Failure = false;
 	String encrypt = vars.get(&quot;data&quot;);
-	Console connect = System.console();
-	System.out.println(encrypt);
 	Pattern p1 = Pattern.compile(&quot;\&quot;offerTagId\&quot;:\\d+&quot;);
 	Pattern p2 = Pattern.compile(&quot;\&quot;productTotal\&quot;:\\d+&quot;);
 	Pattern p3 = Pattern.compile(&quot;\\d+&quot;);
@@ -2373,7 +2371,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="保存productSetting" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="保存productSetting" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2449,38 +2447,42 @@ list = JSON.parseArray(jsonString, String.class);
 //num=随机取得sheet个数，如果指定sheet个数可以赋值给它
 int num = random.nextInt(list.size());
 ArrayList sheetArray = new ArrayList();
-for(int i=0; i&lt;num; i++){
+for(int  i =0 ; i&lt;num ; i++){
 	int newNum = random.nextInt(list.size());
 	sheetArray.add(list.get(newNum));
 	list.remove(newNum);
 }
-String[] productSheet = (String[])sheetArray.toArray(new String[num]);
+//下面对sheetArray的处理是为了把arraylist输出时多余的空格取出
+String result = &quot;&quot;;
+if (sheetArray.size() &gt; 0) {
+	for (Object item : sheetArray) {
+     // 把列表中的每条数据用逗号分割开来，然后拼接成字符串
+	result += item.toString() + &quot;,&quot;;
+  }
+  // 去掉最后一个逗号
+	result = result.substring(0, result.length() - 1);
+}
+result = &apos;[&apos;+result+&apos;]&apos;;
+JSONArray productSheet = JSON.parseArray(result);
 map.put(&quot;productDefaultSheet&quot;, productSheet);
 
-//String response_data = prev.getResponseDataAsString();
-//JSONObject data_obj = new JSONObject(response_data);
-//String apps_str = data_obj.get(&quot;body&quot;).get(&quot;apps&quot;).toString();
-//JSONArray apps_array = new JSONArray(apps_str);
-//String[] result = new String[apps_array.length()];
-//for(int i=0;i&lt;apps_array.length();i++){
-//    JSONObject app_obj = new JSONObject(apps_array.get(i).toString());
-//    String name = app_obj.get(&quot;name&quot;).toString();
-//    result[i] = name;
-//}
-//vars.put(&quot;result&quot;, Arrays.toString(result));
-
-
-
+//存下各个设置项用于检验是否保存成功
+vars.put(&quot;productDefaultCry&quot;,map.get(&quot;productDefaultCry&quot;).toString());
+vars.put(&quot;productStartCamera&quot;,map.get(&quot;productStartCamera&quot;).toString());
+vars.put(&quot;productAddBuyPrice&quot;,map.get(&quot;productAddBuyPrice&quot;).toString());
+vars.put(&quot;productDefaultSheet&quot;,map.get(&quot;productDefaultSheet&quot;).toString());
 
 
 
 //拼接入参
-String []str = new String[map.size()];
+String[] str = new String[map.size()];
 
 Iterator it = map.keySet().iterator();  
 
 StringBuffer sb = new StringBuffer();
 sb.append(&quot;&quot;);
+StringBuffer sb2 = new StringBuffer();
+sb2.append(&quot;&quot;);
 int i = 0;
 while(it.hasNext()) {
 	str[i] = (String) it.next();
@@ -2490,11 +2492,20 @@ while(it.hasNext()) {
 //排序
 Arrays.sort(str);
 
+//对非int
 for (int j = 0; j &lt; str.length; j ++) {
-	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
-	if (j != str.length -1) {
-		sb.append(&quot;&amp;&quot;);
-	} 
+    if(str[j].equals(&quot;productDefaultCry&quot;) || str[j].equals(&quot;productDefaultSheet&quot;)) {
+        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j]).toString()));
+    } else {
+        sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+    }
+    sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+    if (j != str.length -1) {
+        sb.append(&quot;&amp;&quot;);
+    }
+    if (j != str.length -1) {
+        sb2.append(&quot;&amp;&quot;);
+    }
 }
 
 //对入参进行MD5签名
@@ -2525,7 +2536,7 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="RegexExtractor.match_number">1</stringProp>
             </RegexExtractor>
             <hashTree/>
-            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="productSetting是否保存成功" enabled="true">
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="保存所传设定值" enabled="true">
               <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
 import org.apache.jmeter.samplers.SampleResult; 
 import org.apache.jmeter.assertions.AssertionResult; 
@@ -2590,7 +2601,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取productSetting" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取productSetting" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2699,7 +2710,250 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="RegexExtractor.match_number">1</stringProp>
             </RegexExtractor>
             <hashTree/>
-            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="productSetting是否保存成功" enabled="true">
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="比较返回的设定值是否是所传的" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
+import org.apache.jmeter.samplers.SampleResult; 
+import org.apache.jmeter.assertions.AssertionResult; 
+import org.json.*;
+import test.AesUtils;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+String isEncrypt = vars.get(&quot;isEncrypt&quot;).toLowerCase();
+if (isEncrypt.equals(&quot;true&quot;)) {
+	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
+	AesUtils appAes = new AesUtils();
+	String encrypt = vars.get(&quot;data&quot;);
+	vars.put(&quot;encrypt&quot;, encrypt);
+	if (encrypt.equals(&quot;-1&quot;)) {
+		
+		Failure = false;
+	} else {
+		try{
+			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
+			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
+			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
+			vars.put(&quot;jsonStr&quot;, jsonStr);
+
+//			// quotnId正则表达式规则
+//	          String regEx = &quot;\&quot;quotnId\&quot;:(.+?)}&quot;;
+//	          // 编译正则表达式
+//	          Pattern pattern = Pattern.compile(regEx);
+//	          // 忽略大小写的写法
+//	          // Pattern pat = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
+//	          Matcher matcher = pattern.matcher(jsonStr);
+//	          // 查找字符串中是否有匹配正则表达式的字符/字符串
+//	          while(matcher.find()) {
+//	        	   //获取匹配字符串
+//		        String rs = matcher.group(1);
+//		        vars.put(&quot;sendQuotnId&quot;, rs);
+//               }
+               
+		}catch(Exception e){
+			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
+			Failure = true;
+			
+		}
+	}
+} else {
+	Failure = false;
+	String encrypt = vars.get(&quot;data&quot;);
+	JSONObject response = JSONObject.parseObject(encrypt);
+	String buyPrice  = response.getJSONObject(&quot;data&quot;).getString(&quot;productAddBuyPrice&quot;);
+	String currency = response.getJSONObject(&quot;data&quot;).getString(&quot;productDefaultCry&quot;);
+	String camera = response.getJSONObject(&quot;data&quot;).getString(&quot;productStartCamera&quot;);
+	String sheet = response.getJSONObject(&quot;data&quot;).getString(&quot;productDefaultSheet&quot;);
+	if(vars.get(&quot;productAddBuyPrice&quot;).equals(buyPrice) &amp;&amp; vars.get(&quot;productDefaultCry&quot;).equals(currency) &amp;&amp; vars.get(&quot;productStartCamera&quot;).equals(camera) &amp;&amp; vars.get(&quot;productDefaultSheet&quot;).equals(sheet)){
+		Failure = false;
+	}else{
+		FailureMessage = &quot;设置没有保存成功！！！&quot;;
+		Failure = true;
+		}
+		
+     
+}
+
+
+
+
+
+
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建产品" enabled="false">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${path}/newProduct.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="BeanShell Timer" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import com.alibaba.fastjson.JSON;
+import java.util.*;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+
+//以下为接口必传参数
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+//以下为接口可变参数
+Random random = new Random();
+//随机取币种
+String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;, &quot;JPY&quot;, &quot;RUB&quot;, &quot;INR&quot;, &quot;CAD&quot;, &quot;AUD&quot;, &quot;BRL&quot;, &quot;HKD&quot;, &quot;TRY&quot;, &quot;ILS&quot;, &quot;NZD&quot;, &quot;PKR&quot;, &quot;SGD&quot;, &quot;ZAR&quot;, &quot;THB&quot;, &quot;PHP&quot;, &quot;MXN&quot;, &quot;KRW&quot;, &quot;NOK&quot;, &quot;PLN&quot;, &quot;IDR&quot;, &quot;CLP&quot;, &quot;CZK&quot;, &quot;DKK&quot;, &quot;HUF&quot;, &quot;MYR&quot;, &quot;SEK&quot;, &quot;IQD&quot;, &quot;RSD&quot;, &quot;HRK&quot;, &quot;EGP&quot;, &quot;IRR&quot;, &quot;AED&quot;, &quot;SAR&quot;, &quot;QAR&quot;, &quot;LBP&quot;, &quot;LYD&quot;, &quot;JOD&quot;, &quot;BGN&quot;, &quot;VND&quot;, &quot;CUP&quot;, &quot;BOB&quot;, &quot;COP&quot;, &quot;DOP&quot;, &quot;ISK&quot;, &quot;MOP&quot;, &quot;MAD&quot;, &quot;TND&quot;};
+int currencyListLength = currencyList.length;
+int randomCurrency = random.nextInt(currencyListLength);
+map.put(&quot;productDefaultCry&quot;, currencyList[randomCurrency]);
+//随机取相机开启
+int camera = random.nextInt(2);
+map.put(&quot;productStartCamera&quot;, camera);
+//随机取添加买入价
+int addBuyPrice = random.nextInt(2);
+map.put(&quot;productAddBuyPrice&quot;, addBuyPrice);
+//随机取产品sheet
+String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing \&quot;}]&quot;;
+//这里如果用List&lt;String&gt; list = new ArrayList&lt;String&gt;();会报错
+list = new ArrayList();
+list = JSON.parseArray(jsonString, String.class);
+//num=随机取得sheet个数，如果指定sheet个数可以赋值给它
+int num = random.nextInt(list.size());
+ArrayList sheetArray = new ArrayList();
+for(int  i =0 ; i&lt;num ; i++){
+	int newNum = random.nextInt(list.size());
+	sheetArray.add(list.get(newNum));
+	list.remove(newNum);
+}
+//下面对sheetArray的处理是为了把arraylist输出时多余的空格取出
+String result = &quot;&quot;;
+if (sheetArray.size() &gt; 0) {
+	for (Object item : sheetArray) {
+     // 把列表中的每条数据用逗号分割开来，然后拼接成字符串
+	result += item.toString() + &quot;,&quot;;
+  }
+  // 去掉最后一个逗号
+	result = result.substring(0, result.length() - 1);
+}
+result = &apos;[&apos;+result+&apos;]&apos;;
+JSONArray productSheet = JSON.parseArray(result);
+map.put(&quot;productDefaultSheet&quot;, productSheet);
+
+//存下各个设置项用于检验是否保存成功
+vars.put(&quot;productDefaultCry&quot;,map.get(&quot;productDefaultCry&quot;).toString());
+vars.put(&quot;productStartCamera&quot;,map.get(&quot;productStartCamera&quot;).toString());
+vars.put(&quot;productAddBuyPrice&quot;,map.get(&quot;productAddBuyPrice&quot;).toString());
+vars.put(&quot;productDefaultSheet&quot;,map.get(&quot;productDefaultSheet&quot;).toString());
+
+
+
+//拼接入参
+String[] str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+StringBuffer sb2 = new StringBuffer();
+sb2.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+//对非int
+for (int j = 0; j &lt; str.length; j ++) {
+    if(str[j].equals(&quot;productDefaultCry&quot;) || str[j].equals(&quot;productDefaultSheet&quot;)) {
+        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j]).toString()));
+    } else {
+        sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+    }
+    sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+    if (j != str.length -1) {
+        sb.append(&quot;&amp;&quot;);
+    }
+    if (j != str.length -1) {
+        sb2.append(&quot;&amp;&quot;);
+    }
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则表达式提取器" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">data</stringProp>
+              <stringProp name="RegexExtractor.regex">(.+)</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">-1</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="保存所传设定值" enabled="true">
               <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
 import org.apache.jmeter.samplers.SampleResult; 
 import org.apache.jmeter.assertions.AssertionResult; 
