@@ -18,12 +18,12 @@
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1522115682000</longProp>
         <longProp name="ThreadGroup.end_time">1522115682000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="ThreadGroup.duration">0</stringProp>
+        <stringProp name="ThreadGroup.delay">2</stringProp>
       </ThreadGroup>
       <hashTree>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 内网" enabled="true">
@@ -179,7 +179,7 @@ else{
               </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
-            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的系统联系人信息" enabled="false">
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的系统联系人信息" enabled="true">
               <stringProp name="dataSource">DB</stringProp>
               <stringProp name="query">/*sort_column用来随机排序*/
 select contact_user_id from (
@@ -200,11 +200,15 @@ select contact_user_id from (
                 <stringProp name="filename"></stringProp>
                 <stringProp name="parameters"></stringProp>
                 <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="script">vars.put(&quot;contactUserId&quot;, vars.get(&quot;contact_user_id_1&quot;));</stringProp>
+                <stringProp name="script">if(!vars.get(&quot;contact_user_id_#&quot;).equals(&quot;0&quot;)){
+	vars.put(&quot;contactUserId&quot;, vars.get(&quot;contact_user_id_1&quot;));
+}else{
+	vars.put(&quot;contactUserId&quot;, &quot;-1&quot;);
+}</stringProp>
               </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
-            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的自定义联系人信息" enabled="false">
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的自定义人-有邮箱" enabled="false">
               <stringProp name="dataSource">DB</stringProp>
               <stringProp name="query">select inter_contact_id, inter_contact_email from (
 	select inter_contact_id, inter_contact_email, RAND() sort_column from ejet_interim_contacts  where user_id = ${userId} and inter_contact_email &lt;&gt; &apos;&apos; 							    
@@ -228,8 +232,61 @@ vars.put(&quot;interContactEmail&quot;, vars.get(&quot;inter_contact_email_1&quo
               </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的自定义人" enabled="true">
+              <stringProp name="dataSource">DB</stringProp>
+              <stringProp name="query">select inter_contact_id, inter_contact_email from (
+	select inter_contact_id, inter_contact_email, RAND() sort_column from ejet_interim_contacts  where user_id = ${userId} and inter_contact_email &lt;&gt; &apos;&apos; 							    
+	and inter_contact_status = 0 limit 100
+) this order by sort_column limit 1</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="queryTimeout"></stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="resultSetHandler">Store as String</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="variableNames">inter_contact_id</stringProp>
+            </JDBCSampler>
+            <hashTree>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">if(!vars.get(&quot;inter_contact_id_#&quot;).equals(&quot;0&quot;)){
+	vars.put(&quot;interContactId&quot;, vars.get(&quot;inter_contact_id_1&quot;));
+}else{
+	vars.put(&quot;interContactId&quot;, &quot;-1&quot;);
+}</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的offerTagId" enabled="true">
+              <stringProp name="dataSource">DB</stringProp>
+              <stringProp name="query">/*sort_column用来随机排序*/
+select offer_tag_id from (SELECT offer_tag_id, RAND() sort_column FROM `ejet_offer_tag` where user_id = 1010033 and del_status = 0) this order by sort_column limit 1</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="queryTimeout"></stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="resultSetHandler">Store as String</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="variableNames">offer_tag_id</stringProp>
+            </JDBCSampler>
+            <hashTree>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">if(!vars.get(&quot;offer_tag_id_#&quot;).equals(&quot;0&quot;)){
+	vars.put(&quot;offerTagId&quot;, vars.get(&quot;offer_tag_id_1&quot;));
+}else{
+	vars.put(&quot;offerTagId&quot;, &quot;-1&quot;);
+}
+log.info(&quot;!!!!!!!!!!!!!!&quot;+vars.get(&quot;offerTagId&quot;)+&quot;!!!!!!!!!!!!!&quot;);</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取by time的产品列表" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.获取by time的产品列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -422,7 +479,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取by time的产品详情" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2.获取by time的产品详情" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -615,7 +672,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取by tag的tag列表" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="3.获取by tag的tag列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -811,7 +868,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取tag下的产品列表" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="4.获取tag下的产品列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1004,7 +1061,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取tag下的产品详情" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="5.获取tag下的产品详情" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1197,7 +1254,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取by supplier的supplier列表" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="6.获取by supplier的supplier列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1403,7 +1460,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取supplier下的产品列表" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="7.获取supplier下的产品列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1597,7 +1654,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取supplier下的产品详情" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="8.获取supplier下的产品详情" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1790,7 +1847,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取by member的member列表" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="9.获取by member的member列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1988,7 +2045,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取member下的产品列表" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10.获取member下的产品列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2178,7 +2235,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取member下的产品详情" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11.获取member下的产品详情" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2371,7 +2428,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="保存productSetting" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12.保存productSetting" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2471,6 +2528,7 @@ vars.put(&quot;productDefaultCry&quot;,map.get(&quot;productDefaultCry&quot;).to
 vars.put(&quot;productStartCamera&quot;,map.get(&quot;productStartCamera&quot;).toString());
 vars.put(&quot;productAddBuyPrice&quot;,map.get(&quot;productAddBuyPrice&quot;).toString());
 vars.put(&quot;productDefaultSheet&quot;,map.get(&quot;productDefaultSheet&quot;).toString());
+log.info(&quot;*********&quot;+vars.get(&quot;productDefaultSheet&quot;)+&quot;****************&quot;);
 
 
 
@@ -2601,7 +2659,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取productSetting" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13.获取productSetting" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2788,7 +2846,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建产品" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14.新建product-随机参数" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2803,36 +2861,41 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             <stringProp name="HTTPSampler.port">${port}</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">${path}/newProduct.do</stringProp>
+            <stringProp name="HTTPSampler.path">/offerplus/makeOfferEnd.do</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
             <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="BeanShell Timer" enabled="true">
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
               <boolProp name="resetInterpreter">false</boolProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
-              <stringProp name="script">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+              <stringProp name="script">import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import java.util.Map;
 import org.apache.commons.codec.digest.DigestUtils;
 import com.alibaba.fastjson.JSON;
-import java.util.*;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
 
 long L = System.currentTimeMillis();
-
 Map map = new HashMap();
+Random random = new Random();
+Date date = new Date();
+DecimalFormat priceFormat = new DecimalFormat(&quot;.####&quot;);//确定price的格式
+int beishu = 10*(random.nextInt(5)+1);//增加price的位数变化
 
 //以下为接口必传参数
 map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
@@ -2843,19 +2906,94 @@ map.put(&quot;timestamp&quot;, String.valueOf(L));
 map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
-//以下为接口可变参数
-Random random = new Random();
-//随机取币种
+//生成随机offerName
+DateFormat df2 = DateFormat.getDateTimeInstance();//可以精确到时分秒
+map.put(&quot;offerName&quot;, ${userId}+&quot;的offer建于:&quot;+df2.format(date).toString());
+
+//生成随机description
+map.put(&quot;offerDescrip&quot;, ${userId}+&quot;的offer description，该offer建于:&quot;+df2.format(date).toString());
+
+
+//开始生成buyprice和sellprice
+//是否生成buyprice，并随机给予数值
 String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;, &quot;JPY&quot;, &quot;RUB&quot;, &quot;INR&quot;, &quot;CAD&quot;, &quot;AUD&quot;, &quot;BRL&quot;, &quot;HKD&quot;, &quot;TRY&quot;, &quot;ILS&quot;, &quot;NZD&quot;, &quot;PKR&quot;, &quot;SGD&quot;, &quot;ZAR&quot;, &quot;THB&quot;, &quot;PHP&quot;, &quot;MXN&quot;, &quot;KRW&quot;, &quot;NOK&quot;, &quot;PLN&quot;, &quot;IDR&quot;, &quot;CLP&quot;, &quot;CZK&quot;, &quot;DKK&quot;, &quot;HUF&quot;, &quot;MYR&quot;, &quot;SEK&quot;, &quot;IQD&quot;, &quot;RSD&quot;, &quot;HRK&quot;, &quot;EGP&quot;, &quot;IRR&quot;, &quot;AED&quot;, &quot;SAR&quot;, &quot;QAR&quot;, &quot;LBP&quot;, &quot;LYD&quot;, &quot;JOD&quot;, &quot;BGN&quot;, &quot;VND&quot;, &quot;CUP&quot;, &quot;BOB&quot;, &quot;COP&quot;, &quot;DOP&quot;, &quot;ISK&quot;, &quot;MOP&quot;, &quot;MAD&quot;, &quot;TND&quot;};
-int currencyListLength = currencyList.length;
-int randomCurrency = random.nextInt(currencyListLength);
-map.put(&quot;productDefaultCry&quot;, currencyList[randomCurrency]);
-//随机取相机开启
-int camera = random.nextInt(2);
-map.put(&quot;productStartCamera&quot;, camera);
-//随机取添加买入价
-int addBuyPrice = random.nextInt(2);
-map.put(&quot;productAddBuyPrice&quot;, addBuyPrice);
+int buyPriceIndex = random.nextInt(52);
+if(random.nextInt(2)==0){
+	//最多4位小数，且多余的0不显示
+  	float f1 = random.nextFloat()*beishu;
+	map.put(&quot;offerBuyPrice&quot;, priceFormat.format(f1).toString());
+	//随机币种
+	map.put(&quot;offerBuyCry&quot;, currencyList[buyPriceIndex]);
+}
+
+//是否生成sellprice，并随机给予数值
+int sellPriceIndex = random.nextInt(52);
+if(random.nextInt(2)==0){
+	//最多4位小数，且多余的0不显示
+  	float f2 = random.nextFloat()*beishu;
+	map.put(&quot;offerSellPrice&quot;, priceFormat.format(f2).toString());
+	//随机币种
+	map.put(&quot;offerSellCry&quot;, currencyList[sellPriceIndex]);
+}
+//赋予buyprice和sellprice结束
+
+
+//随机给予unit
+String[] unitList = {&quot;PCS&quot;, &quot;Set&quot;, &quot;Box&quot;, &quot;Pal&quot;, &quot;Doz&quot;, &quot;Pack&quot;, &quot;Pair&quot;, &quot;20ft&quot;, &quot;40ft&quot;, &quot;40ftHQ&quot;, &quot;g&quot;, &quot;kg&quot;, &quot;t&quot;, &quot;lb&quot;, &quot;ml&quot;, &quot;mm&quot;, &quot;l&quot;, &quot;cm&quot;, &quot;m&quot;, &quot;Inch&quot;, &quot;m2&quot;, &quot;w&quot;, &quot;v&quot;, &quot;a&quot;};
+int unitIndex = random.nextInt(24); 
+map.put(&quot;offerUnit&quot;, unitList[unitIndex]);
+
+//随机取联系人种类和相应的userId：0=无，1=系统的，2=自定义的
+int contactStatus = random.nextInt(3);
+if(contactStatus==1){
+	if(!vars.get(&quot;contactUserId&quot;).equals(&quot;-1&quot;)){
+		map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId&quot;));
+		map.put(&quot;contactStatus&quot;, &quot;1&quot;);
+	}else{
+		log.info(&quot;*************系统人没获取到****************&quot;);
+	}	
+}else{
+	if(contactStatus==2){
+		if(!vars.get(&quot;interContactId&quot;).equals(&quot;-1&quot;)){
+			map.put(&quot;interContactId&quot;, vars.get(&quot;interContactId&quot;));
+			map.put(&quot;contactStatus&quot;, &quot;2&quot;);
+		}else{
+			log.info(&quot;*************自定义人没获取到****************&quot;);	
+		}
+	}else{
+		map.put(&quot;contactStatus&quot;, &quot;0&quot;);
+}
+}
+map.put(&quot;contactStatus&quot;, &quot;1&quot;);
+map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId_1&quot;));
+
+//加入offer制作时间
+map.put(&quot;makeOfferTime&quot;, String.valueOf(L));
+
+//是否copy的offer，一般是0=no，1=yes
+map.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
+
+//map.put(&quot;arrTagId&quot;, vars.get(&quot;offerTagId&quot;));
+
+//随机赋予offer image
+String[] imageList = {&quot;000140d6-812d-4752-a140-3686710939b1&quot;,&quot;00016ac4-1306-47d0-8e5e-39180b0f0280&quot;,&quot;000428c2-c153-4d98-8238-4c632adc5729&quot;,&quot;0005ba3b-0f67-4f1e-a9f5-5228f10b3bb9&quot;,&quot;0005f1dd-4cd3-428b-a0b4-5900a1f5d8d9&quot;,&quot;000b23c2-0e14-4ab3-8e3c-49d84d24a669&quot;,&quot;000c573c-bfa1-40b3-992d-0a2a5b608598&quot;,&quot;000d6eb3-0032-4364-afdd-bedf917e21ea&quot;,&quot;0015958f-c683-429a-9db6-7c92ba5dc736&quot;,&quot;00168ff8-c54c-4e07-888e-2ef18ff60a50&quot;,&quot;001731da-d769-4c02-8e6a-19ff74ff1599&quot;,&quot;001774ca-8651-4a12-a4a9-687f40d71dac&quot;,&quot;0019168d-7678-40d0-8d92-bcc9ec197590&quot;,&quot;00198681-3597-4e4a-8708-62ab93107618&quot;,&quot;001a208d-a69b-4404-afdc-e99eabc64f63&quot;,&quot;001a4506-1834-4262-b817-1956099ffb85&quot;,&quot;001d4286-4c9e-41c0-a609-7098aaa4537a&quot;,&quot;001d4505-27f6-47f7-90b0-e84e238fb415&quot;,&quot;001d48c5-1f64-422b-8fd8-be26a5ec3d94&quot;,&quot;00206975-3730-4238-8ff2-b1451f1a3724&quot;,&quot;00215a1a-9438-45fe-9b12-4727c1c77f83&quot;,&quot;0028f54c-62b9-4cc4-a6b5-90c23ed40cdd&quot;,&quot;00290d2b-193e-4564-8669-a922f67474fc&quot;,&quot;0029c508-ad21-4047-815c-e16a0df7e7da&quot;,&quot;002b5f35-7a35-4bff-8a69-05805899107b&quot;,&quot;002bdb41-23f3-49d4-954c-e160374dcdbf&quot;,&quot;002be434-79b2-4205-bc80-0c7a421ab18d&quot;,&quot;002c32c9-1481-4c40-ae93-22d46a28c914&quot;,&quot;002f60d6-7be3-41ec-8da3-4216a81bb3c7&quot;,&quot;0030ce6c-6d05-41cb-8bfe-6732ac3a45b2&quot;,&quot;0030d712-83c9-4845-ad7b-96833a5a290e&quot;,&quot;00310340-2232-4073-967e-ee32a99bb614&quot;,&quot;0032300f-6ab9-42b2-beef-1442b50c4ec2&quot;,&quot;003296ae-803e-4576-9e0b-15d29c055c61&quot;,&quot;00348683-69d6-4e98-8e9a-af9f2277f597&quot;,&quot;0034879f-c6e3-4ba6-a15b-5bc765227df3&quot;,&quot;00375e96-9824-4395-803b-6ae22097c0cf&quot;,&quot;0037bac4-3bf2-478e-80e7-b6f3132a4ff0&quot;,&quot;0038bb11-8f8e-4962-8d2f-7033a950955f&quot;,&quot;0038bfc9-64a4-484b-9620-b45018732f05&quot;,&quot;00391727-7a3f-4599-9c46-9f5785e7deb3&quot;,&quot;003920db-fd5b-40cd-92f6-b3d95981ad29&quot;,&quot;003c4b57-e20c-48d2-8f31-17b866d3ffc2&quot;,&quot;00402533-cb75-4cf4-aa9e-b9839030e5ac&quot;,&quot;0042985f-a4be-4c3b-8867-7b7a17890dd9&quot;,&quot;0042bc15-37ee-4120-acab-bb5607c82e05&quot;,&quot;00456092-3944-4766-8710-54fc2e08d3f4&quot;,&quot;00456375-70f4-40e1-b49d-02b8f15195e8&quot;,&quot;0046b8de-38a5-4d51-8722-ce46b6c5715b&quot;,&quot;00484324-0dee-46db-8d44-dbb7ed5fa327&quot;,&quot;004fc339-3685-4308-9d6a-4192a0ad38e0&quot;,&quot;005119f6-839c-47c4-8fab-fab9e39c0399&quot;,&quot;00524fb4-b5c9-41e8-956a-1b992ad10989&quot;,&quot;00598b70-7a10-4acf-bfdd-b3d4390344e3&quot;,&quot;005adfbf-3644-4d99-a9a9-bb73bba57dbc&quot;,&quot;005ae20d-c2c6-4c47-aeae-5769d98b2670&quot;,&quot;005bcb2e-c28a-40ea-ac60-6a7651b2e64a&quot;,&quot;005c164f-8b9a-42cd-b6bb-7ac09c3c8bf7&quot;,&quot;005f3d78-db3c-412c-a963-8bc82d02aa58&quot;,&quot;005f84f3-85df-4097-b5bd-ddbe8852bf18&quot;,&quot;00637320-a100-4e96-b96f-54927c5ded0a&quot;,&quot;00641c14-f3a0-4d5a-aaf3-c1258ebfebe4&quot;,&quot;00657ff3-dead-4ae1-a42d-ec8df648dbf6&quot;,&quot;00660cec-6bd3-4725-a6b3-58fcb69843e1&quot;,&quot;006739de-6d76-487b-bbd0-89091c064c44&quot;,&quot;00679677-56e6-4ac3-a69d-087fb15861ab&quot;,&quot;006798b9-51d6-4c49-aa38-e61cdad23c2a&quot;,&quot;006bf321-e4e9-485d-8b54-7ac56c3f9c2d&quot;,&quot;00700ff8-7c2f-4cf2-9976-76bd16b0d123&quot;,&quot;00715491-3697-4717-a64f-21503a527d2f&quot;,&quot;00732b93-e60f-4ee1-b33f-e203d7f9d62b&quot;,&quot;0074c61f-16fc-41ac-9058-03a9aeec5d69&quot;};
+int imageNum = random.nextInt(9)+1;
+StringBuffer sb4 = new StringBuffer();
+sb4.append(&quot;&quot;);
+for(int m=0; m&lt;imageNum; m++){
+	if(m&lt;imageNum-1){
+		int imageIndex = random.nextInt(72);
+		sb4.append(imageList[imageIndex]).append(&quot;,&quot;);
+	}else{
+		int imageIndex = random.nextInt(72);
+		sb4.append(imageList[imageIndex]);
+	}
+}
+map.put(&quot;offerImg&quot;, sb4.toString());
+
+
+
+//生成随机offerSheetArray
 //随机取产品sheet
 String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing \&quot;}]&quot;;
 //这里如果用List&lt;String&gt; list = new ArrayList&lt;String&gt;();会报错
@@ -2864,35 +3002,38 @@ list = JSON.parseArray(jsonString, String.class);
 //num=随机取得sheet个数，如果指定sheet个数可以赋值给它
 int num = random.nextInt(list.size());
 ArrayList sheetArray = new ArrayList();
-for(int  i =0 ; i&lt;num ; i++){
+for(int i=0; i&lt;num; i++){
 	int newNum = random.nextInt(list.size());
 	sheetArray.add(list.get(newNum));
 	list.remove(newNum);
 }
-//下面对sheetArray的处理是为了把arraylist输出时多余的空格取出
-String result = &quot;&quot;;
-if (sheetArray.size() &gt; 0) {
-	for (Object item : sheetArray) {
-     // 把列表中的每条数据用逗号分割开来，然后拼接成字符串
-	result += item.toString() + &quot;,&quot;;
-  }
-  // 去掉最后一个逗号
-	result = result.substring(0, result.length() - 1);
+
+JSONArray ja = new JSONArray();
+for(int j=0; j&lt;num; j++){
+	JSONObject jo = new JSONObject();
+	JSONObject sheet = JSONObject.parseObject(sheetArray.get(j).toString());
+	String sheetName = sheet.getString(&quot;sheetName&quot;);
+	jo.put(&quot;sheetName&quot;, sheetName);
+	
+	// 随机给sheetValue赋值
+	String str = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789其形也翩若惊鸿婉若游龙荣曜秋菊华茂春松髣髴兮若轻云之蔽月飘飖兮若流风之回雪远而望之皎若太阳升朝霞迫而察之灼若芙蕖出渌波秾纤得衷修短合度肩若削成腰如约素延颈秀项皓质呈露芳泽无加铅华弗御云髻峨峨修眉联娟丹唇外朗皓齿内鲜明眸善睐靥辅承权瑰姿艳逸仪静体闲柔情绰态媚于语言奇服旷世骨像应图披罗衣之璀粲兮珥瑶碧之华琚戴金翠之首饰缀明珠以耀躯践远游之文履曳雾绡之轻裾微幽兰之芳蔼兮步踟蹰于山隅&quot;;
+	StringBuffer sb3 = new StringBuffer();
+	int sb3length = random.nextInt(101);
+	for (int k = 0; k &lt; sb3length; k++) {
+		// [0,251)
+		int number = random.nextInt(251);
+		sb3.append(str.charAt(number));
+	}
+	jo.put(&quot;sheetValue&quot;,sb3.toString());
+	ja.add(jo);
 }
-result = &apos;[&apos;+result+&apos;]&apos;;
-JSONArray productSheet = JSON.parseArray(result);
-map.put(&quot;productDefaultSheet&quot;, productSheet);
-
-//存下各个设置项用于检验是否保存成功
-vars.put(&quot;productDefaultCry&quot;,map.get(&quot;productDefaultCry&quot;).toString());
-vars.put(&quot;productStartCamera&quot;,map.get(&quot;productStartCamera&quot;).toString());
-vars.put(&quot;productAddBuyPrice&quot;,map.get(&quot;productAddBuyPrice&quot;).toString());
-vars.put(&quot;productDefaultSheet&quot;,map.get(&quot;productDefaultSheet&quot;).toString());
+map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
+//sheet生成结束
+//入参赋值完毕
 
 
 
-//拼接入参
-String[] str = new String[map.size()];
+String []str = new String[map.size()];
 
 Iterator it = map.keySet().iterator();  
 
@@ -2909,29 +3050,24 @@ while(it.hasNext()) {
 //排序
 Arrays.sort(str);
 
-//对非int
 for (int j = 0; j &lt; str.length; j ++) {
-    if(str[j].equals(&quot;productDefaultCry&quot;) || str[j].equals(&quot;productDefaultSheet&quot;)) {
-        sb2.append(str[j]).append(&quot;=&quot;).append(java.net.URLEncoder.encode(map.get(str[j]).toString()));
-    } else {
-        sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
-    }
-    sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
-    if (j != str.length -1) {
-        sb.append(&quot;&amp;&quot;);
-    }
-    if (j != str.length -1) {
-        sb2.append(&quot;&amp;&quot;);
-    }
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (str[j].equals(&quot;offerArrSheet&quot;)) {
+		sb2.append(str[j]).append(&quot;=&quot;).append(JSON.toJSON(ja));
+	} else {
+		sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	}
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+		sb2.append(&quot;&amp;&quot;);
+	} 
 }
 
+
 //对入参进行MD5签名
-String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
-
+String sign = DigestUtils.md5Hex(sb2.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
 String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
-
-vars.put(&quot;body&quot;, body);
-</stringProp>
+vars.put(&quot;body&quot;, body);</stringProp>
             </BeanShellTimer>
             <hashTree/>
             <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
@@ -2940,20 +3076,20 @@ vars.put(&quot;body&quot;, body);
               </collectionProp>
               <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
               <boolProp name="Assertion.assume_success">false</boolProp>
-              <intProp name="Assertion.test_type">16</intProp>
+              <intProp name="Assertion.test_type">2</intProp>
               <stringProp name="Assertion.custom_message"></stringProp>
             </ResponseAssertion>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则表达式提取器" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">data</stringProp>
-              <stringProp name="RegexExtractor.regex">(.+)</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
               <stringProp name="RegexExtractor.template">$1$</stringProp>
               <stringProp name="RegexExtractor.default">-1</stringProp>
               <stringProp name="RegexExtractor.match_number">1</stringProp>
             </RegexExtractor>
             <hashTree/>
-            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="保存所传设定值" enabled="true">
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
               <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
 import org.apache.jmeter.samplers.SampleResult; 
 import org.apache.jmeter.assertions.AssertionResult; 
@@ -2962,15 +3098,13 @@ import test.AesUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-String isEncrypt = vars.get(&quot;isEncrypt&quot;).toLowerCase();
+String isEncrypt = vars.get(&quot;isEncrypt&quot;);
 if (isEncrypt.equals(&quot;true&quot;)) {
 	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
 	AesUtils appAes = new AesUtils();
 	String encrypt = vars.get(&quot;data&quot;);
-	vars.put(&quot;encrypt&quot;, encrypt);
+	
 	if (encrypt.equals(&quot;-1&quot;)) {
 		
 		Failure = false;
@@ -2979,22 +3113,8 @@ if (isEncrypt.equals(&quot;true&quot;)) {
 			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
 			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
 			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
-			vars.put(&quot;jsonStr&quot;, jsonStr);
-
-//			// quotnId正则表达式规则
-//	          String regEx = &quot;\&quot;quotnId\&quot;:(.+?)}&quot;;
-//	          // 编译正则表达式
-//	          Pattern pattern = Pattern.compile(regEx);
-//	          // 忽略大小写的写法
-//	          // Pattern pat = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
-//	          Matcher matcher = pattern.matcher(jsonStr);
-//	          // 查找字符串中是否有匹配正则表达式的字符/字符串
-//	          while(matcher.find()) {
-//	        	   //获取匹配字符串
-//		        String rs = matcher.group(1);
-//		        vars.put(&quot;sendQuotnId&quot;, rs);
-//               }
-               
+			Failure = false;
+			
 		}catch(Exception e){
 			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
 			Failure = true;
@@ -3003,7 +3123,207 @@ if (isEncrypt.equals(&quot;true&quot;)) {
 	}
 } else {
 	Failure = false;
-     //vars.put(&quot;jsonStr&quot;, &quot;-1&quot;);	
+	
+}
+
+
+
+
+
+
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15.新建product-固定参数" enabled="false">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/offerplus/makeOfferEnd.do?</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="初始化数据" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import org.apache.commons.codec.digest.DigestUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+String [] appTypes = {&quot;A&quot;, &quot;I&quot;};
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+//此处为接口必传参数
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+
+JSONArray ja = new JSONArray();
+JSONObject json1 = new JSONObject();
+JSONObject json2 = new JSONObject();
+JSONObject json3 = new JSONObject();
+JSONObject json4 = new JSONObject();
+JSONObject json5 = new JSONObject();
+
+json1.put(&quot;sheetName&quot;, &quot;MOQ&quot;);
+json1.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json1);
+json2.put(&quot;sheetName&quot;, &quot;Brand Name&quot;);
+json2.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json2);
+json3.put(&quot;sheetName&quot;, &quot;Stock&quot;);
+json3.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json3);
+json4.put(&quot;sheetName&quot;, &quot;Port&quot;);
+json4.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json4);
+json5.put(&quot;sheetName&quot;, &quot;CBM&quot;);
+json5.put(&quot;sheetValue&quot;, &quot;test&quot;);
+ja.add(json5);
+
+map.put(&quot;offerName&quot;, &quot;this is test offer&quot;);
+map.put(&quot;offerDescrip&quot;, &quot;this is test offer Descrption&quot;);
+map.put(&quot;offerBuyPrice&quot;, &quot;12.3456&quot;);
+map.put(&quot;offerSellPrice&quot;, &quot;45678.232&quot;);
+map.put(&quot;offerBuyCry&quot;, &quot;AUD&quot;);
+map.put(&quot;offerSellCry&quot;, &quot;RUB&quot;);
+map.put(&quot;offerUnit&quot;, &quot;PCS&quot;);
+map.put(&quot;contactStatus&quot;, &quot;1&quot;);
+map.put(&quot;contactUserId&quot;, &quot;1000688&quot;);
+map.put(&quot;makeOfferTime&quot;, String.valueOf(L));
+
+map.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
+map.put(&quot;arrTagId&quot;, &quot;22727&quot;);
+map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
+map.put(&quot;offerVoice&quot;, &quot;3feb361e-812b-4c76-ac44-321d8dc473b0.mp3&quot;);
+map.put(&quot;offerImg&quot;, &quot;03bbcff1-f0c8-4b3d-8ddd-c5779a79cd4c&quot;);
+
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+StringBuffer sb2 = new StringBuffer();
+sb2.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (str[j].equals(&quot;offerArrSheet&quot;)) {
+		sb2.append(str[j]).append(&quot;=&quot;).append(JSON.toJSON(ja));
+	} else {
+		sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	}
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+		sb2.append(&quot;&amp;&quot;);
+	} 
+}
+
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb2.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">data</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">-1</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
+import org.apache.jmeter.samplers.SampleResult; 
+import org.apache.jmeter.assertions.AssertionResult; 
+import org.json.*;
+import test.AesUtils;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+
+String isEncrypt = vars.get(&quot;isEncrypt&quot;);
+if (isEncrypt.equals(&quot;true&quot;)) {
+	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
+	AesUtils appAes = new AesUtils();
+	String encrypt = vars.get(&quot;data&quot;);
+	
+	if (encrypt.equals(&quot;-1&quot;)) {
+		
+		Failure = false;
+	} else {
+		try{
+			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
+			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
+			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
+			Failure = false;
+			
+		}catch(Exception e){
+			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
+			Failure = true;
+			
+		}
+	}
+} else {
+	Failure = false;
+	
 }
 
 
@@ -3019,13 +3339,6 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             <hashTree/>
           </hashTree>
         </hashTree>
-        <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="false">
-          <boolProp name="displayJMeterProperties">false</boolProp>
-          <boolProp name="displayJMeterVariables">true</boolProp>
-          <boolProp name="displaySamplerProperties">true</boolProp>
-          <boolProp name="displaySystemProperties">false</boolProp>
-        </DebugPostProcessor>
-        <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
@@ -3098,7 +3411,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="接口请求模板" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="请求模板" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -3137,6 +3450,9 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
 
 long L = System.currentTimeMillis();
 
@@ -3275,6 +3591,222 @@ if (isEncrypt.equals(&quot;true&quot;)) {
           </BeanShellAssertion>
           <hashTree/>
         </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="常用各列表参数" enabled="false">
+          <stringProp name="BeanShellSampler.query">String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;, &quot;JPY&quot;, &quot;RUB&quot;, &quot;INR&quot;, &quot;CAD&quot;, &quot;AUD&quot;, &quot;BRL&quot;, &quot;HKD&quot;, &quot;TRY&quot;, &quot;ILS&quot;, &quot;NZD&quot;, &quot;PKR&quot;, &quot;SGD&quot;, &quot;ZAR&quot;, &quot;THB&quot;, &quot;PHP&quot;, &quot;MXN&quot;, &quot;KRW&quot;, &quot;NOK&quot;, &quot;PLN&quot;, &quot;IDR&quot;, &quot;CLP&quot;, &quot;CZK&quot;, &quot;DKK&quot;, &quot;HUF&quot;, &quot;MYR&quot;, &quot;SEK&quot;, &quot;IQD&quot;, &quot;RSD&quot;, &quot;HRK&quot;, &quot;EGP&quot;, &quot;IRR&quot;, &quot;AED&quot;, &quot;SAR&quot;, &quot;QAR&quot;, &quot;LBP&quot;, &quot;LYD&quot;, &quot;JOD&quot;, &quot;BGN&quot;, &quot;VND&quot;, &quot;CUP&quot;, &quot;BOB&quot;, &quot;COP&quot;, &quot;DOP&quot;, &quot;ISK&quot;, &quot;MOP&quot;, &quot;MAD&quot;, &quot;TND&quot;};
+
+//这个是字符串，用于json解析
+String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing \&quot;}]&quot;;
+
+String[] priceTermList = {&quot;FOB&quot;, &quot;EXW&quot;, &quot;FAS&quot;, &quot;FCA&quot;, &quot;CFR&quot;, &quot;CPT&quot;, &quot;CIF&quot;, &quot;CIP&quot;, &quot;DES&quot;, &quot;DAF&quot;, &quot;DEQ&quot;, &quot;DDP&quot;, &quot;DDU&quot;};
+
+String[] unitList = {&quot;PCS&quot;, &quot;Set&quot;, &quot;Box&quot;, &quot;Pal&quot;, &quot;Doz&quot;, &quot;Pack&quot;, &quot;Pair&quot;, &quot;20ft&quot;, &quot;40ft&quot;, &quot;40ftHQ&quot;, &quot;g&quot;, &quot;kg&quot;, &quot;t&quot;, &quot;lb&quot;, &quot;ml&quot;, &quot;mm&quot;, &quot;l&quot;, &quot;cm&quot;, &quot;m&quot;, &quot;Inch&quot;, &quot;m2&quot;, &quot;w&quot;, &quot;v&quot;, &quot;a&quot;};
+
+String[] paymentWayList = {&quot;T/T&quot;, &quot;L/C&quot;, &quot;D/P&quot;, &quot;Western Union&quot;, &quot;Money Gram&quot;};
+
+String[] imageList = {&quot;000140d6-812d-4752-a140-3686710939b1&quot;,&quot;00016ac4-1306-47d0-8e5e-39180b0f0280&quot;,&quot;000428c2-c153-4d98-8238-4c632adc5729&quot;,&quot;0005ba3b-0f67-4f1e-a9f5-5228f10b3bb9&quot;,&quot;0005f1dd-4cd3-428b-a0b4-5900a1f5d8d9&quot;,&quot;000b23c2-0e14-4ab3-8e3c-49d84d24a669&quot;,&quot;000c573c-bfa1-40b3-992d-0a2a5b608598&quot;,&quot;000d6eb3-0032-4364-afdd-bedf917e21ea&quot;,&quot;0015958f-c683-429a-9db6-7c92ba5dc736&quot;,&quot;00168ff8-c54c-4e07-888e-2ef18ff60a50&quot;,&quot;001731da-d769-4c02-8e6a-19ff74ff1599&quot;,&quot;001774ca-8651-4a12-a4a9-687f40d71dac&quot;,&quot;0019168d-7678-40d0-8d92-bcc9ec197590&quot;,&quot;00198681-3597-4e4a-8708-62ab93107618&quot;,&quot;001a208d-a69b-4404-afdc-e99eabc64f63&quot;,&quot;001a4506-1834-4262-b817-1956099ffb85&quot;,&quot;001d4286-4c9e-41c0-a609-7098aaa4537a&quot;,&quot;001d4505-27f6-47f7-90b0-e84e238fb415&quot;,&quot;001d48c5-1f64-422b-8fd8-be26a5ec3d94&quot;,&quot;00206975-3730-4238-8ff2-b1451f1a3724&quot;,&quot;00215a1a-9438-45fe-9b12-4727c1c77f83&quot;,&quot;0028f54c-62b9-4cc4-a6b5-90c23ed40cdd&quot;,&quot;00290d2b-193e-4564-8669-a922f67474fc&quot;,&quot;0029c508-ad21-4047-815c-e16a0df7e7da&quot;,&quot;002b5f35-7a35-4bff-8a69-05805899107b&quot;,&quot;002bdb41-23f3-49d4-954c-e160374dcdbf&quot;,&quot;002be434-79b2-4205-bc80-0c7a421ab18d&quot;,&quot;002c32c9-1481-4c40-ae93-22d46a28c914&quot;,&quot;002f60d6-7be3-41ec-8da3-4216a81bb3c7&quot;,&quot;0030ce6c-6d05-41cb-8bfe-6732ac3a45b2&quot;,&quot;0030d712-83c9-4845-ad7b-96833a5a290e&quot;,&quot;00310340-2232-4073-967e-ee32a99bb614&quot;,&quot;0032300f-6ab9-42b2-beef-1442b50c4ec2&quot;,&quot;003296ae-803e-4576-9e0b-15d29c055c61&quot;,&quot;00348683-69d6-4e98-8e9a-af9f2277f597&quot;,&quot;0034879f-c6e3-4ba6-a15b-5bc765227df3&quot;,&quot;00375e96-9824-4395-803b-6ae22097c0cf&quot;,&quot;0037bac4-3bf2-478e-80e7-b6f3132a4ff0&quot;,&quot;0038bb11-8f8e-4962-8d2f-7033a950955f&quot;,&quot;0038bfc9-64a4-484b-9620-b45018732f05&quot;,&quot;00391727-7a3f-4599-9c46-9f5785e7deb3&quot;,&quot;003920db-fd5b-40cd-92f6-b3d95981ad29&quot;,&quot;003c4b57-e20c-48d2-8f31-17b866d3ffc2&quot;,&quot;00402533-cb75-4cf4-aa9e-b9839030e5ac&quot;,&quot;0042985f-a4be-4c3b-8867-7b7a17890dd9&quot;,&quot;0042bc15-37ee-4120-acab-bb5607c82e05&quot;,&quot;00456092-3944-4766-8710-54fc2e08d3f4&quot;,&quot;00456375-70f4-40e1-b49d-02b8f15195e8&quot;,&quot;0046b8de-38a5-4d51-8722-ce46b6c5715b&quot;,&quot;00484324-0dee-46db-8d44-dbb7ed5fa327&quot;,&quot;004fc339-3685-4308-9d6a-4192a0ad38e0&quot;,&quot;005119f6-839c-47c4-8fab-fab9e39c0399&quot;,&quot;00524fb4-b5c9-41e8-956a-1b992ad10989&quot;,&quot;00598b70-7a10-4acf-bfdd-b3d4390344e3&quot;,&quot;005adfbf-3644-4d99-a9a9-bb73bba57dbc&quot;,&quot;005ae20d-c2c6-4c47-aeae-5769d98b2670&quot;,&quot;005bcb2e-c28a-40ea-ac60-6a7651b2e64a&quot;,&quot;005c164f-8b9a-42cd-b6bb-7ac09c3c8bf7&quot;,&quot;005f3d78-db3c-412c-a963-8bc82d02aa58&quot;,&quot;005f84f3-85df-4097-b5bd-ddbe8852bf18&quot;,&quot;00637320-a100-4e96-b96f-54927c5ded0a&quot;,&quot;00641c14-f3a0-4d5a-aaf3-c1258ebfebe4&quot;,&quot;00657ff3-dead-4ae1-a42d-ec8df648dbf6&quot;,&quot;00660cec-6bd3-4725-a6b3-58fcb69843e1&quot;,&quot;006739de-6d76-487b-bbd0-89091c064c44&quot;,&quot;00679677-56e6-4ac3-a69d-087fb15861ab&quot;,&quot;006798b9-51d6-4c49-aa38-e61cdad23c2a&quot;,&quot;006bf321-e4e9-485d-8b54-7ac56c3f9c2d&quot;,&quot;00700ff8-7c2f-4cf2-9976-76bd16b0d123&quot;,&quot;00715491-3697-4717-a64f-21503a527d2f&quot;,&quot;00732b93-e60f-4ee1-b33f-e203d7f9d62b&quot;,&quot;0074c61f-16fc-41ac-9058-03a9aeec5d69&quot;}</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="调试脚本" enabled="false">
+          <stringProp name="BeanShellSampler.query">import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map;
+import org.apache.commons.codec.digest.DigestUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+long L = System.currentTimeMillis();
+Map map = new HashMap();
+Random random = new Random();
+Date date = new Date();
+DecimalFormat priceFormat = new DecimalFormat(&quot;.####&quot;);//确定price的格式
+int beishu = 10*(random.nextInt(5)+1);//增加price的位数变化
+
+//以下为接口必传参数
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+//生成随机offerName
+DateFormat df2 = DateFormat.getDateTimeInstance();//可以精确到时分秒
+map.put(&quot;offerName&quot;, ${userId}+&quot;的offer建于:&quot;+df2.format(date).toString());
+
+//生成随机description
+map.put(&quot;offerDescrip&quot;, ${userId}+&quot;的offer description，该offer建于:&quot;+df2.format(date).toString());
+
+
+//开始生成buyprice和sellprice
+//是否生成buyprice，并随机给予数值
+String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;, &quot;JPY&quot;, &quot;RUB&quot;, &quot;INR&quot;, &quot;CAD&quot;, &quot;AUD&quot;, &quot;BRL&quot;, &quot;HKD&quot;, &quot;TRY&quot;, &quot;ILS&quot;, &quot;NZD&quot;, &quot;PKR&quot;, &quot;SGD&quot;, &quot;ZAR&quot;, &quot;THB&quot;, &quot;PHP&quot;, &quot;MXN&quot;, &quot;KRW&quot;, &quot;NOK&quot;, &quot;PLN&quot;, &quot;IDR&quot;, &quot;CLP&quot;, &quot;CZK&quot;, &quot;DKK&quot;, &quot;HUF&quot;, &quot;MYR&quot;, &quot;SEK&quot;, &quot;IQD&quot;, &quot;RSD&quot;, &quot;HRK&quot;, &quot;EGP&quot;, &quot;IRR&quot;, &quot;AED&quot;, &quot;SAR&quot;, &quot;QAR&quot;, &quot;LBP&quot;, &quot;LYD&quot;, &quot;JOD&quot;, &quot;BGN&quot;, &quot;VND&quot;, &quot;CUP&quot;, &quot;BOB&quot;, &quot;COP&quot;, &quot;DOP&quot;, &quot;ISK&quot;, &quot;MOP&quot;, &quot;MAD&quot;, &quot;TND&quot;};
+int buyPriceIndex = random.nextInt(52);
+if(random.nextInt(2)==0){
+	//最多4位小数，且多余的0不显示
+  	float f1 = random.nextFloat()*beishu;
+	map.put(&quot;offerBuyPrice&quot;, priceFormat.format(f1).toString());
+	//随机币种
+	map.put(&quot;offerBuyCry&quot;, currencyList[buyPriceIndex]);
+}
+
+//是否生成sellprice，并随机给予数值
+int sellPriceIndex = random.nextInt(52);
+if(random.nextInt(2)==0){
+	//最多4位小数，且多余的0不显示
+  	float f2 = random.nextFloat()*beishu;
+	map.put(&quot;offerSellPrice&quot;, priceFormat.format(f2).toString());
+	//随机币种
+	map.put(&quot;offerSellCry&quot;, currencyList[sellPriceIndex]);
+}
+//赋予buyprice和sellprice结束
+
+
+//随机给予unit
+String[] unitList = {&quot;PCS&quot;, &quot;Set&quot;, &quot;Box&quot;, &quot;Pal&quot;, &quot;Doz&quot;, &quot;Pack&quot;, &quot;Pair&quot;, &quot;20ft&quot;, &quot;40ft&quot;, &quot;40ftHQ&quot;, &quot;g&quot;, &quot;kg&quot;, &quot;t&quot;, &quot;lb&quot;, &quot;ml&quot;, &quot;mm&quot;, &quot;l&quot;, &quot;cm&quot;, &quot;m&quot;, &quot;Inch&quot;, &quot;m2&quot;, &quot;w&quot;, &quot;v&quot;, &quot;a&quot;};
+int unitIndex = random.nextInt(24); 
+map.put(&quot;offerUnit&quot;, unitList[unitIndex]);
+
+//随机取联系人种类和相应的userId：0=无，1=系统的，2=自定义的
+int contactStatus = random.nextInt(3);
+if(contactStatus==1){
+	if(!vars.get(&quot;contactUserId&quot;).equals(&quot;-1&quot;)){
+		map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId&quot;));
+		map.put(&quot;contactStatus&quot;, &quot;1&quot;);
+	}else{
+		log.info(&quot;*************系统人没获取到****************&quot;)；
+	}	
+}else{
+	if(contactStatus==2){
+		if(!vars.get(&quot;interContactId&quot;).equals(&quot;-1&quot;)){
+			map.put(&quot;interContactId&quot;, vars.get(&quot;interContactId&quot;));
+			map.put(&quot;contactStatus&quot;, &quot;2&quot;));
+		}else{
+			log.info(&quot;*************自定义人没获取到****************&quot;)；	
+		}
+	}
+}else{
+	map.put(&quot;contactStatus&quot;, &quot;0&quot;));
+}
+map.put(&quot;contactStatus&quot;, &quot;1&quot;);
+map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId_1&quot;));
+
+//加入offer制作时间
+map.put(&quot;makeOfferTime&quot;, String.valueOf(L));
+
+//是否copy的offer，一般是0=no，1=yes
+map.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
+
+//map.put(&quot;arrTagId&quot;, vars.get(&quot;offerTagId&quot;));
+
+//随机赋予offer image
+String[] imageList = {&quot;000140d6-812d-4752-a140-3686710939b1&quot;,&quot;00016ac4-1306-47d0-8e5e-39180b0f0280&quot;,&quot;000428c2-c153-4d98-8238-4c632adc5729&quot;,&quot;0005ba3b-0f67-4f1e-a9f5-5228f10b3bb9&quot;,&quot;0005f1dd-4cd3-428b-a0b4-5900a1f5d8d9&quot;,&quot;000b23c2-0e14-4ab3-8e3c-49d84d24a669&quot;,&quot;000c573c-bfa1-40b3-992d-0a2a5b608598&quot;,&quot;000d6eb3-0032-4364-afdd-bedf917e21ea&quot;,&quot;0015958f-c683-429a-9db6-7c92ba5dc736&quot;,&quot;00168ff8-c54c-4e07-888e-2ef18ff60a50&quot;,&quot;001731da-d769-4c02-8e6a-19ff74ff1599&quot;,&quot;001774ca-8651-4a12-a4a9-687f40d71dac&quot;,&quot;0019168d-7678-40d0-8d92-bcc9ec197590&quot;,&quot;00198681-3597-4e4a-8708-62ab93107618&quot;,&quot;001a208d-a69b-4404-afdc-e99eabc64f63&quot;,&quot;001a4506-1834-4262-b817-1956099ffb85&quot;,&quot;001d4286-4c9e-41c0-a609-7098aaa4537a&quot;,&quot;001d4505-27f6-47f7-90b0-e84e238fb415&quot;,&quot;001d48c5-1f64-422b-8fd8-be26a5ec3d94&quot;,&quot;00206975-3730-4238-8ff2-b1451f1a3724&quot;,&quot;00215a1a-9438-45fe-9b12-4727c1c77f83&quot;,&quot;0028f54c-62b9-4cc4-a6b5-90c23ed40cdd&quot;,&quot;00290d2b-193e-4564-8669-a922f67474fc&quot;,&quot;0029c508-ad21-4047-815c-e16a0df7e7da&quot;,&quot;002b5f35-7a35-4bff-8a69-05805899107b&quot;,&quot;002bdb41-23f3-49d4-954c-e160374dcdbf&quot;,&quot;002be434-79b2-4205-bc80-0c7a421ab18d&quot;,&quot;002c32c9-1481-4c40-ae93-22d46a28c914&quot;,&quot;002f60d6-7be3-41ec-8da3-4216a81bb3c7&quot;,&quot;0030ce6c-6d05-41cb-8bfe-6732ac3a45b2&quot;,&quot;0030d712-83c9-4845-ad7b-96833a5a290e&quot;,&quot;00310340-2232-4073-967e-ee32a99bb614&quot;,&quot;0032300f-6ab9-42b2-beef-1442b50c4ec2&quot;,&quot;003296ae-803e-4576-9e0b-15d29c055c61&quot;,&quot;00348683-69d6-4e98-8e9a-af9f2277f597&quot;,&quot;0034879f-c6e3-4ba6-a15b-5bc765227df3&quot;,&quot;00375e96-9824-4395-803b-6ae22097c0cf&quot;,&quot;0037bac4-3bf2-478e-80e7-b6f3132a4ff0&quot;,&quot;0038bb11-8f8e-4962-8d2f-7033a950955f&quot;,&quot;0038bfc9-64a4-484b-9620-b45018732f05&quot;,&quot;00391727-7a3f-4599-9c46-9f5785e7deb3&quot;,&quot;003920db-fd5b-40cd-92f6-b3d95981ad29&quot;,&quot;003c4b57-e20c-48d2-8f31-17b866d3ffc2&quot;,&quot;00402533-cb75-4cf4-aa9e-b9839030e5ac&quot;,&quot;0042985f-a4be-4c3b-8867-7b7a17890dd9&quot;,&quot;0042bc15-37ee-4120-acab-bb5607c82e05&quot;,&quot;00456092-3944-4766-8710-54fc2e08d3f4&quot;,&quot;00456375-70f4-40e1-b49d-02b8f15195e8&quot;,&quot;0046b8de-38a5-4d51-8722-ce46b6c5715b&quot;,&quot;00484324-0dee-46db-8d44-dbb7ed5fa327&quot;,&quot;004fc339-3685-4308-9d6a-4192a0ad38e0&quot;,&quot;005119f6-839c-47c4-8fab-fab9e39c0399&quot;,&quot;00524fb4-b5c9-41e8-956a-1b992ad10989&quot;,&quot;00598b70-7a10-4acf-bfdd-b3d4390344e3&quot;,&quot;005adfbf-3644-4d99-a9a9-bb73bba57dbc&quot;,&quot;005ae20d-c2c6-4c47-aeae-5769d98b2670&quot;,&quot;005bcb2e-c28a-40ea-ac60-6a7651b2e64a&quot;,&quot;005c164f-8b9a-42cd-b6bb-7ac09c3c8bf7&quot;,&quot;005f3d78-db3c-412c-a963-8bc82d02aa58&quot;,&quot;005f84f3-85df-4097-b5bd-ddbe8852bf18&quot;,&quot;00637320-a100-4e96-b96f-54927c5ded0a&quot;,&quot;00641c14-f3a0-4d5a-aaf3-c1258ebfebe4&quot;,&quot;00657ff3-dead-4ae1-a42d-ec8df648dbf6&quot;,&quot;00660cec-6bd3-4725-a6b3-58fcb69843e1&quot;,&quot;006739de-6d76-487b-bbd0-89091c064c44&quot;,&quot;00679677-56e6-4ac3-a69d-087fb15861ab&quot;,&quot;006798b9-51d6-4c49-aa38-e61cdad23c2a&quot;,&quot;006bf321-e4e9-485d-8b54-7ac56c3f9c2d&quot;,&quot;00700ff8-7c2f-4cf2-9976-76bd16b0d123&quot;,&quot;00715491-3697-4717-a64f-21503a527d2f&quot;,&quot;00732b93-e60f-4ee1-b33f-e203d7f9d62b&quot;,&quot;0074c61f-16fc-41ac-9058-03a9aeec5d69&quot;};
+int imageNum = random.nextInt(9)+1;
+StringBuffer sb4 = new StringBuffer();
+sb4.append(&quot;&quot;);
+for(int m=0; m&lt;imageNum; m++){
+	if(m&lt;imageNum-1){
+		int imageIndex = random.nextInt(72);
+		sb4.append(imageList[imageIndex]).append(&quot;,&quot;);
+	}else{
+		int imageIndex = random.nextInt(72);
+		sb4.append(imageList[imageIndex]);
+	}
+}
+map.put(&quot;offerImg&quot;, sb4.toString());
+
+
+
+//生成随机offerSheetArray
+//随机取产品sheet
+String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing \&quot;}]&quot;;
+//这里如果用List&lt;String&gt; list = new ArrayList&lt;String&gt;();会报错
+list = new ArrayList();
+list = JSON.parseArray(jsonString, String.class);
+//num=随机取得sheet个数，如果指定sheet个数可以赋值给它
+int num = random.nextInt(list.size());
+ArrayList sheetArray = new ArrayList();
+for(int i=0; i&lt;num; i++){
+	int newNum = random.nextInt(list.size());
+	sheetArray.add(list.get(newNum));
+	list.remove(newNum);
+}
+
+JSONArray ja = new JSONArray();
+for(int j=0; j&lt;num; j++){
+	JSONObject jo = new JSONObject();
+	JSONObject sheet = JSONObject.parseObject(sheetArray.get(j).toString());
+	String sheetName = sheet.getString(&quot;sheetName&quot;);
+	jo.put(&quot;sheetName&quot;, sheetName);
+	
+	// 随机给sheetValue赋值
+	String str = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789其形也翩若惊鸿婉若游龙荣曜秋菊华茂春松髣髴兮若轻云之蔽月飘飖兮若流风之回雪远而望之皎若太阳升朝霞迫而察之灼若芙蕖出渌波秾纤得衷修短合度肩若削成腰如约素延颈秀项皓质呈露芳泽无加铅华弗御云髻峨峨修眉联娟丹唇外朗皓齿内鲜明眸善睐靥辅承权瑰姿艳逸仪静体闲柔情绰态媚于语言奇服旷世骨像应图披罗衣之璀粲兮珥瑶碧之华琚戴金翠之首饰缀明珠以耀躯践远游之文履曳雾绡之轻裾微幽兰之芳蔼兮步踟蹰于山隅&quot;;
+	StringBuffer sb3 = new StringBuffer();
+	int sb3length = random.nextInt(101);
+	for (int k = 0; k &lt; sb3length; k++) {
+		// [0,251)
+		int number = random.nextInt(251);
+		sb3.append(str.charAt(number));
+	}
+	jo.put(&quot;sheetValue&quot;,sb3.toString());
+	ja.add(jo);
+}
+map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
+//sheet生成结束
+//入参赋值完毕
+
+
+
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+StringBuffer sb2 = new StringBuffer();
+sb2.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (str[j].equals(&quot;offerArrSheet&quot;)) {
+		sb2.append(str[j]).append(&quot;=&quot;).append(JSON.toJSON(ja));
+	} else {
+		sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	}
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+		sb2.append(&quot;&amp;&quot;);
+	} 
+}
+
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb2.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+vars.put(&quot;body&quot;, body);</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
       </hashTree>
     </hashTree>
   </hashTree>
