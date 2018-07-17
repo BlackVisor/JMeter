@@ -17,8 +17,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">300</stringProp>
         <longProp name="ThreadGroup.start_time">1522115682000</longProp>
         <longProp name="ThreadGroup.end_time">1522115682000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -26,7 +26,7 @@
         <stringProp name="ThreadGroup.delay">2</stringProp>
       </ThreadGroup>
       <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 内网" enabled="false">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 内网" enabled="true">
           <stringProp name="filename">config-内网.csv</stringProp>
           <stringProp name="fileEncoding">utf-8</stringProp>
           <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
@@ -38,7 +38,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-内网" enabled="false">
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-内网" enabled="true">
           <stringProp name="dataSource">DB</stringProp>
           <stringProp name="poolMax">10</stringProp>
           <stringProp name="timeout">10000</stringProp>
@@ -71,13 +71,13 @@
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
           <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-          <stringProp name="HTTPSampler.proxyHost">192.168.0.107</stringProp>
+          <stringProp name="HTTPSampler.proxyHost">192.168.1.70</stringProp>
           <stringProp name="HTTPSampler.proxyPort">8888</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 外网" enabled="true">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 外网" enabled="false">
           <stringProp name="filename">config-外网.csv</stringProp>
           <stringProp name="fileEncoding">utf-8</stringProp>
           <stringProp name="variableNames">host,port,userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
@@ -89,7 +89,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-外网" enabled="true">
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="数据库-外网" enabled="false">
           <stringProp name="dataSource">DB</stringProp>
           <stringProp name="poolMax">10</stringProp>
           <stringProp name="timeout">10000</stringProp>
@@ -109,7 +109,7 @@
           <collectionProp name="HeaderManager.headers">
             <elementProp name="Accept-Language" elementType="Header">
               <stringProp name="Header.name">Accept-Language</stringProp>
-              <stringProp name="Header.value">en-CN;q=1</stringProp>
+              <stringProp name="Header.value">en,zh</stringProp>
             </elementProp>
             <elementProp name="Connection" elementType="Header">
               <stringProp name="Header.name">Connection</stringProp>
@@ -122,6 +122,10 @@
             <elementProp name="Accept-Encoding" elementType="Header">
               <stringProp name="Header.name">Accept-Encoding</stringProp>
               <stringProp name="Header.value">gzip, deflate</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Accept-Charset</stringProp>
+              <stringProp name="Header.value">utf-8</stringProp>
             </elementProp>
           </collectionProp>
         </HeaderManager>
@@ -262,34 +266,25 @@ vars.put(&quot;interContactEmail&quot;, vars.get(&quot;inter_contact_email_1&quo
             <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="获取当前账号下的offerTagId" enabled="true">
               <stringProp name="dataSource">DB</stringProp>
               <stringProp name="query">/*sort_column用来随机排序*/
-select offer_tag_id from (SELECT offer_tag_id, RAND() sort_column FROM `ejet_offer_tag` where user_id = 1010033 and del_status = 0) this order by sort_column</stringProp>
+select GROUP_CONCAT(offer_tag_id), count(offer_tag_id) from (SELECT offer_tag_id, RAND() sort_column FROM `ejet_offer_tag` where user_id = ${userId} and del_status = 0) this order by sort_column</stringProp>
               <stringProp name="queryArguments"></stringProp>
               <stringProp name="queryArgumentsTypes"></stringProp>
               <stringProp name="queryTimeout"></stringProp>
               <stringProp name="queryType">Select Statement</stringProp>
               <stringProp name="resultSetHandler">Store as String</stringProp>
               <stringProp name="resultVariable"></stringProp>
-              <stringProp name="variableNames">offer_tag_id</stringProp>
+              <stringProp name="variableNames">taglist,tagcount</stringProp>
             </JDBCSampler>
             <hashTree>
               <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
                 <stringProp name="filename"></stringProp>
                 <stringProp name="parameters"></stringProp>
                 <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="script">Random random = new Random();
-if(!vars.get(&quot;offer_tag_id_#&quot;).equals(&quot;0&quot;)){
-	int count = Integer.valueOf(vars.get(&quot;offer_tag_id_#&quot;));
-	int tagCount = random.nextInt(count);
-	if(random.nextInt(2)==1 &amp;&amp; tagCount&gt;0){
-		for(int i=0; i&lt;tagCount; i++){
-			
-		}
-	}
-	vars.put(&quot;offerTagId&quot;, vars.get(&quot;offer_tag_id_1&quot;));
+                <stringProp name="script">if(!(${tagcount_1}==0)){
+	vars.put(&quot;offerTagId&quot;, vars.get(&quot;taglist_1&quot;));
 }else{
 	vars.put(&quot;offerTagId&quot;, &quot;-1&quot;);
-}
-log.info(&quot;!!!!!!!!!!!!!!&quot;+vars.get(&quot;offerTagId&quot;)+&quot;!!!!!!!!!!!!!&quot;);</stringProp>
+}</stringProp>
               </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
@@ -2854,7 +2849,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14.新建product-随机参数" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14.新建product-随机参数" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -2868,7 +2863,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
             <stringProp name="HTTPSampler.path">/offerplus/makeOfferEnd.do</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -2902,7 +2897,7 @@ long L = System.currentTimeMillis();
 Map map = new HashMap();
 Random random = new Random();
 Date date = new Date();
-DecimalFormat priceFormat = new DecimalFormat(&quot;.####&quot;);//确定price的格式
+DecimalFormat priceFormat = new DecimalFormat(&quot;0.####&quot;);//确定price的格式
 int beishu = 10*(random.nextInt(5)+1);//增加price的位数变化
 
 //以下为接口必传参数
@@ -2916,10 +2911,10 @@ map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //生成随机offerName
 DateFormat df2 = DateFormat.getDateTimeInstance();//可以精确到时分秒
-map.put(&quot;offerName&quot;, ${userId}+&quot;的offer建于:&quot;+df2.format(date).toString());
+map.put(&quot;offerName&quot;, ${userId}+&quot;\&apos;s offer is created at:&quot;+df2.format(date).toString());
 
 //生成随机description
-map.put(&quot;offerDescrip&quot;, ${userId}+&quot;的offer description，该offer建于:&quot;+df2.format(date).toString());
+map.put(&quot;offerDescrip&quot;, ${userId}+&quot;的offer description，该offer创建于:&quot;+df2.format(date).toString());
 
 
 //***开始生成buyprice和sellprice
@@ -2952,28 +2947,24 @@ int unitIndex = random.nextInt(unitList.length);
 map.put(&quot;offerUnit&quot;, unitList[unitIndex]);
 
 //***随机取联系人种类和相应的userId：0=无，1=系统的，2=自定义的
-int contactStatus = random.nextInt(3);
+int contactStatus = random.nextInt(2)+1;
 if(contactStatus==1){
 	if(!vars.get(&quot;contactUserId&quot;).equals(&quot;-1&quot;)){
 		map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId&quot;));
 		map.put(&quot;contactStatus&quot;, &quot;1&quot;);
 	}else{
 		log.info(&quot;*************系统人没获取到****************&quot;);
+		map.put(&quot;contactStatus&quot;, &quot;0&quot;);
 	}	
 }else{
-	if(contactStatus==2){
-		if(!vars.get(&quot;interContactId&quot;).equals(&quot;-1&quot;)){
-			map.put(&quot;contactUserId&quot;, vars.get(&quot;interContactId&quot;));
-			map.put(&quot;contactStatus&quot;, &quot;2&quot;);
-		}else{
-			log.info(&quot;*************自定义人没获取到****************&quot;);	
-		}
+	if(!vars.get(&quot;interContactId&quot;).equals(&quot;-1&quot;)){
+		map.put(&quot;contactUserId&quot;, vars.get(&quot;interContactId&quot;));
+		map.put(&quot;contactStatus&quot;, &quot;2&quot;);
 	}else{
+		log.info(&quot;*************自定义人没获取到****************&quot;);
 		map.put(&quot;contactStatus&quot;, &quot;0&quot;);
+	}
 }
-}
-map.put(&quot;contactStatus&quot;, &quot;1&quot;);
-map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId_1&quot;));
 
 //***加入offer制作时间
 map.put(&quot;makeOfferTime&quot;, String.valueOf(L));
@@ -2982,10 +2973,25 @@ map.put(&quot;makeOfferTime&quot;, String.valueOf(L));
 map.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
 
 //***打上offer tag
-map.put(&quot;arrTagId&quot;, vars.get(&quot;offerTagId&quot;));
+//是否传tag
+if((!vars.get(&quot;offerTagId&quot;).equals(&quot;-1&quot;)) &amp;&amp; random.nextInt(2)==0){
+	StringBuffer sb5 = new StringBuffer();
+	String a = vars.get(&quot;offerTagId&quot;);
+	String[] b = a.split(&quot;,&quot;);
+	int c = random.nextInt(b.length);
+	for(int p=0; p&lt;=c; p++){
+	  if(p&lt;c){
+	      sb5.append(b[p]).append(&quot;,&quot;);
+	  }else{
+	      sb5.append(b[p]);
+	  }
+	}
+	map.put(&quot;arrTagId&quot;, sb5.toString());
+}
+
 
 //***随机赋予offer image
-String[] imageList = {&quot;0004b56e-257d-4a34-b8a8-2720fc8e7306&quot;,&quot;000598fc-6c3c-4cb2-a7d4-502c74327774&quot;,&quot;0006db54-5487-4556-95d3-bc59b8dcc334&quot;,&quot;000deb4c-a82e-4dc9-a44d-64d00118aaf5&quot;,&quot;00149091-f6f7-4420-93bd-10d94552a148&quot;,&quot;00167978-56e5-43d5-83ef-72d4134a7854&quot;,&quot;001854d9-9aae-4072-b021-db4e3ddbb108&quot;,&quot;00222564-4002-4675-b2ad-1ab85368b5c9&quot;,&quot;0026a683-93d9-41fc-9c71-540cc9110f90&quot;,&quot;002b726c-888d-49ed-b271-0496b639f1fa&quot;,&quot;003e3b9a-0977-4d58-b492-397792424482&quot;,&quot;003f518a-3342-4295-a6e8-1f26f08fc8c7&quot;,&quot;00412efc-c20d-4d36-8f2a-2aca32fd9044&quot;,&quot;0042e9b4-66e6-4511-8b6f-3b0e19ab458f&quot;,&quot;004898c0-a52f-4c88-8d85-387a4ddd1002&quot;,&quot;004c047d-13d0-4d83-b473-1dbd3a9946c1&quot;,&quot;0052efc1-57e1-47b5-86b7-717229f0bd28&quot;,&quot;00570069-d045-4e25-844e-65dda9b1e205&quot;,&quot;00588ea5-fe2b-46dc-91bc-7b339b832230&quot;,&quot;005ae564-bd63-4e0e-be7d-cfa7d4cb6784&quot;,&quot;006834d4-3232-4b47-b171-6328c847fcae&quot;,&quot;00749fb9-ff53-4aad-a769-177dc600ca33&quot;,&quot;00788e51-80d8-4770-a6ce-bb0cb0818171&quot;,&quot;007e26e3-ae41-49d7-9587-8e91ff313f7e&quot;,&quot;007ffabe-8861-4d08-b6cd-b86737bb7888&quot;,&quot;00824899-4069-40c0-9a00-dbc5abcbe4f0&quot;,&quot;00871a4b-5944-4dfc-8312-cfc3a7fa589d&quot;,&quot;0087d105-fe6c-486c-aa3e-da1c3e1b1264&quot;,&quot;009298b4-55a5-4c4e-8e86-fded9889fd6c&quot;,&quot;00960701-58f7-49ec-ab88-1424e6640f3f&quot;,&quot;00a1aacf-f37d-43b5-82e5-ef0e693222ba&quot;,&quot;00b2d0e8-74f7-4408-bcce-7048e67ed5d3&quot;,&quot;00b9c653-0ff0-4346-8ab4-384620d4e557&quot;,&quot;00ba2326-fde5-4f10-b3e4-047ac86be78d&quot;,&quot;00c090b8-ea74-4011-8f48-26ec28b66d59&quot;,&quot;00c2a505-9145-4791-a3ea-02ad9bd646a6&quot;,&quot;00c571c6-575e-4c0f-9802-61d1b5992c93&quot;,&quot;00c95903-8814-4b02-b357-944d73748dbc&quot;,&quot;00cc4879-55ea-4e8c-83fd-6e52055ad5e4&quot;,&quot;00cec076-666f-441f-879c-bc2d33bc7097&quot;,&quot;00cf9d13-68f1-4a7c-a4c2-786a8bbf3d01&quot;,&quot;00eb4145-3cc6-4c1b-9a23-b4e0ec276ae2&quot;,&quot;00f263ab-9e67-456f-926e-a420802a5588&quot;,&quot;00f2bc5a-f1cc-4d79-ab66-f3d710f94ba0&quot;,&quot;00fa6b9e-d3af-4628-b8c9-08f2e0d0a4d1&quot;,&quot;0103bb8f-b4a8-4db8-889f-bac2125f274d&quot;,&quot;010bb208-74a2-4646-92eb-464c38a623af&quot;,&quot;010de938-ab66-4eea-af27-8499b86ab329&quot;,&quot;011284e7-69a6-473d-867d-7a182285928d&quot;,&quot;011b96a1-c32d-49e9-a9cd-c6cf3153422b&quot;,&quot;0125f358-4b7c-4995-81f4-851e1ef4a544&quot;,&quot;0128f51e-09f4-4cba-bda7-47662df91e0b&quot;,&quot;012b08a8-cc55-4891-814f-0ac9376fbe2e&quot;,&quot;012beded-01f9-40eb-b5dd-a0992fa3b2f5&quot;,&quot;012cf546-ec89-42ba-a23e-369796db27aa&quot;,&quot;012dc628-003e-4a5b-83fa-b5618ddf07f3&quot;,&quot;012ec868-6dff-45b5-bcea-f874a512c78b&quot;,&quot;01351f2c-57c5-4624-8432-3ea8b09a8851&quot;,&quot;0135bf12-1f30-4a3b-9ac1-c966be6628ae&quot;,&quot;0136d762-ab8d-4fda-9dc2-ec5fde2d482d&quot;,&quot;0136ec2c-2325-48ab-a36d-87544480c284&quot;,&quot;0137fb2d-0116-4fd9-9b80-975b329b3a9a&quot;,&quot;0146df9b-8bc5-4804-989f-ab8f005711a7&quot;,&quot;0155cea9-8e23-4921-ac0f-880deb7b9a29&quot;,&quot;01589196-562c-4926-8ea7-b894eec57558&quot;,&quot;0158b7d8-b032-446f-b0bd-408f8fa81347&quot;,&quot;01594b56-06e9-4905-9bce-dbd91a771685&quot;,&quot;015a9764-a1f9-4ebb-b229-f113b7b36da3&quot;,&quot;016a9109-899f-4989-906e-7e2ff56589b2&quot;,&quot;016ada83-1018-4123-8137-22c3194fdc6b&quot;,&quot;01766464-194c-43d4-84b6-1d86ddf8f5ec&quot;,&quot;018fb511-5eb2-41a1-b020-a7a6f4d35603&quot;,&quot;01a4c1d1-8663-4e2c-8030-41c66029a9a8&quot;,&quot;01aa6740-4280-4025-bb14-3744c48d33e9&quot;,&quot;01ad954d-8574-4044-95a7-d58889e45160&quot;,&quot;01af3e27-096c-4d3d-8071-d78e8cdbf026&quot;,&quot;01b57344-e25f-4275-9116-1c75e693c817&quot;,&quot;01ba3c24-3529-40a5-9221-f249bb117d27&quot;,&quot;01c0b400-5af9-42d5-82e1-252a8bdd3ae5&quot;,&quot;01c8519e-b578-4063-b29d-efc510ba53f1&quot;,&quot;01d3f1df-0130-4957-bae3-231df5e83df8&quot;,&quot;01db2317-a68a-48b5-be2b-fbac4aa1715a&quot;,&quot;01db6242-36a7-449e-a030-3220735955da&quot;,&quot;01dc75a8-d15b-4312-8b86-48a1657943cc&quot;,&quot;01e1b2c3-a92b-4f4a-bfc5-c929fa5da338&quot;,&quot;01e20140-a301-43ab-8f8f-f4df6621011d&quot;,&quot;01ea0d64-5a37-4c17-b01d-2dcc829c7a6f&quot;,&quot;01ec7255-4bc9-4501-be64-b1dfd5b0f26e&quot;,&quot;01ec754a-ff91-4e19-a481-ce76283b179e&quot;,&quot;01eda14c-9174-4527-8f26-3ff3cb708360&quot;,&quot;01edd2da-2337-4cc7-9087-34ccdc0a5df0&quot;,&quot;01efd348-5995-41d0-a8bb-5be4e056067d&quot;,&quot;01f79a47-8ca9-4fd7-a578-dfe1bd3272ae&quot;,&quot;02021177-81b6-43f1-a6b7-16a44a877276&quot;,&quot;0203c5f1-439a-4267-83d0-c0275334338a&quot;,&quot;02105cb4-c556-4b17-9543-d24a08c0067d&quot;,&quot;02106d0e-1fa4-49ab-8407-7d0aadd07744&quot;,&quot;02118803-7188-4197-bd2a-ab0bd008a911&quot;,&quot;02124f88-5fad-4fd2-9593-54382b84c719&quot;,&quot;02131505-2cf5-4abd-8d5c-9b8953ac883e&quot;,&quot;0219ade2-da42-4cbc-ad31-eec3fbbe5a3e&quot;};
+String[] imageList = {&quot;0026a683-93d9-41fc-9c71-540cc9110f90&quot;,&quot;003e3b9a-0977-4d58-b492-397792424482&quot;,&quot;00412efc-c20d-4d36-8f2a-2aca32fd9044&quot;,&quot;004898c0-a52f-4c88-8d85-387a4ddd1002&quot;,&quot;004c047d-13d0-4d83-b473-1dbd3a9946c1&quot;,&quot;00588ea5-fe2b-46dc-91bc-7b339b832230&quot;,&quot;005ae564-bd63-4e0e-be7d-cfa7d4cb6784&quot;,&quot;00749fb9-ff53-4aad-a769-177dc600ca33&quot;,&quot;0087d105-fe6c-486c-aa3e-da1c3e1b1264&quot;,&quot;00c571c6-575e-4c0f-9802-61d1b5992c93&quot;,&quot;00cf9d13-68f1-4a7c-a4c2-786a8bbf3d01&quot;,&quot;00f2bc5a-f1cc-4d79-ab66-f3d710f94ba0&quot;,&quot;010bb208-74a2-4646-92eb-464c38a623af&quot;,&quot;0128f51e-09f4-4cba-bda7-47662df91e0b&quot;,&quot;012ec868-6dff-45b5-bcea-f874a512c78b&quot;,&quot;0136ec2c-2325-48ab-a36d-87544480c284&quot;,&quot;0137fb2d-0116-4fd9-9b80-975b329b3a9a&quot;,&quot;0146df9b-8bc5-4804-989f-ab8f005711a7&quot;,&quot;01766464-194c-43d4-84b6-1d86ddf8f5ec&quot;,&quot;01a4c1d1-8663-4e2c-8030-41c66029a9a8&quot;,&quot;01ad954d-8574-4044-95a7-d58889e45160&quot;,&quot;01af3e27-096c-4d3d-8071-d78e8cdbf026&quot;,&quot;01d3f1df-0130-4957-bae3-231df5e83df8&quot;,&quot;01db2317-a68a-48b5-be2b-fbac4aa1715a&quot;,&quot;01edd2da-2337-4cc7-9087-34ccdc0a5df0&quot;,&quot;023fd0d9-88bd-4d57-a212-a3098100b7c8&quot;,&quot;02795747-736f-47d2-bf84-a9ad395a6c02&quot;,&quot;02921b20-05b6-4eae-bd91-e6a1cc9e9767&quot;,&quot;0293b4f8-5fe6-437c-a02a-8f1787ef596d&quot;,&quot;02b234eb-c2ae-4a62-8e7f-ca6d52a2f9c0&quot;,&quot;02c80463-7485-45f8-a055-2eaff49cde3c&quot;,&quot;02ce094d-d253-4fe9-816a-0765c1dd452d&quot;,&quot;03161402-744b-4f4a-b7c6-22660d836c88&quot;,&quot;0351147e-0d42-4a63-a071-a175c1585f49&quot;,&quot;0363b7e1-678a-4880-a1d0-85d9345d563e&quot;,&quot;03701dfe-1676-47ab-8ea8-c8945b0409fa&quot;,&quot;039c2870-d0ff-49dd-94f1-2229e478a175&quot;,&quot;03ad6588-a179-4492-a121-8882eaa7164a&quot;,&quot;03add517-7b9d-4d63-940b-0b2f6cfc9bfa&quot;,&quot;03ea9321-4c16-47b5-94ae-5bea8ae0056f&quot;,&quot;04193181-5e01-4935-a891-2e7d2012437e&quot;,&quot;04332850-f747-4bd2-a76b-5c004a4a3a39&quot;,&quot;0446bbd8-5f15-4a77-aa22-ca8e0ef12465&quot;,&quot;0455f339-33f3-4882-bb2a-81b035aa731f&quot;,&quot;04638e3a-b950-4ba7-b4a7-415f634ebd4b&quot;,&quot;046a54de-0039-4891-a051-70e61e37ea3c&quot;};
 int imageNum = random.nextInt(9)+1;
 StringBuffer sb4 = new StringBuffer();
 sb4.append(&quot;&quot;);
@@ -3004,7 +3010,7 @@ map.put(&quot;offerImg&quot;, sb4.toString());
 
 //***生成随机offerSheetArray
 //随机取产品sheet
-String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing \&quot;}]&quot;;
+String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing\&quot;},{\&quot;sheetName\&quot;:\&quot;MOQ\&quot;}]&quot;;
 //这里如果用List&lt;String&gt; list = new ArrayList&lt;String&gt;();会报错
 list = new ArrayList();
 list = JSON.parseArray(jsonString, String.class);
@@ -3036,7 +3042,12 @@ for(int j=0; j&lt;num; j++){
 	ja.add(jo);
 }
 //map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
-map.put(&quot;offerArrSheet&quot;, ja.toString());
+if(random.nextInt(2)==0){
+	map.put(&quot;offerArrSheet&quot;, ja.toString());
+}else{
+	map.put(&quot;offerArrSheet&quot;, &quot;[]&quot;);	
+}
+
 //sheet生成结束
 //***入参赋值完毕
 
@@ -3612,27 +3623,224 @@ String[] unitList = {&quot;PCS&quot;, &quot;Set&quot;, &quot;Box&quot;, &quot;Pa
 
 String[] paymentWayList = {&quot;T/T&quot;, &quot;L/C&quot;, &quot;D/P&quot;, &quot;Western Union&quot;, &quot;Money Gram&quot;};
 
-String[] imageList = {&quot;000140d6-812d-4752-a140-3686710939b1&quot;,&quot;00016ac4-1306-47d0-8e5e-39180b0f0280&quot;,&quot;000428c2-c153-4d98-8238-4c632adc5729&quot;,&quot;0005ba3b-0f67-4f1e-a9f5-5228f10b3bb9&quot;,&quot;0005f1dd-4cd3-428b-a0b4-5900a1f5d8d9&quot;,&quot;000b23c2-0e14-4ab3-8e3c-49d84d24a669&quot;,&quot;000c573c-bfa1-40b3-992d-0a2a5b608598&quot;,&quot;000d6eb3-0032-4364-afdd-bedf917e21ea&quot;,&quot;0015958f-c683-429a-9db6-7c92ba5dc736&quot;,&quot;00168ff8-c54c-4e07-888e-2ef18ff60a50&quot;,&quot;001731da-d769-4c02-8e6a-19ff74ff1599&quot;,&quot;001774ca-8651-4a12-a4a9-687f40d71dac&quot;,&quot;0019168d-7678-40d0-8d92-bcc9ec197590&quot;,&quot;00198681-3597-4e4a-8708-62ab93107618&quot;,&quot;001a208d-a69b-4404-afdc-e99eabc64f63&quot;,&quot;001a4506-1834-4262-b817-1956099ffb85&quot;,&quot;001d4286-4c9e-41c0-a609-7098aaa4537a&quot;,&quot;001d4505-27f6-47f7-90b0-e84e238fb415&quot;,&quot;001d48c5-1f64-422b-8fd8-be26a5ec3d94&quot;,&quot;00206975-3730-4238-8ff2-b1451f1a3724&quot;,&quot;00215a1a-9438-45fe-9b12-4727c1c77f83&quot;,&quot;0028f54c-62b9-4cc4-a6b5-90c23ed40cdd&quot;,&quot;00290d2b-193e-4564-8669-a922f67474fc&quot;,&quot;0029c508-ad21-4047-815c-e16a0df7e7da&quot;,&quot;002b5f35-7a35-4bff-8a69-05805899107b&quot;,&quot;002bdb41-23f3-49d4-954c-e160374dcdbf&quot;,&quot;002be434-79b2-4205-bc80-0c7a421ab18d&quot;,&quot;002c32c9-1481-4c40-ae93-22d46a28c914&quot;,&quot;002f60d6-7be3-41ec-8da3-4216a81bb3c7&quot;,&quot;0030ce6c-6d05-41cb-8bfe-6732ac3a45b2&quot;,&quot;0030d712-83c9-4845-ad7b-96833a5a290e&quot;,&quot;00310340-2232-4073-967e-ee32a99bb614&quot;,&quot;0032300f-6ab9-42b2-beef-1442b50c4ec2&quot;,&quot;003296ae-803e-4576-9e0b-15d29c055c61&quot;,&quot;00348683-69d6-4e98-8e9a-af9f2277f597&quot;,&quot;0034879f-c6e3-4ba6-a15b-5bc765227df3&quot;,&quot;00375e96-9824-4395-803b-6ae22097c0cf&quot;,&quot;0037bac4-3bf2-478e-80e7-b6f3132a4ff0&quot;,&quot;0038bb11-8f8e-4962-8d2f-7033a950955f&quot;,&quot;0038bfc9-64a4-484b-9620-b45018732f05&quot;,&quot;00391727-7a3f-4599-9c46-9f5785e7deb3&quot;,&quot;003920db-fd5b-40cd-92f6-b3d95981ad29&quot;,&quot;003c4b57-e20c-48d2-8f31-17b866d3ffc2&quot;,&quot;00402533-cb75-4cf4-aa9e-b9839030e5ac&quot;,&quot;0042985f-a4be-4c3b-8867-7b7a17890dd9&quot;,&quot;0042bc15-37ee-4120-acab-bb5607c82e05&quot;,&quot;00456092-3944-4766-8710-54fc2e08d3f4&quot;,&quot;00456375-70f4-40e1-b49d-02b8f15195e8&quot;,&quot;0046b8de-38a5-4d51-8722-ce46b6c5715b&quot;,&quot;00484324-0dee-46db-8d44-dbb7ed5fa327&quot;,&quot;004fc339-3685-4308-9d6a-4192a0ad38e0&quot;,&quot;005119f6-839c-47c4-8fab-fab9e39c0399&quot;,&quot;00524fb4-b5c9-41e8-956a-1b992ad10989&quot;,&quot;00598b70-7a10-4acf-bfdd-b3d4390344e3&quot;,&quot;005adfbf-3644-4d99-a9a9-bb73bba57dbc&quot;,&quot;005ae20d-c2c6-4c47-aeae-5769d98b2670&quot;,&quot;005bcb2e-c28a-40ea-ac60-6a7651b2e64a&quot;,&quot;005c164f-8b9a-42cd-b6bb-7ac09c3c8bf7&quot;,&quot;005f3d78-db3c-412c-a963-8bc82d02aa58&quot;,&quot;005f84f3-85df-4097-b5bd-ddbe8852bf18&quot;,&quot;00637320-a100-4e96-b96f-54927c5ded0a&quot;,&quot;00641c14-f3a0-4d5a-aaf3-c1258ebfebe4&quot;,&quot;00657ff3-dead-4ae1-a42d-ec8df648dbf6&quot;,&quot;00660cec-6bd3-4725-a6b3-58fcb69843e1&quot;,&quot;006739de-6d76-487b-bbd0-89091c064c44&quot;,&quot;00679677-56e6-4ac3-a69d-087fb15861ab&quot;,&quot;006798b9-51d6-4c49-aa38-e61cdad23c2a&quot;,&quot;006bf321-e4e9-485d-8b54-7ac56c3f9c2d&quot;,&quot;00700ff8-7c2f-4cf2-9976-76bd16b0d123&quot;,&quot;00715491-3697-4717-a64f-21503a527d2f&quot;,&quot;00732b93-e60f-4ee1-b33f-e203d7f9d62b&quot;,&quot;0074c61f-16fc-41ac-9058-03a9aeec5d69&quot;}</stringProp>
+String[] imageList = {&quot;0026a683-93d9-41fc-9c71-540cc9110f90&quot;,&quot;003e3b9a-0977-4d58-b492-397792424482&quot;,&quot;00412efc-c20d-4d36-8f2a-2aca32fd9044&quot;,&quot;004898c0-a52f-4c88-8d85-387a4ddd1002&quot;,&quot;004c047d-13d0-4d83-b473-1dbd3a9946c1&quot;,&quot;00588ea5-fe2b-46dc-91bc-7b339b832230&quot;,&quot;005ae564-bd63-4e0e-be7d-cfa7d4cb6784&quot;,&quot;00749fb9-ff53-4aad-a769-177dc600ca33&quot;,&quot;0087d105-fe6c-486c-aa3e-da1c3e1b1264&quot;,&quot;00c571c6-575e-4c0f-9802-61d1b5992c93&quot;,&quot;00cf9d13-68f1-4a7c-a4c2-786a8bbf3d01&quot;,&quot;00f2bc5a-f1cc-4d79-ab66-f3d710f94ba0&quot;,&quot;010bb208-74a2-4646-92eb-464c38a623af&quot;,&quot;0128f51e-09f4-4cba-bda7-47662df91e0b&quot;,&quot;012ec868-6dff-45b5-bcea-f874a512c78b&quot;,&quot;0136ec2c-2325-48ab-a36d-87544480c284&quot;,&quot;0137fb2d-0116-4fd9-9b80-975b329b3a9a&quot;,&quot;0146df9b-8bc5-4804-989f-ab8f005711a7&quot;,&quot;01766464-194c-43d4-84b6-1d86ddf8f5ec&quot;,&quot;01a4c1d1-8663-4e2c-8030-41c66029a9a8&quot;,&quot;01ad954d-8574-4044-95a7-d58889e45160&quot;,&quot;01af3e27-096c-4d3d-8071-d78e8cdbf026&quot;,&quot;01d3f1df-0130-4957-bae3-231df5e83df8&quot;,&quot;01db2317-a68a-48b5-be2b-fbac4aa1715a&quot;,&quot;01edd2da-2337-4cc7-9087-34ccdc0a5df0&quot;,&quot;023fd0d9-88bd-4d57-a212-a3098100b7c8&quot;,&quot;02795747-736f-47d2-bf84-a9ad395a6c02&quot;,&quot;02921b20-05b6-4eae-bd91-e6a1cc9e9767&quot;,&quot;0293b4f8-5fe6-437c-a02a-8f1787ef596d&quot;,&quot;02b234eb-c2ae-4a62-8e7f-ca6d52a2f9c0&quot;,&quot;02c80463-7485-45f8-a055-2eaff49cde3c&quot;,&quot;02ce094d-d253-4fe9-816a-0765c1dd452d&quot;,&quot;03161402-744b-4f4a-b7c6-22660d836c88&quot;,&quot;0351147e-0d42-4a63-a071-a175c1585f49&quot;,&quot;0363b7e1-678a-4880-a1d0-85d9345d563e&quot;,&quot;03701dfe-1676-47ab-8ea8-c8945b0409fa&quot;,&quot;039c2870-d0ff-49dd-94f1-2229e478a175&quot;,&quot;03ad6588-a179-4492-a121-8882eaa7164a&quot;,&quot;03add517-7b9d-4d63-940b-0b2f6cfc9bfa&quot;,&quot;03ea9321-4c16-47b5-94ae-5bea8ae0056f&quot;,&quot;04193181-5e01-4935-a891-2e7d2012437e&quot;,&quot;04332850-f747-4bd2-a76b-5c004a4a3a39&quot;,&quot;0446bbd8-5f15-4a77-aa22-ca8e0ef12465&quot;,&quot;0455f339-33f3-4882-bb2a-81b035aa731f&quot;,&quot;04638e3a-b950-4ba7-b4a7-415f634ebd4b&quot;,&quot;046a54de-0039-4891-a051-70e61e37ea3c&quot;};</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="调试脚本" enabled="false">
-          <stringProp name="BeanShellSampler.query">Random random = new Random();
-if(!${offer_tag_id_#}.equals(&quot;0&quot;)){
-	int count = Integer.valueOf(vars.get(&quot;offer_tag_id_#&quot;));
-	int tagCount = random.nextInt(count);
-	if(random.nextInt(2)==1 &amp;&amp; tagCount&gt;0){
-		for(int i=0; i&lt;tagCount; i++){
-			
-		}
-	}
-	vars.put(&quot;offerTagId&quot;, ${offer_tag_id_1});
-}else{
-	vars.put(&quot;offerTagId&quot;, &quot;-1&quot;);
+          <stringProp name="BeanShellSampler.query">import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map;
+import org.apache.commons.codec.digest.DigestUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+long L = System.currentTimeMillis();
+Map map = new HashMap();
+Random random = new Random();
+Date date = new Date();
+DecimalFormat priceFormat = new DecimalFormat(&quot;.####&quot;);//确定price的格式
+int beishu = 10*(random.nextInt(5)+1);//增加price的位数变化
+
+//以下为接口必传参数
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+//生成随机offerName
+DateFormat df2 = DateFormat.getDateTimeInstance();//可以精确到时分秒
+map.put(&quot;offerName&quot;, ${userId}+&quot;的offer建于:&quot;+df2.format(date).toString());
+
+//生成随机description
+map.put(&quot;offerDescrip&quot;, ${userId}+&quot;的offer description，该offer建于:&quot;+df2.format(date).toString());
+
+
+//***开始生成buyprice和sellprice
+//是否生成buyprice，并随机给予数值
+String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;, &quot;JPY&quot;, &quot;RUB&quot;, &quot;INR&quot;, &quot;CAD&quot;, &quot;AUD&quot;, &quot;BRL&quot;, &quot;HKD&quot;, &quot;TRY&quot;, &quot;ILS&quot;, &quot;NZD&quot;, &quot;PKR&quot;, &quot;SGD&quot;, &quot;ZAR&quot;, &quot;THB&quot;, &quot;PHP&quot;, &quot;MXN&quot;, &quot;KRW&quot;, &quot;NOK&quot;, &quot;PLN&quot;, &quot;IDR&quot;, &quot;CLP&quot;, &quot;CZK&quot;, &quot;DKK&quot;, &quot;HUF&quot;, &quot;MYR&quot;, &quot;SEK&quot;, &quot;IQD&quot;, &quot;RSD&quot;, &quot;HRK&quot;, &quot;EGP&quot;, &quot;IRR&quot;, &quot;AED&quot;, &quot;SAR&quot;, &quot;QAR&quot;, &quot;LBP&quot;, &quot;LYD&quot;, &quot;JOD&quot;, &quot;BGN&quot;, &quot;VND&quot;, &quot;CUP&quot;, &quot;BOB&quot;, &quot;COP&quot;, &quot;DOP&quot;, &quot;ISK&quot;, &quot;MOP&quot;, &quot;MAD&quot;, &quot;TND&quot;};
+int buyPriceIndex = random.nextInt(currencyList.length);
+if(random.nextInt(2)==0){
+	//最多4位小数，且多余的0不显示
+  	float f1 = random.nextFloat()*beishu;
+	map.put(&quot;offerBuyPrice&quot;, priceFormat.format(f1).toString());
+	//随机币种
+	map.put(&quot;offerBuyCry&quot;, currencyList[buyPriceIndex]);
 }
-log.info(&quot;!!!!!!!!!!!!!!&quot;+vars.get(&quot;offerTagId&quot;)+&quot;!!!!!!!!!!!!!&quot;);</stringProp>
+
+//是否生成sellprice，并随机给予数值
+int sellPriceIndex = random.nextInt(currencyList.length);
+if(random.nextInt(2)==0){
+	//最多4位小数，且多余的0不显示
+  	float f2 = random.nextFloat()*beishu;
+	map.put(&quot;offerSellPrice&quot;, priceFormat.format(f2).toString());
+	//随机币种
+	map.put(&quot;offerSellCry&quot;, currencyList[sellPriceIndex]);
+}
+//赋予buyprice和sellprice结束
+
+
+//***随机给予unit
+String[] unitList = {&quot;PCS&quot;, &quot;Set&quot;, &quot;Box&quot;, &quot;Pal&quot;, &quot;Doz&quot;, &quot;Pack&quot;, &quot;Pair&quot;, &quot;20ft&quot;, &quot;40ft&quot;, &quot;40ftHQ&quot;, &quot;g&quot;, &quot;kg&quot;, &quot;t&quot;, &quot;lb&quot;, &quot;ml&quot;, &quot;mm&quot;, &quot;l&quot;, &quot;cm&quot;, &quot;m&quot;, &quot;Inch&quot;, &quot;m2&quot;, &quot;w&quot;, &quot;v&quot;, &quot;a&quot;};
+int unitIndex = random.nextInt(unitList.length); 
+map.put(&quot;offerUnit&quot;, unitList[unitIndex]);
+
+//***随机取联系人种类和相应的userId：0=无，1=系统的，2=自定义的
+int contactStatus = random.nextInt(3);
+if(contactStatus==1){
+	if(!vars.get(&quot;contactUserId&quot;).equals(&quot;-1&quot;)){
+		map.put(&quot;contactUserId&quot;, vars.get(&quot;contactUserId&quot;));
+		map.put(&quot;contactStatus&quot;, &quot;1&quot;);
+	}else{
+		log.info(&quot;*************系统人没获取到****************&quot;);
+	}	
+}else{
+	if(contactStatus==2){
+		if(!vars.get(&quot;interContactId&quot;).equals(&quot;-1&quot;)){
+			map.put(&quot;contactUserId&quot;, vars.get(&quot;interContactId&quot;));
+			map.put(&quot;contactStatus&quot;, &quot;2&quot;);
+		}else{
+			log.info(&quot;*************自定义人没获取到****************&quot;);	
+		}
+	}else{
+		map.put(&quot;contactStatus&quot;, &quot;0&quot;);
+	}
+}
+
+//***加入offer制作时间
+map.put(&quot;makeOfferTime&quot;, String.valueOf(L));
+
+//***是否copy的offer，0=no，1=yes
+map.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
+
+//***打上offer tag
+//是否传tag
+if((!vars.get(&quot;offerTagId&quot;).equals(&quot;-1&quot;)) &amp;&amp; random.nextInt(2)==0){
+	StringBuffer sb5 = new StringBuffer();
+	String a = vars.get(&quot;offerTagId&quot;);
+	String[] b = a.split(&quot;,&quot;);
+	int c = random.nextInt(b.length)+1;
+	for(int p=0; p&lt;c; p++){
+	  if(p&lt;c-1){
+	      sb5.append(b[p]).append(&quot;,&quot;);
+	  }else{
+	      sb5.append(b[p]);
+	  }
+	}
+	map.put(&quot;arrTagId&quot;, sb5.toString());
+}
+
+
+////***随机赋予offer image
+//String[] imageList = {&quot;Fr8us5eIpFOo2iyE-AHIti2I58Y_&quot;,&quot;0004b56e-257d-4a34-b8a8-2720fc8e7306&quot;,&quot;000598fc-6c3c-4cb2-a7d4-502c74327774&quot;,&quot;0026a683-93d9-41fc-9c71-540cc9110f90&quot;,&quot;003e3b9a-0977-4d58-b492-397792424482&quot;,&quot;003f518a-3342-4295-a6e8-1f26f08fc8c7&quot;,&quot;00412efc-c20d-4d36-8f2a-2aca32fd9044&quot;,&quot;0042e9b4-66e6-4511-8b6f-3b0e19ab458f&quot;,&quot;004898c0-a52f-4c88-8d85-387a4ddd1002&quot;,&quot;004c047d-13d0-4d83-b473-1dbd3a9946c1&quot;,&quot;00570069-d045-4e25-844e-65dda9b1e205&quot;,&quot;00588ea5-fe2b-46dc-91bc-7b339b832230&quot;,&quot;005ae564-bd63-4e0e-be7d-cfa7d4cb6784&quot;,&quot;006834d4-3232-4b47-b171-6328c847fcae&quot;,&quot;00749fb9-ff53-4aad-a769-177dc600ca33&quot;,&quot;00788e51-80d8-4770-a6ce-bb0cb0818171&quot;,&quot;007e26e3-ae41-49d7-9587-8e91ff313f7e&quot;,&quot;0087d105-fe6c-486c-aa3e-da1c3e1b1264&quot;,&quot;00a1aacf-f37d-43b5-82e5-ef0e693222ba&quot;,&quot;00b2d0e8-74f7-4408-bcce-7048e67ed5d3&quot;,&quot;00b9c653-0ff0-4346-8ab4-384620d4e557&quot;,&quot;00c090b8-ea74-4011-8f48-26ec28b66d59&quot;,&quot;00c2a505-9145-4791-a3ea-02ad9bd646a6&quot;,&quot;00c571c6-575e-4c0f-9802-61d1b5992c93&quot;,&quot;00c95903-8814-4b02-b357-944d73748dbc&quot;,&quot;00cec076-666f-441f-879c-bc2d33bc7097&quot;,&quot;00cf9d13-68f1-4a7c-a4c2-786a8bbf3d01&quot;,&quot;00f263ab-9e67-456f-926e-a420802a5588&quot;,&quot;00f2bc5a-f1cc-4d79-ab66-f3d710f94ba0&quot;,&quot;00fa6b9e-d3af-4628-b8c9-08f2e0d0a4d1&quot;,&quot;010bb208-74a2-4646-92eb-464c38a623af&quot;,&quot;010de938-ab66-4eea-af27-8499b86ab329&quot;,&quot;011284e7-69a6-473d-867d-7a182285928d&quot;,&quot;0128f51e-09f4-4cba-bda7-47662df91e0b&quot;,&quot;012beded-01f9-40eb-b5dd-a0992fa3b2f5&quot;,&quot;012ec868-6dff-45b5-bcea-f874a512c78b&quot;,&quot;01351f2c-57c5-4624-8432-3ea8b09a8851&quot;,&quot;0135bf12-1f30-4a3b-9ac1-c966be6628ae&quot;,&quot;0136d762-ab8d-4fda-9dc2-ec5fde2d482d&quot;,&quot;0136ec2c-2325-48ab-a36d-87544480c284&quot;,&quot;0137fb2d-0116-4fd9-9b80-975b329b3a9a&quot;,&quot;0146df9b-8bc5-4804-989f-ab8f005711a7&quot;,&quot;0155cea9-8e23-4921-ac0f-880deb7b9a29&quot;,&quot;0158b7d8-b032-446f-b0bd-408f8fa81347&quot;,&quot;016a9109-899f-4989-906e-7e2ff56589b2&quot;,&quot;016ada83-1018-4123-8137-22c3194fdc6b&quot;,&quot;01766464-194c-43d4-84b6-1d86ddf8f5ec&quot;,&quot;018fb511-5eb2-41a1-b020-a7a6f4d35603&quot;,&quot;01a4c1d1-8663-4e2c-8030-41c66029a9a8&quot;,&quot;01ad954d-8574-4044-95a7-d58889e45160&quot;,&quot;01af3e27-096c-4d3d-8071-d78e8cdbf026&quot;,&quot;01b57344-e25f-4275-9116-1c75e693c817&quot;,&quot;01ba3c24-3529-40a5-9221-f249bb117d27&quot;,&quot;01c0b400-5af9-42d5-82e1-252a8bdd3ae5&quot;,&quot;01c8519e-b578-4063-b29d-efc510ba53f1&quot;,&quot;01d3f1df-0130-4957-bae3-231df5e83df8&quot;,&quot;01db2317-a68a-48b5-be2b-fbac4aa1715a&quot;,&quot;01db6242-36a7-449e-a030-3220735955da&quot;,&quot;01dc75a8-d15b-4312-8b86-48a1657943cc&quot;,&quot;01e1b2c3-a92b-4f4a-bfc5-c929fa5da338&quot;,&quot;01ec7255-4bc9-4501-be64-b1dfd5b0f26e&quot;,&quot;01ec754a-ff91-4e19-a481-ce76283b179e&quot;,&quot;01edd2da-2337-4cc7-9087-34ccdc0a5df0&quot;,&quot;01efd348-5995-41d0-a8bb-5be4e056067d&quot;,&quot;0203c5f1-439a-4267-83d0-c0275334338a&quot;,&quot;02106d0e-1fa4-49ab-8407-7d0aadd07744&quot;,&quot;02118803-7188-4197-bd2a-ab0bd008a911&quot;,&quot;02124f88-5fad-4fd2-9593-54382b84c719&quot;,&quot;02131505-2cf5-4abd-8d5c-9b8953ac883e&quot;,&quot;0219ade2-da42-4cbc-ad31-eec3fbbe5a3e&quot;,&quot;021e80b7-317c-4ca8-9573-29d9f3de6b77&quot;,&quot;0221a44f-c6bd-454a-82ca-3dc1a3ea5718&quot;,&quot;0223828e-9bab-48b9-b051-7cb514161665&quot;,&quot;022a4811-4692-4e1f-a310-00c7dae4944e&quot;,&quot;022e1f17-3426-4b9f-ac70-1c1f2b3be766&quot;,&quot;023fd0d9-88bd-4d57-a212-a3098100b7c8&quot;,&quot;024bed74-7b40-4dfe-a003-81e6d06faa4c&quot;,&quot;0250bc44-0d85-42b0-be39-04283dcd0fae&quot;,&quot;025885d5-1564-4358-8c2b-d07e2958684a&quot;,&quot;0262d733-ba23-4055-a6fa-514d011ea87e&quot;,&quot;026831c7-d7bd-4d1e-b968-81710a169f26&quot;,&quot;026907b1-f888-49ed-8e82-6e5240ba172f&quot;,&quot;0273314f-9caf-4c7a-ad2d-52821eaef816&quot;,&quot;02795747-736f-47d2-bf84-a9ad395a6c02&quot;,&quot;027a9acb-a193-4b3c-a411-1f45bf217265&quot;,&quot;0282d59d-7e38-41a1-900d-6d2ddf54f173&quot;,&quot;0283e303-f592-49b2-90dc-e8efb92b5aea&quot;,&quot;02921b20-05b6-4eae-bd91-e6a1cc9e9767&quot;,&quot;0293b4f8-5fe6-437c-a02a-8f1787ef596d&quot;,&quot;029b79be-5339-4fe5-bbac-426540f2946f&quot;,&quot;02a3a5f6-625e-4586-a0be-ff8e1130223e&quot;,&quot;02aae52e-bd62-46c2-97a4-b42addb4fb23&quot;,&quot;02b234eb-c2ae-4a62-8e7f-ca6d52a2f9c0&quot;,&quot;02b46d81-b6ef-4cb4-b311-fc02a47e380c&quot;,&quot;02ba8231-7998-4a1e-b3d1-98c7bf0ec12a&quot;,&quot;02bd6a40-c425-4874-ae99-1e4a604a4376&quot;,&quot;02c22205-f970-45b6-98cf-97ee1025b791&quot;,&quot;02c7d4f2-508e-4bab-92c7-88f344026be1&quot;,&quot;02c80463-7485-45f8-a055-2eaff49cde3c&quot;,&quot;02c8276b-fb73-4da2-9265-fc15b26456c9&quot;,&quot;02ce094d-d253-4fe9-816a-0765c1dd452d&quot;,&quot;02e32c33-bd81-4270-8c0f-77ae12fddd55&quot;,&quot;02e480cf-bcba-4c29-8cfd-edf29426270c&quot;,&quot;02f5d4c7-d6ae-4385-a63b-61e983fb976d&quot;,&quot;02f7996f-8550-4678-8c01-412dbd3723a6&quot;,&quot;03161402-744b-4f4a-b7c6-22660d836c88&quot;,&quot;0319d906-55fe-45e8-89c2-3fa6aacd7e1e&quot;,&quot;031a2e79-dd1f-4691-b9d8-055ec06b6f05&quot;,&quot;031c606f-28fe-4e49-8877-6d7cee16a1a3&quot;,&quot;03205dbc-601e-4ec4-baae-923b27522d9e&quot;,&quot;03272538-b0b6-4b7f-92fe-e15964ca0ea3&quot;,&quot;03296a1f-010c-4746-b262-89a4f65610c4&quot;,&quot;032bf9e6-2992-446a-8f12-81ae335ba406&quot;,&quot;03338233-ac44-45ac-9744-3fd71f3127ea&quot;,&quot;0333b126-efbd-4778-8996-e499c822a15f&quot;,&quot;0337cdac-30fd-45cd-8109-b09914c54069&quot;,&quot;033e5a78-1e2b-4be0-8a29-e6f4f3749ffe&quot;,&quot;0340bc13-83af-43fd-9a9c-4c72ad805711&quot;,&quot;0342d6a3-ae7d-4b96-b506-6c5207e2788e&quot;,&quot;034cfd93-5d63-4c5a-947e-0b58fba7b6d2&quot;,&quot;0351147e-0d42-4a63-a071-a175c1585f49&quot;,&quot;035338ee-f8f1-401e-9096-dfd1452707ec&quot;,&quot;0363b7e1-678a-4880-a1d0-85d9345d563e&quot;,&quot;03699c38-a097-498b-b2ab-85eed4d135a2&quot;,&quot;03701dfe-1676-47ab-8ea8-c8945b0409fa&quot;,&quot;0373fe2d-435d-40f4-9636-dc853e795187&quot;,&quot;0380db5c-f125-4427-a08b-592800e804f5&quot;,&quot;038bec54-f865-4b36-9f69-68dc54aba0b2&quot;,&quot;038c445b-5ae2-4f6f-a588-425682ba390a&quot;,&quot;0397937f-4635-4eba-b863-1f8457c29ae7&quot;,&quot;039c2870-d0ff-49dd-94f1-2229e478a175&quot;,&quot;03a20de9-0b54-44e0-8530-b59c5ae54d37&quot;,&quot;03a5a206-25ac-43e3-b390-3928bb66744e&quot;,&quot;03ad6588-a179-4492-a121-8882eaa7164a&quot;,&quot;03add517-7b9d-4d63-940b-0b2f6cfc9bfa&quot;,&quot;03b8eb13-d271-41c0-8a8d-8316ae7fa557&quot;,&quot;03b9a474-d06b-4600-a7fd-bb2017ee1be6&quot;,&quot;03bbcff1-f0c8-4b3d-8ddd-c5779a79cd4c&quot;,&quot;03bfd283-440d-46ab-8694-1c2cd5aa7b1c&quot;,&quot;03c0e40e-660b-4fab-ae20-d40cf4d22233&quot;,&quot;03d6f18a-3319-4f7d-a4e5-b7637e38b024&quot;,&quot;03df5308-2df5-4cf2-933e-ae800fde82e5&quot;,&quot;03e0e558-3b37-421d-89a7-fd249a692f3f&quot;,&quot;03ea9321-4c16-47b5-94ae-5bea8ae0056f&quot;,&quot;03f761b8-eb18-46cf-96e2-93817831c689&quot;,&quot;040fc87b-fe11-4a4d-a106-19f40c6e2f04&quot;,&quot;0415a0d3-3901-4e95-89e5-108c7534e90b&quot;,&quot;04168c45-a5c2-453c-b644-ff9fda2dd023&quot;,&quot;04193181-5e01-4935-a891-2e7d2012437e&quot;,&quot;041dfe84-2c33-483d-b920-e48bd281d704&quot;,&quot;041e9141-e043-482f-bf40-b40581322052&quot;,&quot;0427394a-0de8-4f0a-85b3-92114724d1f5&quot;,&quot;0432aea8-09af-48ec-a58b-a90435508518&quot;,&quot;04332850-f747-4bd2-a76b-5c004a4a3a39&quot;,&quot;043b714d-45b8-4b82-a667-0c5338c7f48e&quot;,&quot;04410d65-3198-4436-b773-bdb9128e307e&quot;,&quot;0446bbd8-5f15-4a77-aa22-ca8e0ef12465&quot;,&quot;0455f339-33f3-4882-bb2a-81b035aa731f&quot;,&quot;04594935-f9fc-4b41-90d6-e342e697b105&quot;,&quot;04637049-295f-4a18-8cbc-0d0dd5a322a9&quot;,&quot;04638e3a-b950-4ba7-b4a7-415f634ebd4b&quot;,&quot;04648540-ad07-47ca-b980-6b46d3bec803&quot;,&quot;046a54de-0039-4891-a051-70e61e37ea3c&quot;};
+//int imageNum = random.nextInt(9)+1;
+//StringBuffer sb4 = new StringBuffer();
+//sb4.append(&quot;&quot;);
+//for(int m=0; m&lt;imageNum; m++){
+//	if(m&lt;imageNum-1){
+//		int imageIndex = random.nextInt(imageList.length);
+//		sb4.append(imageList[imageIndex]).append(&quot;,&quot;);
+//	}else{
+//		int imageIndex = random.nextInt(imageList.length);
+//		sb4.append(imageList[imageIndex]);
+//	}
+//}
+//map.put(&quot;offerImg&quot;, sb4.toString());
+
+
+
+////***生成随机offerSheetArray
+////随机取产品sheet
+//String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing\&quot;},{\&quot;sheetName\&quot;:\&quot;MOQ\&quot;}]&quot;;
+////这里如果用List&lt;String&gt; list = new ArrayList&lt;String&gt;();会报错
+//list = new ArrayList();
+//list = JSON.parseArray(jsonString, String.class);
+////num=随机取得sheet个数，如果指定sheet个数可以赋值给它
+//int num = random.nextInt(list.size());
+//ArrayList sheetArray = new ArrayList();
+//for(int i=0; i&lt;num; i++){
+//	int newNum = random.nextInt(list.size());
+//	sheetArray.add(list.get(newNum));
+//	list.remove(newNum);
+//}
+//
+//JSONArray ja = new JSONArray();
+//for(int j=0; j&lt;num; j++){
+//	JSONObject jo = new JSONObject();
+//	JSONObject sheet = JSONObject.parseObject(sheetArray.get(j).toString());
+//	String sheetName = sheet.getString(&quot;sheetName&quot;);
+//	jo.put(&quot;sheetName&quot;, sheetName);
+//	
+//	// 随机给sheetValue赋值
+//	String str = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789欧加网络科技有限公司&quot;;
+//	StringBuffer sb3 = new StringBuffer();
+//	int sb3length = random.nextInt(str.length());
+//	for (int k = 0; k &lt; sb3length; k++) {
+//		int number = random.nextInt(str.length());
+//		sb3.append(str.charAt(number));
+//	}
+//	jo.put(&quot;sheetValue&quot;,sb3.toString());
+//	ja.add(jo);
+//}
+////map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
+//if(random.nextInt(2)==0){
+//	map.put(&quot;offerArrSheet&quot;, ja.toString());
+//}else{
+//	map.put(&quot;offerArrSheet&quot;, &quot;[]&quot;);	
+//}
+//
+////sheet生成结束
+////***入参赋值完毕
+
+
+
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+StringBuffer sb2 = new StringBuffer();
+sb2.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (str[j].equals(&quot;offerArrSheet&quot;)) {
+		sb2.append(str[j]).append(&quot;=&quot;).append(JSON.toJSON(ja));
+	} else {
+		sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	}
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+		sb2.append(&quot;&amp;&quot;);
+	} 
+}
+
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb2.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+vars.put(&quot;body&quot;, body);</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
