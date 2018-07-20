@@ -4,7 +4,7 @@
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="测试计划" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
@@ -15,7 +15,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">0</stringProp>
@@ -42,7 +42,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="连到内网" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="连到内网" enabled="true"/>
         <hashTree>
           <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 内网" enabled="true">
             <stringProp name="filename">config-内网.csv</stringProp>
@@ -73,7 +73,7 @@
           </JDBCDataSource>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="连到外网" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="连到外网" enabled="false"/>
         <hashTree>
           <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data 外网" enabled="true">
             <stringProp name="filename">config-外网.csv</stringProp>
@@ -1284,7 +1284,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
               </BeanShellAssertion>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="6.获取by supplier的supplier列表" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="6.获取by supplier的supplier列表" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -3719,7 +3719,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 		JSONObject original = response.getJSONObject(num);
 		Integer originalOfferId = original.getInteger(&quot;offerId&quot;);
 		vars.put(&quot;originalOfferId&quot;, originalOfferId.toString());
-		log.info(&quot;****************myProductId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
+//		log.info(&quot;****************myProductId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
 	}
 }
 </stringProp>
@@ -3895,9 +3895,12 @@ if (isEncrypt.equals(&quot;true&quot;)) {
 		original.remove(&quot;offerId&quot;);
 		original.remove(&quot;offerNo&quot;);
 		original.remove(&quot;sortTime&quot;);
-		if(original.getJSONArray(&quot;offerArrSheet&quot;).size()==0){
-			original.remove(&quot;offerArrSheet&quot;);
+		if(original.containsKey(&quot;offerArrSheet&quot;)){
+			if(original.getJSONArray(&quot;offerArrSheet&quot;).size()==0){
+				original.remove(&quot;offerArrSheet&quot;);
+			}
 		}
+		
 		vars.put(&quot;originalProduct&quot;, original.toJSONString());
 		log.info(&quot;****************原版=&quot;+vars.get(&quot;originalProduct&quot;)+&quot;****************&quot;);
 	}
@@ -3976,7 +3979,7 @@ map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 map.put(&quot;type&quot;, &quot;0&quot;);
 //如果是已删除的offerId需要单独再获取一次
 map.put(&quot;offerId&quot;, vars.get(&quot;originalOfferId&quot;));
-log.info(&quot;****************被copy的offerId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
+log.info(&quot;****************被copy的myProductId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
 
 //拼接入参
 String []str = new String[map.size()];
@@ -4349,6 +4352,11 @@ if (isEncrypt.equals(&quot;true&quot;)) {
 		duplicate.remove(&quot;offerId&quot;);
 		duplicate.remove(&quot;offerNo&quot;);
 		duplicate.remove(&quot;sortTime&quot;);
+		if(duplicate.containsKey(&quot;offerArrSheet&quot;)){
+			if(duplicate.getJSONArray(&quot;offerArrSheet&quot;).size()==0){
+			duplicate.remove(&quot;offerArrSheet&quot;);
+			}
+		}
 		vars.put(&quot;duplicateProduct&quot;, duplicate.toJSONString());
 		if(vars.get(&quot;duplicateProduct&quot;).equals(vars.get(&quot;originalProduct&quot;))){
 			Failure = false;
@@ -4655,7 +4663,7 @@ map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 map.put(&quot;type&quot;, &quot;2&quot;);
 //如果是已删除的offerId需要单独再获取一次
 map.put(&quot;offerId&quot;, vars.get(&quot;receivedOfferId&quot;));
-log.info(&quot;****************被copy的offerId=&quot;+vars.get(&quot;receivedOfferId&quot;)+&quot;****************&quot;);
+log.info(&quot;****************被copy的receivedOfferId=&quot;+vars.get(&quot;receivedOfferId&quot;)+&quot;****************&quot;);
 
 //拼接入参
 String []str = new String[map.size()];
@@ -5072,12 +5080,12 @@ if (isEncrypt.equals(&quot;true&quot;)) {
                 <hashTree/>
               </hashTree>
             </hashTree>
-            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="19.复制company product" enabled="false">
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="19.复制company product" enabled="true">
               <boolProp name="TransactionController.includeTimers">false</boolProp>
               <boolProp name="TransactionController.parent">false</boolProp>
             </TransactionController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.获取by member列表" enabled="false">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.获取by member列表" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -5184,12 +5192,12 @@ vars.put(&quot;body&quot;, body);
                 <hashTree/>
                 <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
-                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.list</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="获取userId" enabled="true">
+                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="随机获取memberId" enabled="true">
                   <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
 Random random = new Random();
@@ -5206,6 +5214,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 		vars.put(&quot;memberId&quot;, memberId.toString());
 		log.info(&quot;****************memberId=&quot;+vars.get(&quot;memberId&quot;)+&quot;****************&quot;);
 	}else{
+		vars.put(&quot;memberId&quot;, &quot;-1&quot;);
 		log.info(&quot;****************&quot;+${userId}+&quot;の公司里没人****************&quot;);
 	}
 }
@@ -5217,11 +5226,11 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 <hashTree/>
               </hashTree>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if：公司有人" enabled="true">
-                <stringProp name="IfController.condition"></stringProp>
+                <stringProp name="IfController.condition">&quot;${memberId}&quot;!=&quot;-1&quot;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
-                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.随机获取TA的某个产品" enabled="false">
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.随机获取TA的某个产品" enabled="true">
                   <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                     <collectionProp name="Arguments.arguments">
@@ -5324,78 +5333,33 @@ vars.put(&quot;body&quot;, body);
                     <stringProp name="Assertion.custom_message"></stringProp>
                   </ResponseAssertion>
                   <hashTree/>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
                   <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="获取offerId" enabled="true">
-                    <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
-import org.apache.jmeter.samplers.SampleResult; 
-import org.apache.jmeter.assertions.AssertionResult; 
-import org.json.*;
-import test.AesUtils;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-String isEncrypt = vars.get(&quot;isEncrypt&quot;).toLowerCase();
-if (isEncrypt.equals(&quot;true&quot;)) {
-	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
-	AesUtils appAes = new AesUtils();
-	String encrypt = vars.get(&quot;data&quot;);
-	vars.put(&quot;encrypt&quot;, encrypt);
-	if (encrypt.equals(&quot;-1&quot;)) {
-		
-		Failure = false;
-	} else {
-		try{
-			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
-			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
-			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
-			vars.put(&quot;jsonStr&quot;, jsonStr);
-
-//			// quotnId正则表达式规则
-//	          String regEx = &quot;\&quot;quotnId\&quot;:(.+?)}&quot;;
-//	          // 编译正则表达式
-//	          Pattern pattern = Pattern.compile(regEx);
-//	          // 忽略大小写的写法
-//	          // Pattern pat = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
-//	          Matcher matcher = pattern.matcher(jsonStr);
-//	          // 查找字符串中是否有匹配正则表达式的字符/字符串
-//	          while(matcher.find()) {
-//	        	   //获取匹配字符串
-//		        String rs = matcher.group(1);
-//		        vars.put(&quot;sendQuotnId&quot;, rs);
-//               }
-               
-		}catch(Exception e){
-			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
-			Failure = true;
-			
-		}
-	}
-} else {
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
 	Failure = false;
-     String encrypt = vars.get(&quot;data&quot;);
-	Pattern p1 = Pattern.compile(&quot;\&quot;offerId\&quot;:\\d+&quot;);
-	Pattern p3 = Pattern.compile(&quot;\\d+&quot;);
-	Matcher m1 = p1.matcher(encrypt);
-	while (m1.find()) {
-		  String a = m1.group();
-		  Matcher m3 = p3.matcher(a);
-		  m3.find();
-		  if(!m3.group().equals(0)){
-		      vars.put(&quot;offerId&quot;, m3.group().toString());
-		      log.info(&quot;**************offerId=&quot;+vars.get(&quot;offerId&quot;)+&quot;***************&quot;);
-		      break;
-		  }
-	} 
-}
-
-
-
-
-
-
-</stringProp>
+	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+	if(response.size() &gt; 0) {
+		int num = random.nextInt(response.size());
+		JSONObject offer = response.getJSONObject(num);
+		vars.put(&quot;memberOfferId&quot;, offer.getInteger(&quot;offerId&quot;).toString());
+		log.info(&quot;****************memberOfferId=&quot;+vars.get(&quot;memberOfferId&quot;)+&quot;****************&quot;);
+	}else{
+		vars.put(&quot;offerId&quot;, &quot;-1&quot;);
+		log.info(&quot;****************&quot;+${memberId}+&quot;这人没有产品****************&quot;);
+	}
+}</stringProp>
                     <stringProp name="BeanShellAssertion.filename"></stringProp>
                     <stringProp name="BeanShellAssertion.parameters"></stringProp>
                     <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
@@ -5456,8 +5420,8 @@ map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //以下为接口可变参数
-map.put(&quot;type&quot;, &quot;0&quot;);
-map.put(&quot;offerId&quot;, vars.get(&quot;originalOfferId&quot;));
+map.put(&quot;type&quot;, &quot;1&quot;);
+map.put(&quot;offerId&quot;, vars.get(&quot;memberOfferId&quot;));
 
 //拼接入参
 String []str = new String[map.size()];
@@ -5503,59 +5467,19 @@ vars.put(&quot;body&quot;, body);
                   <hashTree/>
                   <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
                     <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
-                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
                     <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
                     <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
                   </JSONPostProcessor>
                   <hashTree/>
                   <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="保存原版详情" enabled="true">
-                    <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
-import org.apache.jmeter.samplers.SampleResult; 
-import org.apache.jmeter.assertions.AssertionResult; 
-import org.json.*;
-import test.AesUtils;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-String isEncrypt = vars.get(&quot;isEncrypt&quot;).toLowerCase();
-if (isEncrypt.equals(&quot;true&quot;)) {
-	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
-	AesUtils appAes = new AesUtils();
-	String encrypt = vars.get(&quot;data&quot;);
-	vars.put(&quot;encrypt&quot;, encrypt);
-	if (encrypt.equals(&quot;-1&quot;)) {
-		
-		Failure = false;
-	} else {
-		try{
-			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
-			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
-			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
-			vars.put(&quot;jsonStr&quot;, jsonStr);
 
-//			// quotnId正则表达式规则
-//	          String regEx = &quot;\&quot;quotnId\&quot;:(.+?)}&quot;;
-//	          // 编译正则表达式
-//	          Pattern pattern = Pattern.compile(regEx);
-//	          // 忽略大小写的写法
-//	          // Pattern pat = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
-//	          Matcher matcher = pattern.matcher(jsonStr);
-//	          // 查找字符串中是否有匹配正则表达式的字符/字符串
-//	          while(matcher.find()) {
-//	        	   //获取匹配字符串
-//		        String rs = matcher.group(1);
-//		        vars.put(&quot;sendQuotnId&quot;, rs);
-//               }
-               
-		}catch(Exception e){
-			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
-			Failure = true;
-			
-		}
-	}
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	FailureMessage = &quot;没有获取到产品详情&quot;
+	Failure = true;
 } else {
 	Failure = false;
 	String encrypt = vars.get(&quot;data&quot;);
@@ -5566,6 +5490,22 @@ if (isEncrypt.equals(&quot;true&quot;)) {
 		original.remove(&quot;offerId&quot;);
 		original.remove(&quot;offerNo&quot;);
 		original.remove(&quot;sortTime&quot;);
+		original.remove(&quot;userId&quot;);
+		if(original.containsKey(&quot;contactCompany&quot;)){
+			original.remove(&quot;contactCompany&quot;);
+		}
+		if(original.containsKey(&quot;contactImg&quot;)){
+			original.remove(&quot;contactImg&quot;);
+		}
+		if(original.containsKey(&quot;contactName&quot;)){
+			original.remove(&quot;contactName&quot;);
+		}
+		if(original.containsKey(&quot;contactStatus&quot;)){
+			original.remove(&quot;contactStatus&quot;);
+		}
+		if(original.containsKey(&quot;contactUserId&quot;)){
+			original.remove(&quot;contactUserId&quot;);
+		}
 		if(original.getJSONArray(&quot;offerArrSheet&quot;).size()==0){
 			original.remove(&quot;offerArrSheet&quot;);
 		}
@@ -5644,10 +5584,10 @@ map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //以下为接口可变参数
-map.put(&quot;type&quot;, &quot;0&quot;);
+map.put(&quot;type&quot;, &quot;1&quot;);
 //如果是已删除的offerId需要单独再获取一次
-map.put(&quot;offerId&quot;, vars.get(&quot;originalOfferId&quot;));
-log.info(&quot;****************被copy的offerId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
+map.put(&quot;offerId&quot;, vars.get(&quot;memberOfferId&quot;));
+log.info(&quot;****************被copy的memberOfferId=&quot;+vars.get(&quot;memberOfferId&quot;)+&quot;****************&quot;);
 
 //拼接入参
 String []str = new String[map.size()];
@@ -6016,6 +5956,11 @@ if (isEncrypt.equals(&quot;true&quot;)) {
 		duplicate.remove(&quot;offerId&quot;);
 		duplicate.remove(&quot;offerNo&quot;);
 		duplicate.remove(&quot;sortTime&quot;);
+		duplicate.remove(&quot;userId&quot;);
+		if(original.containsKey(&quot;contactUserId&quot;)){
+			Failure = true;
+			log.info(&quot;****************&quot;+&quot;公司产品copy过来后未将contact滤掉！！&quot;+&quot;****************&quot;);
+		}
 		vars.put(&quot;duplicateProduct&quot;, duplicate.toString());
 		if(vars.get(&quot;duplicateProduct&quot;).equals(vars.get(&quot;originalProduct&quot;))){
 			Failure = false;
