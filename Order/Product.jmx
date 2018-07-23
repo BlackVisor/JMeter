@@ -20,6 +20,12 @@ vars.get(&quot;&quot;);
 vars.put(&quot;&quot;, &quot;&quot;);
 vars.put(&quot;&quot;, vars.get(&quot;&quot;));
 
+//调用请求加密和密码加密的方法
+AesUtils aes = new AesUtils();
+
+SaltyPwd password = new SaltyPwd();
+password.saltyPwd(&quot;&quot;);
+
 //生成随机字符
 char chinese = (char) (19968 + (int) (Math.random() * (40869 - 19968 + 1)));
 char japanese = (char) (2048 + (int) (Math.random() * (19968 - 2048 + 1)));
@@ -2924,6 +2930,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map;
+import java.util.ArrayList;
 import org.apache.commons.codec.digest.DigestUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -6134,21 +6141,34 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
           <hashTree/>
         </hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Debugging" enabled="true">
-          <stringProp name="BeanShellSampler.query">import offerplus.AesUtils;
-import offerplus.SaltyPwd;
+          <stringProp name="BeanShellSampler.query">import java.util.ArrayList;
+import java.util.Arrays;
 
 
+int min = 1003001;
+int max = 1003005;
+int[] users = {1,2,3,4,5};
+int first = max-min+1;
+int second = max-min+1;
+int third = 2;
+//这里用ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;  list = new ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;()直接定义三维动态数组方便点，可惜jmeter不支持泛型
+int[][][] combination = new int[first][second][third];
+for(int j=0; j&lt;(max-min+1); j++){
+  for(int k=j+1; k&lt;(max-min+1); k++){
+      combination[j][k][0] = users[j];
+      combination[j][k][1] = users[k];
+  }
+}
+int total = (max-min)*(max-min+1)/2;
 
-SaltyPwd pwd = new SaltyPwd();
-String oldPwd = &quot;Aa123456&quot;;
-String newPwd = pwd.saltyPwd(oldPwd);
-
-log.info(&quot;****************&quot;+newPwd+&quot;****************&quot;);
-
-AesUtils aes = new AesUtils();
-String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
-String waitAes = aes.aesWebEncrypt(&quot;Aa123456&quot;, KEY);
-log.info(&quot;****************&quot;+waitAes+&quot;****************&quot;);</stringProp>
+ArrayList combine = new ArrayList();
+for(int l=0; l&lt;first; l++){
+  for(int m=0; m&lt;second; m++){
+      if(combination[l][m][0]!=0 &amp;&amp; combination[l][m][1]!=0){
+          combine.add(Arrays.toString(combination[l][m]));
+      }
+  }
+}</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -6431,34 +6451,7 @@ vars.put(&quot;body&quot;, body);
 vars.put(&quot;minUser&quot;, &quot;1003001&quot;);
 vars.put(&quot;maxUser&quot;, &quot;1003002&quot;);
 //添加模式，0=只有这两个互相成为好友，1=两者之间的人全部成为好友
-vars.put(&quot;ifAddAll&quot;, &quot;1&quot;);
-
-//如果是批量添加就取排列组合
-int min = Integer.valueOf(vars.get(&quot;minUser&quot;));
-int max = Integer.valueOf(vars.get(&quot;maxUser&quot;))
-ArrayList&lt;Integer&gt; users = new ArrayList&lt;Integer&gt;();
-for(int i=0; i&lt;(max-min+1); i++){
-	users.add(min+i);
-}
-int num = (max-min)*(max-min+1)/2;
-//用类似手机信号的模型去模拟，每一轮共max-min个，然后将头部的那个去掉，剩下的再开始一轮，这样就不会重复了
-ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;  list = new ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;();
-for(int j=0; j&lt;(max-min+1); j++){
-	ArrayList&lt;ArrayList&lt;Integer&gt;&gt; listSub = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();
-	for(int k=j+1; k&lt;(max-min+1); k++){
-		ArrayList&lt;Integer&gt; listSubSub = new ArrayList&lt;Integer&gt;();
-		listSubSub.add(users.get(j));
-		listSubSub.add(users.get(k));
-		listSub.add(listSubSub);
-	}
-	list.add(listSub);//二维数组放到集合中
-}
-ArrayList combination = new ArrayList();
-for(int l=0; l&lt;list.size(); l++){
-	for(int m=0; m&lt;list.get(l).size(); m++){
-		combination.add(list.get(l).get(m));
-	}
-}</stringProp>
+vars.put(&quot;ifAddAll&quot;, &quot;1&quot;);</stringProp>
               <stringProp name="BeanShellSampler.filename"></stringProp>
               <stringProp name="BeanShellSampler.parameters"></stringProp>
               <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -6760,121 +6753,67 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
                 <stringProp name="WhileController.condition">vars.get(&quot;addOK&quot;)==&quot;0&quot;</stringProp>
               </WhileController>
               <hashTree>
-                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="某人请求添加他人" enabled="true">
-                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                    <collectionProp name="Arguments.arguments">
-                      <elementProp name="" elementType="HTTPArgument">
-                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                        <stringProp name="Argument.value">${body}</stringProp>
-                        <stringProp name="Argument.metadata">=</stringProp>
-                      </elementProp>
-                    </collectionProp>
-                  </elementProp>
-                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
-                  <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.protocol">http</stringProp>
-                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                  <stringProp name="HTTPSampler.path">${path}/addStangeUser.do</stringProp>
-                  <stringProp name="HTTPSampler.method">POST</stringProp>
-                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                </HTTPSamplerProxy>
-                <hashTree>
-                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
-                    <boolProp name="resetInterpreter">false</boolProp>
-                    <stringProp name="parameters"></stringProp>
-                    <stringProp name="filename"></stringProp>
-                    <stringProp name="script">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-
-long L = System.currentTimeMillis();
-
-Map map = new HashMap();
-Random random = new Random();
-
-//以下为接口必传参数
-map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
-map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
-map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
-map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
-map.put(&quot;timestamp&quot;, String.valueOf(L));
-map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
-map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
-
-
-//以下为接口可变参数
-if(vars.get(&quot;ifAddAll&quot;)==&quot;2&quot;){
-	${__counter(TRUE,addTimes)};
-	map.put(&quot;stranUserId&quot;, ${addTimes}+${minUser});
-	map.put(&quot;addRemark&quot;, map.get(&quot;stranUserId&quot;)+&quot; request to add &quot;+String.valueOf($(minUser))+&quot; as friend&quot;);
-	map.put(&quot;tagId&quot;, )
+                <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="确定这次互加的双方" enabled="true">
+                  <stringProp name="BeanShellSampler.query">int min = Integer.valueOf(vars.get(&quot;minUser&quot;));
+int max = Integer.valueOf(vars.get(&quot;maxUser&quot;));
+int first = max-min+1;
+int second = max-min+1;
+int third = 2;
+//这里用ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;  list = new ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;()直接定义三维动态数组方便点，可惜jmeter不支持泛型
+int[][][] combination = new int[first][second][third];
+for(int j=0; j&lt;(max-min+1); j++){
+  for(int k=j+1; k&lt;(max-min+1); k++){
+      combination[j][k][0] = users[j];
+      combination[j][k][1] = users[k];
+  }
 }
+int total = (max-min)*(max-min+1)/2;
 
-
-
-
-
-
-
-//拼接入参
-String []str = new String[map.size()];
-
-Iterator it = map.keySet().iterator();  
-
-StringBuffer sb = new StringBuffer();
-sb.append(&quot;&quot;);
-int i = 0;
-while(it.hasNext()) {
-	str[i] = (String) it.next();
-	i ++;
+ArrayList combine = new ArrayList();
+for(int l=0; l&lt;first; l++){
+  for(int m=0; m&lt;second; m++){
+      if(combination[l][m][0]!=0 &amp;&amp; combination[l][m][1]!=0){
+          combine.add(combination[l][m][0]);
+          combine.add(combination[l][m][1]);
+      }
+  }
 }
+${__counter(TRUE,queue)};
+vars.put(&quot;sender&quot;, combine.get(2*$(queue)-1));
+vars.put(&quot;receiver&quot;, combine.get($(queue)));
 
-//排序
-Arrays.sort(str);
 
-for (int j = 0; j &lt; str.length; j ++) {
-	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
-	if (j != str.length -1) {
-		sb.append(&quot;&amp;&quot;);
-	} 
-}
-
-//对入参进行MD5签名
-String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
-
-String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
-
-vars.put(&quot;body&quot;, body);
-</stringProp>
-                  </BeanShellTimer>
-                  <hashTree/>
-                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
-                    <collectionProp name="Asserion.test_strings">
-                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
-                    </collectionProp>
-                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                    <boolProp name="Assertion.assume_success">false</boolProp>
-                    <intProp name="Assertion.test_type">16</intProp>
-                    <stringProp name="Assertion.custom_message"></stringProp>
-                  </ResponseAssertion>
-                  <hashTree/>
-                </hashTree>
+//三维动态数组写法
+//int min = Integer.valueOf(vars.get(&quot;minUser&quot;));
+//int max = Integer.valueOf(vars.get(&quot;maxUser&quot;))
+//ArrayList&lt;Integer&gt; users = new ArrayList&lt;Integer&gt;();
+//for(int i=0; i&lt;(max-min+1); i++){
+//	users.add(min+i);
+//}
+//int num = (max-min)*(max-min+1)/2;
+////用类似手机信号的模型去模拟，每一轮共max-min个，然后将头部的那个去掉，剩下的再开始一轮，这样就不会重复了
+//ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;  list = new ArrayList&lt;ArrayList&lt;ArrayList&lt;Integer&gt;&gt;&gt;();
+//for(int j=0; j&lt;(max-min+1); j++){
+//	ArrayList&lt;ArrayList&lt;Integer&gt;&gt; listSub = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();
+//	for(int k=j+1; k&lt;(max-min+1); k++){
+//		ArrayList&lt;Integer&gt; listSubSub = new ArrayList&lt;Integer&gt;();
+//		listSubSub.add(users.get(j));
+//		listSubSub.add(users.get(k));
+//		listSub.add(listSubSub);
+//	}
+//	list.add(listSub);//二维数组放到集合中
+//}
+//ArrayList combination = new ArrayList();
+//for(int l=0; l&lt;list.size(); l++){
+//	for(int m=0; m&lt;list.get(l).size(); m++){
+//		combination.add(list.get(l).get(m));
+//	}
+//}</stringProp>
+                  <stringProp name="BeanShellSampler.filename"></stringProp>
+                  <stringProp name="BeanShellSampler.parameters"></stringProp>
+                  <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+                </BeanShellSampler>
+                <hashTree/>
                 <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录加人方" enabled="true">
                   <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -6917,10 +6856,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import offerplus.SaltyPwd;
 
 long L = System.currentTimeMillis();
 
 Map map = new HashMap();
+SaltyPwd password = new SaltyPwd();
 
 //以下为接口必传参数
 map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
@@ -6931,8 +6872,9 @@ map.put(&quot;timestamp&quot;, String.valueOf(L));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //以下为接口可变参数
-map.put(&quot;loginName&quot;, vars.get(&quot;loginUser&quot;));
-map.put(&quot;password&quot;, vars.get(&quot;loginPassword&quot;));
+map.put(&quot;loginName&quot;, vars.get(&quot;sender&quot;));
+log.info(&quot;****************发送方：&quot;+vars.get(&quot;sender&quot;)+&quot;登录****************&quot;);
+map.put(&quot;password&quot;, password.saltyPwd(&quot;Aa123456&quot;));
 
 
 
@@ -7149,6 +7091,121 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
                   </BeanShellAssertion>
                   <hashTree/>
                 </hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="加人方发送请求" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/addStangeUser.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+Random random = new Random();
+
+//以下为接口必传参数
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+
+//以下为接口可变参数
+if(vars.get(&quot;ifAddAll&quot;)==&quot;2&quot;){
+	${__counter(TRUE,addTimes)};
+	map.put(&quot;stranUserId&quot;, ${addTimes}+${minUser});
+	map.put(&quot;addRemark&quot;, map.get(&quot;stranUserId&quot;)+&quot; request to add &quot;+String.valueOf($(minUser))+&quot; as friend&quot;);
+	map.put(&quot;tagId&quot;, )
+}
+
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
                 <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="发送加好友请求" enabled="true">
                   <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -7286,7 +7343,7 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
                   </BeanShellAssertion>
                   <hashTree/>
                 </hashTree>
-                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="被加方同意" enabled="true">
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录接收方并同意" enabled="true">
                   <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                     <collectionProp name="Arguments.arguments">
