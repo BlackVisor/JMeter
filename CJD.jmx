@@ -71,7 +71,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -137,7 +137,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="连内网数据库" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="连内网数据库" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -153,7 +153,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -211,7 +211,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
           </elementProp>
           <elementProp name="userId" elementType="Argument">
             <stringProp name="Argument.name">userId</stringProp>
-            <stringProp name="Argument.value">1003027</stringProp>
+            <stringProp name="Argument.value">1001240</stringProp>
             <stringProp name="Argument.desc">单用户时的userId</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -219,7 +219,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="连外网数据库" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="连外网数据库" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -3714,18 +3714,21 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 	Failure = false;
 	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
 	if(response.size() &gt; 0) {
-		JSONArray temp = new JSONArray();
+		JSONArray friendGroup = new JSONArray();
 		for(int i=0; i&lt;response.size(); i++){
 			if(response.getJSONObject(i).getInteger(&quot;tagNum&quot;).intValue()&gt;0 &amp;&amp; !response.getJSONObject(i).getString(&quot;tagName&quot;).equals(&quot;Custom Supplier&quot;)) 
-				temp.add(response.getJSONObject(i));
+				friendGroup.add(response.getJSONObject(i));
 		}
-		if(temp.size()&gt;0){
-			int num = random.nextInt(temp.size());
-			Integer chosenUserTag = temp.getJSONObject(num).getInteger(&quot;tagId&quot;);
-			vars.put(&quot;chosenUserTag&quot;, String.valueOf(chosenUserTag));
-			log.info(&quot;****************获取の好友分组=&quot;+temp.getJSONObject(num).getString(&quot;tagName&quot;)+&quot;****************&quot;);
+		if(friendGroup.size()&gt;0){
+			vars.put(&quot;friendGroup&quot;, friendGroup.toJSONString());
+			vars.put(&quot;nextGroup&quot;, &quot;true&quot;);
+			vars.put(&quot;totalFriendGroup&quot;, friendGroup.size().toString());
+			vars.put(&quot;friendList&quot;, &quot;&quot;);
 		}else{
-			log.info(&quot;****************此人没有好友****************&quot;);
+			vars.put(&quot;friendGroup&quot;, &quot;-1&quot;);
+			vars.put(&quot;nextGroup&quot;, &quot;false&quot;);
+			Failure = true;
+			log.info(&quot;****************&quot;+${userId}+&quot;没有好友分组****************&quot;);
 		}
 	}
 }
@@ -3736,38 +3739,42 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 </BeanShellAssertion>
                 <hashTree/>
               </hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="随机取组里好友" enabled="true">
-                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                  <collectionProp name="Arguments.arguments">
-                    <elementProp name="" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                      <stringProp name="Argument.value">${body}</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                  </collectionProp>
-                </elementProp>
-                <stringProp name="HTTPSampler.domain">${host}</stringProp>
-                <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.protocol">http</stringProp>
-                <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                <stringProp name="HTTPSampler.path">${path}/queryUserTagDetail.do</stringProp>
-                <stringProp name="HTTPSampler.method">POST</stringProp>
-                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="TestPlan.comments">chosenFriend</stringProp>
-              </HTTPSamplerProxy>
+              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While:有好友" enabled="true">
+                <stringProp name="WhileController.condition">${nextGroup}</stringProp>
+              </WhileController>
               <hashTree>
-                <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
-                  <boolProp name="resetInterpreter">false</boolProp>
-                  <stringProp name="parameters"></stringProp>
-                  <stringProp name="filename"></stringProp>
-                  <stringProp name="script">import java.util.ArrayList;
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="按组取好友" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/queryUserTagDetail.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="TestPlan.comments">chosenFriend</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -3794,9 +3801,15 @@ map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //以下为接口可变参数
-map.put(&quot;tagId&quot;, vars.get(&quot;chosenUserTag&quot;));
-
-
+try{
+	${__counter(TRUE,addFriendQueue)};
+	JSONArray friendGroup = JSONArray.parseArray(vars.get(&quot;friendGroup&quot;));
+	map.put(&quot;tagId&quot;, friendGroup.getJSONObject(${addFriendQueue}-1).getInteger(&quot;tagId&quot;));
+}
+catch (Throwable ex) {
+    log.error(&quot;Something went wrong&quot;, ex);
+    throw ex;
+}
 
 
 
@@ -3831,27 +3844,27 @@ String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
 
 vars.put(&quot;body&quot;, body);
 </stringProp>
-                </BeanShellTimer>
-                <hashTree/>
-                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
-                  <collectionProp name="Asserion.test_strings">
-                    <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
-                  </collectionProp>
-                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
-                  <intProp name="Assertion.test_type">16</intProp>
-                  <stringProp name="Assertion.custom_message"></stringProp>
-                </ResponseAssertion>
-                <hashTree/>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
-                  <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
-                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.list</stringProp>
-                  <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
-                  <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
-                </JSONPostProcessor>
-                <hashTree/>
-                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="随机取好友" enabled="true">
-                  <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.list</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
+                  <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="随机取好友" enabled="true">
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
 Random random = new Random();
 if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
@@ -3861,13 +3874,37 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 	Failure = false;
 	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
 	if(response.size() &gt; 0) {
-		int num = random.nextInt(response.size());
-		vars.put(&quot;chosenFriend&quot;, response.getJSONObject(num).getInteger(&quot;contactUserId&quot;).toString());
-		log.info(&quot;****************获取の好友=&quot;+response.getJSONObject(num).getString(&quot;userName&quot;)+&quot;****************&quot;);
-	}else{
-		vars.put(&quot;chosenFriend&quot;, &quot;-1&quot;);
-		log.info(&quot;****************这个好友分组里并没有人****************&quot;);
+		StringBuffer sb = new StringBuffer();
+		sb.append(vars.get(&quot;friendList&quot;));
+		for(int i=0; i&lt;response.size(); i++){
+			if(i&lt;response.size()){
+				sb.append(response.getJSONObject(i).getInteger(&quot;contactUserId&quot;).toString()).append(&quot;,&quot;);
+			}else{
+				sb.append(response.getJSONObject(i).getInteger(&quot;contactUserId&quot;).toString());
+			}
+		}
+		vars.put(&quot;friendList&quot;, sb.toString());
 	}
+}
+</stringProp>
+                    <stringProp name="BeanShellAssertion.filename"></stringProp>
+                    <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                    <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                  </BeanShellAssertion>
+                  <hashTree/>
+                </hashTree>
+                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="终止循环断言" enabled="true">
+                  <stringProp name="BeanShellAssertion.query">try{
+	if(${addFriendQueue}==Integer.valueOf(vars.get(&quot;totalFriendGroup&quot;))){
+//		Failure = true;
+//		FailureMessage = &quot;所有联系人遍历完毕，此处断言用来终止遍历！！！&quot;;
+		vars.put(&quot;nextGroup&quot;, &quot;false&quot;);
+		log.info(&quot;****************&quot;+${userId}+&quot;の好友列表=&quot;+vars.get(&quot;friendList&quot;)+&quot;****************&quot;);
+	}
+}
+catch (Throwable ex) {
+    log.error(&quot;Something went wrong&quot;, ex);
+    throw ex;
 }
 </stringProp>
                   <stringProp name="BeanShellAssertion.filename"></stringProp>
@@ -3876,10 +3913,6 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 </BeanShellAssertion>
                 <hashTree/>
               </hashTree>
-              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="遍历取好友集" enabled="true">
-                <stringProp name="WhileController.condition"></stringProp>
-              </WhileController>
-              <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="取自定义人列表" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -4005,13 +4038,20 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 }else{
 	Failure = false;
 	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
-	if(response.size() &gt; 0) {
-		int num = random.nextInt(response.size());
-		vars.put(&quot;chosenCustom&quot;, response.getJSONObject(num).getInteger(&quot;interContactId&quot;).toString());
-		log.info(&quot;****************获取の自定人=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
+	if(response.size() &gt; 0){
+		StringBuffer sb = new StringBuffer();
+		for(int i=0; i&lt;response.size(); i++){
+			if(i&lt;response.size()){
+				sb.append(response.getJSONObject(i).getInteger(&quot;interContactId&quot;).toString()).append(&quot;,&quot;);
+			}else{
+				sb.append(response.getJSONObject(i).getInteger(&quot;interContactId&quot;).toString());
+			}
+		}
+		vars.put(&quot;customList&quot;, sb.toString());
+		log.info(&quot;****************&quot;+${userId}+&quot;の自定义人=&quot;+sb.toString()+&quot;****************&quot;);
 	}else{
-		log.info(&quot;****************用户&quot;+${userId}+&quot;没有自定义人****************&quot;);
-		vars.put(&quot;chosenCustom&quot;, &quot;-1&quot;);
+		vars.put(&quot;customList&quot;, &quot;-1&quot;);
+		log.info(&quot;****************&quot;+${userId}+&quot;没有自定义人****************&quot;);
 	}
 }
 </stringProp>
@@ -4145,12 +4185,19 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 	Failure = false;
 	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
 	if(response.size() &gt; 0) {
-		int num = random.nextInt(response.size());
-		vars.put(&quot;chosenTagId&quot;, response.getJSONObject(num).getInteger(&quot;offerTagId&quot;).toString());
-		log.info(&quot;****************获取のOfferTagId=&quot;+response.getJSONObject(num).getString(&quot;offerTagName&quot;)+&quot;****************&quot;);
+		StringBuffer sb = new StringBuffer();
+		for(int i=0; i&lt;response.size(); i++){
+			if(i&lt;response.size()){
+				sb.append(response.getJSONObject(i).getInteger(&quot;offerTagId&quot;).toString()).append(&quot;,&quot;);
+			}else{
+				sb.append(response.getJSONObject(i).getInteger(&quot;offerTagId&quot;).toString());
+			}
+		}
+		vars.put(&quot;offerTagList&quot;, sb.toString());
+		log.info(&quot;****************&quot;+${userId}+&quot;のOfferTagList=&quot;+sb.toString()+&quot;****************&quot;);
 	}else{
-		vars.put(&quot;chosenTagId&quot;, &quot;-1&quot;);
-		log.info(&quot;****************没有获取到OfferTagId****************&quot;);
+		vars.put(&quot;offerTagList&quot;, &quot;-1&quot;);
+		log.info(&quot;****************这个用户没有OfferTag****************&quot;);
 	}
 }
 </stringProp>
@@ -4160,10 +4207,10 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
               </BeanShellAssertion>
               <hashTree/>
             </hashTree>
-            <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：新建次数" enabled="false">
+            <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：新建次数" enabled="true">
               <boolProp name="LoopController.continue_forever">true</boolProp>
               <stringProp name="TestPlan.comments">循环次数=想新建的个数</stringProp>
-              <stringProp name="LoopController.loops">1</stringProp>
+              <stringProp name="LoopController.loops">19</stringProp>
             </LoopController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建产品（随机参数）" enabled="true">
@@ -4215,8 +4262,6 @@ long L = System.currentTimeMillis();
 Map map = new HashMap();
 Random random = new Random();
 Date date = new Date();
-DecimalFormat priceFormat = new DecimalFormat(&quot;0.####&quot;);//确定price的格式
-int beishu = 10*(random.nextInt(5)+1);//增加price的位数变化
 
 //以下为接口必传参数
 map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
@@ -4241,8 +4286,19 @@ String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quo
 int buyPriceIndex = random.nextInt(currencyList.length);
 if(random.nextInt(2)==0){
 	//最多4位小数，且多余的0不显示
-  	float f1 = random.nextFloat()*beishu;
-	map.put(&quot;offerBuyPrice&quot;, priceFormat.format(f1).toString());
+	StringBuffer pattern1 = new StringBuffer();
+	int index1 = random.nextInt(5);
+	if(index1==0){
+		pattern1.append(&quot;0&quot;);	
+	}else{
+		pattern1.append(&quot;0.&quot;);
+		for(int i=0; i&lt;index1; i++){
+			pattern1.append(&quot;#&quot;);
+		}
+	}
+	DecimalFormat priceFormat1 = new DecimalFormat(pattern1.toString());
+  	double d1 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
+	map.put(&quot;offerBuyPrice&quot;, priceFormat1.format(d1).toString());
 	//随机币种
 	map.put(&quot;offerBuyCry&quot;, currencyList[buyPriceIndex]);
 }
@@ -4251,8 +4307,19 @@ if(random.nextInt(2)==0){
 int sellPriceIndex = random.nextInt(currencyList.length);
 if(random.nextInt(2)==0){
 	//最多4位小数，且多余的0不显示
-  	float f2 = random.nextFloat()*beishu;
-	map.put(&quot;offerSellPrice&quot;, priceFormat.format(f2).toString());
+  	StringBuffer pattern2 = new StringBuffer();
+	int index2 = random.nextInt(5);
+	if(index2==0){
+		pattern2.append(&quot;0&quot;);	
+	}else{
+		pattern2.append(&quot;0.&quot;);
+		for(int j=0; j&lt;index2; j++){
+			pattern2.append(&quot;#&quot;);
+		}
+	}
+	DecimalFormat priceFormat2 = new DecimalFormat(pattern2.toString());
+  	double d2 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
+	map.put(&quot;offerSellPrice&quot;, priceFormat2.format(d2).toString());
 	//随机币种
 	map.put(&quot;offerSellCry&quot;, currencyList[sellPriceIndex]);
 }
@@ -4267,19 +4334,21 @@ map.put(&quot;offerUnit&quot;, unitList[unitIndex]);
 //***随机取联系人种类和相应的userId：0=无，1=系统的，2=自定义的
 int contactStatus = random.nextInt(2)+1;
 if(contactStatus==1){
-	if(!vars.get(&quot;contactUserId&quot;).equals(&quot;-1&quot;)){
-		map.put(&quot;contactUserId&quot;, vars.get(&quot;chosenFriend&quot;));
+	if(!vars.get(&quot;friendGroup&quot;).equals(&quot;-1&quot;)){
+		String[] friendList = vars.get(&quot;friendList&quot;).split(&quot;,&quot;);
+		map.put(&quot;contactUserId&quot;, friendList[random.nextInt(friendList.length)]);
 		map.put(&quot;contactStatus&quot;, &quot;1&quot;);
 	}else{
 		log.info(&quot;*************系统人没获取到****************&quot;);
 		map.put(&quot;contactStatus&quot;, &quot;0&quot;);
 	}	
 }else{
-	if(!vars.get(&quot;interContactId&quot;).equals(&quot;-1&quot;)){
-		map.put(&quot;contactUserId&quot;, vars.get(&quot;chosenCustom&quot;));
+	if(!vars.get(&quot;customList&quot;).equals(&quot;-1&quot;)){
+		String[] customList = vars.get(&quot;customList&quot;).split(&quot;,&quot;);
+		map.put(&quot;contactUserId&quot;, customList[random.nextInt(customList.length)]);
 		map.put(&quot;contactStatus&quot;, &quot;2&quot;);
 	}else{
-		log.info(&quot;*************自定义人没获取到****************&quot;);
+		log.info(&quot;*************这个Offer没联系人****************&quot;);
 		map.put(&quot;contactStatus&quot;, &quot;0&quot;);
 	}
 }
@@ -4292,9 +4361,9 @@ map.put(&quot;offerIsCopy&quot;, &quot;0&quot;);
 
 //***打上offer tag
 //是否传tag
-if((!vars.get(&quot;offerTagId&quot;).equals(&quot;-1&quot;)) &amp;&amp; random.nextInt(2)==0){
+if((!vars.get(&quot;offerTagList&quot;).equals(&quot;-1&quot;)) &amp;&amp; random.nextInt(2)==0){
 	StringBuffer sb5 = new StringBuffer();
-	String a = vars.get(&quot;offerTagId&quot;);
+	String a = vars.get(&quot;offerTagList&quot;);
 	String[] b = a.split(&quot;,&quot;);
 	int c = random.nextInt(b.length);
 	for(int p=0; p&lt;=c; p++){
