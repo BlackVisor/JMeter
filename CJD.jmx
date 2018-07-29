@@ -71,7 +71,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -137,7 +137,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -153,7 +153,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -219,7 +219,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -235,7 +235,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV(压测时设定参数)" enabled="false">
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV(压测时启用)" enabled="false">
         <stringProp name="filename">config.csv</stringProp>
         <stringProp name="fileEncoding">utf-8</stringProp>
         <stringProp name="variableNames">userId,packageName,appType,version,languagePack,source,isEncrypt,path</stringProp>
@@ -4199,6 +4199,11 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 		vars.put(&quot;offerTagList&quot;, &quot;-1&quot;);
 		log.info(&quot;****************这个用户没有OfferTag****************&quot;);
 	}
+	if(response.size()&gt;49){
+		vars.put(&quot;addTagOK&quot;, &quot;false&quot;);
+	}else{
+		vars.put(&quot;addTagOK&quot;, &quot;true&quot;);
+	}
 }
 </stringProp>
                 <stringProp name="BeanShellAssertion.filename"></stringProp>
@@ -4207,10 +4212,171 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
               </BeanShellAssertion>
               <hashTree/>
             </hashTree>
-            <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：新建几个" enabled="true">
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if：新建OfferTag" enabled="true">
+              <stringProp name="TestPlan.comments">addTagOK需要在上个sample赋值true或false</stringProp>
+              <stringProp name="IfController.condition">${addTagOK}</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建随机几个tag" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">${body}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                <stringProp name="HTTPSampler.port">${port}</stringProp>
+                <stringProp name="HTTPSampler.protocol">http</stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                <stringProp name="HTTPSampler.path">${path}/newOfferTag.do</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                  <boolProp name="resetInterpreter">false</boolProp>
+                  <stringProp name="parameters"></stringProp>
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+Random random = new Random();
+
+//以下为接口必传参数
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+//定义循环控制变量
+String[] offerTagList = vars.get(&quot;offerTagList&quot;).split(&quot;,&quot;);
+//以下为接口可变参数
+int newCount = 50 - offerTagList.length;
+StringBuffer sb = new StringBuffer();
+int num = random.nextInt(newCount)+1;
+for(int i=0; i&lt;num; i++){
+	char korean = (char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1)));
+	if(i&lt;num-1){
+	 sb.append(&quot;\&quot;&quot;+vars.get(&quot;userId&quot;)+&quot;のtag&gt;&gt;&gt;&quot;+korean+Integer.toString(random.nextInt(10000))+korean+&quot;\&quot;&quot;+&quot;,&quot;);
+	}else{
+	 sb.append(&quot;\&quot;&quot;+vars.get(&quot;userId&quot;)+&quot;のtag&gt;&gt;&gt;&quot;+korean+Integer.toString(random.nextInt(10000))+korean+&quot;\&quot;&quot;);
+	}
+}
+map.put(&quot;offerTagName&quot;, &quot;[&quot;+sb.toString()+&quot;]&quot;);
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                </BeanShellTimer>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                  <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.list</stringProp>
+                  <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                  <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                </JSONPostProcessor>
+                <hashTree/>
+                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="新建的tag们加入tag列表" enabled="true">
+                  <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+	if(response.size() &gt; 0) {
+		StringBuffer sb = new StringBuffer();
+		for(int i=0; i&lt;response.size(); i++){
+			if(i&lt;response.size()){
+				sb.append(response.getJSONObject(i).getInteger(&quot;offerTagId&quot;).toString()).append(&quot;,&quot;);
+			}else{
+				sb.append(response.getJSONObject(i).getInteger(&quot;offerTagId&quot;).toString());
+			}
+		}
+		vars.put(&quot;offerTagList&quot;, vars.get(&quot;offerTagList&quot;)+&quot;,&quot;+sb.toString());
+		log.info(&quot;****************&quot;+${userId}+&quot;のOfferTagList=&quot;+vars.get(&quot;offerTagList&quot;)+&quot;****************&quot;);
+	}else{
+		log.info(&quot;****************没有再加OfferTag****************&quot;);
+	}
+}
+</stringProp>
+                  <stringProp name="BeanShellAssertion.filename"></stringProp>
+                  <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                  <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                </BeanShellAssertion>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
+            <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：设定新建几个" enabled="true">
               <boolProp name="LoopController.continue_forever">true</boolProp>
-              <stringProp name="TestPlan.comments">循环次数=想新建的个数</stringProp>
-              <stringProp name="LoopController.loops">1</stringProp>
+              <stringProp name="LoopController.loops">7</stringProp>
             </LoopController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建产品（随机参数）" enabled="true">
@@ -4745,201 +4911,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="16.Tag没超50个就随机新建" enabled="false">
-            <stringProp name="IfController.condition">${tagcount_1} &lt; 50</stringProp>
-            <boolProp name="IfController.evaluateAll">false</boolProp>
-          </IfController>
-          <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建随机tag" enabled="true">
-              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${body}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">http</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">${path}/newOfferTag.do</stringProp>
-              <stringProp name="HTTPSampler.method">POST</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-            </HTTPSamplerProxy>
-            <hashTree>
-              <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="BeanShell Timer" enabled="true">
-                <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="parameters"></stringProp>
-                <stringProp name="filename"></stringProp>
-                <stringProp name="script">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-
-long L = System.currentTimeMillis();
-
-Map map = new HashMap();
-Random random = new Random();
-
-//以下为接口必传参数
-map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
-map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
-map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
-map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
-map.put(&quot;timestamp&quot;, String.valueOf(L));
-map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
-map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
-
-//以下为接口可变参数
-int newCount = 50-Integer.valueOf(vars.get(&quot;tagcount_1&quot;));
-StringBuffer sb = new StringBuffer();
-int num = random.nextInt(newCount)+1;
-for(int i=0; i&lt;num; i++){
-	char korean = (char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1)));
-	if(i&lt;num-1){
-	 sb.append(&quot;\&quot;&quot;+vars.get(&quot;userId&quot;)+&quot;のtag:&quot;+korean+korean+korean+Integer.toString(random.nextInt(10000))+&quot;\&quot;&quot;+&quot;,&quot;);
-	}else{
-	 sb.append(&quot;\&quot;&quot;+vars.get(&quot;userId&quot;)+&quot;のtag:&quot;+korean+korean+korean+Integer.toString(random.nextInt(10000))+&quot;\&quot;&quot;);
-	}
-}
-map.put(&quot;offerTagName&quot;, &quot;[&quot;+sb.toString()+&quot;]&quot;);
-
-
-//拼接入参
-String []str = new String[map.size()];
-
-Iterator it = map.keySet().iterator();  
-
-StringBuffer sb = new StringBuffer();
-sb.append(&quot;&quot;);
-int i = 0;
-while(it.hasNext()) {
-	str[i] = (String) it.next();
-	i ++;
-}
-
-//排序
-Arrays.sort(str);
-
-for (int j = 0; j &lt; str.length; j ++) {
-	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
-	if (j != str.length -1) {
-		sb.append(&quot;&amp;&quot;);
-	} 
-}
-
-//对入参进行MD5签名
-String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
-
-String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
-
-vars.put(&quot;body&quot;, body);
-</stringProp>
-              </BeanShellTimer>
-              <hashTree/>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
-                <intProp name="Assertion.test_type">16</intProp>
-                <stringProp name="Assertion.custom_message"></stringProp>
-              </ResponseAssertion>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则表达式提取器" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                <stringProp name="RegexExtractor.refname">data</stringProp>
-                <stringProp name="RegexExtractor.regex">(.+)</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default">-1</stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
-                <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
-import org.apache.jmeter.samplers.SampleResult; 
-import org.apache.jmeter.assertions.AssertionResult; 
-import org.json.*;
-import test.AesUtils;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-String isEncrypt = vars.get(&quot;isEncrypt&quot;).toLowerCase();
-if (isEncrypt.equals(&quot;true&quot;)) {
-	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
-	AesUtils appAes = new AesUtils();
-	String encrypt = vars.get(&quot;data&quot;);
-	vars.put(&quot;encrypt&quot;, encrypt);
-	if (encrypt.equals(&quot;-1&quot;)) {
-		
-		Failure = false;
-	} else {
-		try{
-			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
-			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
-			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
-			vars.put(&quot;jsonStr&quot;, jsonStr);
-
-//			// quotnId正则表达式规则
-//	          String regEx = &quot;\&quot;quotnId\&quot;:(.+?)}&quot;;
-//	          // 编译正则表达式
-//	          Pattern pattern = Pattern.compile(regEx);
-//	          // 忽略大小写的写法
-//	          // Pattern pat = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
-//	          Matcher matcher = pattern.matcher(jsonStr);
-//	          // 查找字符串中是否有匹配正则表达式的字符/字符串
-//	          while(matcher.find()) {
-//	        	   //获取匹配字符串
-//		        String rs = matcher.group(1);
-//		        vars.put(&quot;sendQuotnId&quot;, rs);
-//               }
-               
-		}catch(Exception e){
-			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
-			Failure = true;
-			
-		}
-	}
-} else {
-	Failure = false;
-     //vars.put(&quot;jsonStr&quot;, &quot;-1&quot;);	
-}
-
-
-
-
-
-
-</stringProp>
-                <stringProp name="BeanShellAssertion.filename"></stringProp>
-                <stringProp name="BeanShellAssertion.parameters"></stringProp>
-                <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-              </BeanShellAssertion>
-              <hashTree/>
-            </hashTree>
-          </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="17.复制my product" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="16.复制my product" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -5735,7 +5707,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
               <hashTree/>
             </hashTree>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="18.复制received product" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="17.复制received product" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -6433,7 +6405,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
               <hashTree/>
             </hashTree>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="19.复制company product" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="18.复制company product" enabled="false">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -7527,7 +7499,7 @@ catch (Throwable ex) {
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="公共方法" enabled="false"/>
         <hashTree>
-          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：批量改头像" enabled="false">
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：批量改头像" enabled="true">
             <boolProp name="LoopController.continue_forever">true</boolProp>
             <stringProp name="LoopController.loops">1</stringProp>
           </LoopController>
@@ -7792,6 +7764,195 @@ vars.put(&quot;body&quot;, body);
                 <intProp name="Assertion.test_type">16</intProp>
                 <stringProp name="Assertion.custom_message"></stringProp>
               </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if：新建OfferTag" enabled="true">
+            <stringProp name="TestPlan.comments">addTagOK需要在上个sample赋值true或false</stringProp>
+            <stringProp name="IfController.condition">${addTagOK}</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建随机几个tag" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">${body}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${host}</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
+              <stringProp name="HTTPSampler.protocol">http</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+              <stringProp name="HTTPSampler.path">${path}/newOfferTag.do</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+Random random = new Random();
+
+//以下为接口必传参数
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+//定义循环控制变量
+${__counter(TRUE,addTagQueue)};
+//以下为接口可变参数
+int newCount = 50-Integer.valueOf(vars.get(&quot;tagcount_1&quot;));
+StringBuffer sb = new StringBuffer();
+int num = random.nextInt(newCount)+1;
+for(int i=0; i&lt;num; i++){
+	char korean = (char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1)));
+	if(i&lt;num-1){
+	 sb.append(&quot;\&quot;&quot;+vars.get(&quot;userId&quot;)+&quot;のtag:&quot;+korean+Integer.toString(random.nextInt(10000))+korean+&quot;\&quot;&quot;+&quot;,&quot;);
+	}else{
+	 sb.append(&quot;\&quot;&quot;+vars.get(&quot;userId&quot;)+&quot;のtag:&quot;+korean+Integer.toString(random.nextInt(10000))+korean+&quot;\&quot;&quot;);
+	}
+}
+map.put(&quot;offerTagName&quot;, &quot;[&quot;+sb.toString()+&quot;]&quot;);
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+              </BeanShellTimer>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <stringProp name="Assertion.custom_message"></stringProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则表达式提取器" enabled="true">
+                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                <stringProp name="RegexExtractor.refname">data</stringProp>
+                <stringProp name="RegexExtractor.regex">(.+)</stringProp>
+                <stringProp name="RegexExtractor.template">$1$</stringProp>
+                <stringProp name="RegexExtractor.default">-1</stringProp>
+                <stringProp name="RegexExtractor.match_number">1</stringProp>
+              </RegexExtractor>
+              <hashTree/>
+              <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+                <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+
+String isEncrypt = vars.get(&quot;isEncrypt&quot;).toLowerCase();
+if (isEncrypt.equals(&quot;true&quot;)) {
+	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
+	AesUtils appAes = new AesUtils();
+	String encrypt = vars.get(&quot;data&quot;);
+	vars.put(&quot;encrypt&quot;, encrypt);
+	if (encrypt.equals(&quot;-1&quot;)) {
+		
+		Failure = false;
+	} else {
+		try{
+			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
+			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
+			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
+			vars.put(&quot;jsonStr&quot;, jsonStr);
+
+//			// quotnId正则表达式规则
+//	          String regEx = &quot;\&quot;quotnId\&quot;:(.+?)}&quot;;
+//	          // 编译正则表达式
+//	          Pattern pattern = Pattern.compile(regEx);
+//	          // 忽略大小写的写法
+//	          // Pattern pat = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
+//	          Matcher matcher = pattern.matcher(jsonStr);
+//	          // 查找字符串中是否有匹配正则表达式的字符/字符串
+//	          while(matcher.find()) {
+//	        	   //获取匹配字符串
+//		        String rs = matcher.group(1);
+//		        vars.put(&quot;sendQuotnId&quot;, rs);
+//               }
+               
+		}catch(Exception e){
+			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
+			Failure = true;
+			
+		}
+	}
+} else {
+	Failure = false;
+     //vars.put(&quot;jsonStr&quot;, &quot;-1&quot;);	
+}
+
+
+
+
+
+
+</stringProp>
+                <stringProp name="BeanShellAssertion.filename"></stringProp>
+                <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+              </BeanShellAssertion>
               <hashTree/>
             </hashTree>
           </hashTree>
