@@ -71,7 +71,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -137,7 +137,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -153,7 +153,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -219,7 +219,7 @@ String[] headImageList = {&quot;2066c008-8d77-11e8-836c-206a8a7896d1&quot;,&quot
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -7313,7 +7313,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Inquiry" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Inquiry" enabled="false"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录用户" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -7606,13 +7606,13 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="true"/>
         <hashTree>
-          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="定义用户" enabled="true">
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="谁想充值" enabled="true">
             <collectionProp name="UserParameters.names">
               <stringProp name="-649439915">memberId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1559462957">
-                <stringProp name="1958132462">1004001</stringProp>
+              <collectionProp name="537425959">
+                <stringProp name="1958045010">1001200</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -7745,7 +7745,7 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
 	Failure = false;
 	JSONObject response = JSONObject.parseObject(vars.get(&quot;response&quot;));
 	if(response.containsKey(&quot;data&quot;)) {
-		vars.put(&quot;tokenId&quot;, response.getJSONObject(&quot;data&quot;).getString(&quot;tokenId&quot;).toString());
+		vars.put(&quot;tokenId&quot;, response.getJSONObject(&quot;data&quot;).getString(&quot;tokenId&quot;));
 		switch(response.getJSONObject(&quot;data&quot;).getInteger(&quot;userType&quot;)){
 			case 0:
 				switch(response.getJSONObject(&quot;data&quot;).getInteger(&quot;memberStatus&quot;)){
@@ -7766,6 +7766,9 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
 				break;
 			case 1:
 				switch(response.getJSONObject(&quot;data&quot;).getInteger(&quot;memberStatus&quot;)){
+					case 0:
+						log.error(&quot;****************主账号的memberStatus不可能为0，故为脏数据****************&quot;);
+						break;
 					case 1:
 						vars.put(&quot;rechargeType&quot;, &quot;1&quot;);
 						break;
@@ -7780,7 +7783,7 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
 				break;
 			case 2:
 				vars.put(&quot;rechargeType&quot;, &quot;-1&quot;);
-				log.info(&quot;****************这号是子账号不能充值****************&quot;);
+				log.error(&quot;****************这号是子账号不能充值****************&quot;);
 				break;	
 		}
 	}else{
@@ -8194,8 +8197,8 @@ map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 //额外包的type=2
 map.put(&quot;type&quot;, &quot;2&quot;);
 //随机要买的子账号数和产品名额,上下限定义如右rand.nextInt((max - min) + 1) + min
-map.put(&quot;subAccountTotal&quot;, random.nextInt((20-10)+1)+10);
-map.put(&quot;productTotal&quot;, random.nextInt((20-10)+1)+10);
+map.put(&quot;subAccountTotal&quot;, random.nextInt((30-10)+1)+10);
+map.put(&quot;productTotal&quot;, random.nextInt((30-10)+1)+10);
 
 //拼接入参
 String []str = new String[map.size()];
