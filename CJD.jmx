@@ -138,7 +138,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -196,7 +196,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           </elementProp>
           <elementProp name="userId" elementType="Argument">
             <stringProp name="Argument.name">userId</stringProp>
-            <stringProp name="Argument.value">1003006</stringProp>
+            <stringProp name="Argument.value">1001240</stringProp>
             <stringProp name="Argument.desc">单用户时的userId</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -204,7 +204,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -220,7 +220,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -286,7 +286,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -360,7 +360,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录用户" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -4443,7 +4443,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
             <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：设定新建几个" enabled="true">
               <boolProp name="LoopController.continue_forever">true</boolProp>
-              <stringProp name="LoopController.loops">15</stringProp>
+              <stringProp name="LoopController.loops">20</stringProp>
             </LoopController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建产品（随机参数）" enabled="true">
@@ -4480,10 +4480,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map;
-import java.util.ArrayList;
 import org.apache.commons.codec.digest.DigestUtils;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import java.math.BigDecimal;
@@ -4505,9 +4502,12 @@ map.put(&quot;timestamp&quot;, String.valueOf(L));
 map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
+JSONObject commonList = JSONObject.parseObject(props.get(&quot;commonList&quot;));
+
 //生成随机offerName
 DateFormat df2 = DateFormat.getDateTimeInstance();//可以精确到时分秒
-map.put(&quot;offerName&quot;, ${userId}+&quot;\&apos;s offer is created at:&quot;+df2.format(date).toString());
+//map.put(&quot;offerName&quot;, ${userId}+&quot;\&apos;s offer is created at:&quot;+df2.format(date).toString());
+map.put(&quot;offerName&quot;, ${userId}+&quot;的产品创建于:&quot;+df2.format(date).toString());
 
 //生成随机description
 map.put(&quot;offerDescrip&quot;, ${userId}+&quot;的offer description，该offer创建于:&quot;+df2.format(date).toString());
@@ -4515,8 +4515,7 @@ map.put(&quot;offerDescrip&quot;, ${userId}+&quot;的offer description，该offe
 
 //***开始生成buyprice和sellprice
 //是否生成buyprice，并随机给予数值
-String[] currencyList = {&quot;USD&quot;, &quot;CNY&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;CHF&quot;, &quot;JPY&quot;, &quot;RUB&quot;, &quot;INR&quot;, &quot;CAD&quot;, &quot;AUD&quot;, &quot;BRL&quot;, &quot;HKD&quot;, &quot;TRY&quot;, &quot;ILS&quot;, &quot;NZD&quot;, &quot;PKR&quot;, &quot;SGD&quot;, &quot;ZAR&quot;, &quot;THB&quot;, &quot;PHP&quot;, &quot;MXN&quot;, &quot;KRW&quot;, &quot;NOK&quot;, &quot;PLN&quot;, &quot;IDR&quot;, &quot;CLP&quot;, &quot;CZK&quot;, &quot;DKK&quot;, &quot;HUF&quot;, &quot;MYR&quot;, &quot;SEK&quot;, &quot;IQD&quot;, &quot;RSD&quot;, &quot;HRK&quot;, &quot;EGP&quot;, &quot;IRR&quot;, &quot;AED&quot;, &quot;SAR&quot;, &quot;QAR&quot;, &quot;LBP&quot;, &quot;LYD&quot;, &quot;JOD&quot;, &quot;BGN&quot;, &quot;VND&quot;, &quot;CUP&quot;, &quot;BOB&quot;, &quot;COP&quot;, &quot;DOP&quot;, &quot;ISK&quot;, &quot;MOP&quot;, &quot;MAD&quot;, &quot;TND&quot;};
-int buyPriceIndex = random.nextInt(currencyList.length);
+JSONArray currencyList = commonList.getJSONArray(&quot;currencyList&quot;); 
 if(random.nextInt(2)==0){
 	//最多4位小数，且多余的0不显示
 	StringBuffer pattern1 = new StringBuffer();
@@ -4533,11 +4532,10 @@ if(random.nextInt(2)==0){
   	double d1 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
 	map.put(&quot;offerBuyPrice&quot;, priceFormat1.format(d1).toString());
 	//随机币种
-	map.put(&quot;offerBuyCry&quot;, currencyList[buyPriceIndex]);
+	map.put(&quot;offerBuyCry&quot;, currencyList.get(random.nextInt(currencyList.size())));
 }
 
 //是否生成sellprice，并随机给予数值
-int sellPriceIndex = random.nextInt(currencyList.length);
 if(random.nextInt(2)==0){
 	//最多4位小数，且多余的0不显示
   	StringBuffer pattern2 = new StringBuffer();
@@ -4554,15 +4552,14 @@ if(random.nextInt(2)==0){
   	double d2 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
 	map.put(&quot;offerSellPrice&quot;, priceFormat2.format(d2).toString());
 	//随机币种
-	map.put(&quot;offerSellCry&quot;, currencyList[sellPriceIndex]);
+	map.put(&quot;offerSellCry&quot;, currencyList.get(random.nextInt(currencyList.size())));
 }
 //赋予buyprice和sellprice结束
 
 
 //***随机给予unit
-String[] unitList = {&quot;PCS&quot;, &quot;Set&quot;, &quot;Box&quot;, &quot;Pal&quot;, &quot;Doz&quot;, &quot;Pack&quot;, &quot;Pair&quot;, &quot;20ft&quot;, &quot;40ft&quot;, &quot;40ftHQ&quot;, &quot;g&quot;, &quot;kg&quot;, &quot;t&quot;, &quot;lb&quot;, &quot;ml&quot;, &quot;mm&quot;, &quot;l&quot;, &quot;cm&quot;, &quot;m&quot;, &quot;Inch&quot;, &quot;m2&quot;, &quot;w&quot;, &quot;v&quot;, &quot;a&quot;};
-int unitIndex = random.nextInt(unitList.length); 
-map.put(&quot;offerUnit&quot;, unitList[unitIndex]);
+JSONArray unitList = commonList.getJSONArray(&quot;unitList&quot;);
+map.put(&quot;offerUnit&quot;, unitList.get(random.nextInt(unitList.size())));
 
 //***随机取联系人种类和相应的userId：0=无，1=系统的，2=自定义的
 int contactStatus = random.nextInt(2)+1;
@@ -4611,17 +4608,18 @@ if((!vars.get(&quot;offerTagList&quot;).equals(&quot;-1&quot;)) &amp;&amp; rando
 
 
 //***随机赋予offer image
-String[] imageList = {&quot;0026a683-93d9-41fc-9c71-540cc9110f90&quot;,&quot;003e3b9a-0977-4d58-b492-397792424482&quot;,&quot;00412efc-c20d-4d36-8f2a-2aca32fd9044&quot;,&quot;004898c0-a52f-4c88-8d85-387a4ddd1002&quot;,&quot;004c047d-13d0-4d83-b473-1dbd3a9946c1&quot;,&quot;00588ea5-fe2b-46dc-91bc-7b339b832230&quot;,&quot;005ae564-bd63-4e0e-be7d-cfa7d4cb6784&quot;,&quot;00749fb9-ff53-4aad-a769-177dc600ca33&quot;,&quot;0087d105-fe6c-486c-aa3e-da1c3e1b1264&quot;,&quot;00c571c6-575e-4c0f-9802-61d1b5992c93&quot;,&quot;00cf9d13-68f1-4a7c-a4c2-786a8bbf3d01&quot;,&quot;00f2bc5a-f1cc-4d79-ab66-f3d710f94ba0&quot;,&quot;010bb208-74a2-4646-92eb-464c38a623af&quot;,&quot;0128f51e-09f4-4cba-bda7-47662df91e0b&quot;,&quot;012ec868-6dff-45b5-bcea-f874a512c78b&quot;,&quot;0136ec2c-2325-48ab-a36d-87544480c284&quot;,&quot;0137fb2d-0116-4fd9-9b80-975b329b3a9a&quot;,&quot;0146df9b-8bc5-4804-989f-ab8f005711a7&quot;,&quot;01766464-194c-43d4-84b6-1d86ddf8f5ec&quot;,&quot;01a4c1d1-8663-4e2c-8030-41c66029a9a8&quot;,&quot;01ad954d-8574-4044-95a7-d58889e45160&quot;,&quot;01af3e27-096c-4d3d-8071-d78e8cdbf026&quot;,&quot;01d3f1df-0130-4957-bae3-231df5e83df8&quot;,&quot;01db2317-a68a-48b5-be2b-fbac4aa1715a&quot;,&quot;01edd2da-2337-4cc7-9087-34ccdc0a5df0&quot;,&quot;023fd0d9-88bd-4d57-a212-a3098100b7c8&quot;,&quot;02795747-736f-47d2-bf84-a9ad395a6c02&quot;,&quot;02921b20-05b6-4eae-bd91-e6a1cc9e9767&quot;,&quot;0293b4f8-5fe6-437c-a02a-8f1787ef596d&quot;,&quot;02b234eb-c2ae-4a62-8e7f-ca6d52a2f9c0&quot;,&quot;02c80463-7485-45f8-a055-2eaff49cde3c&quot;,&quot;02ce094d-d253-4fe9-816a-0765c1dd452d&quot;,&quot;03161402-744b-4f4a-b7c6-22660d836c88&quot;,&quot;0351147e-0d42-4a63-a071-a175c1585f49&quot;,&quot;0363b7e1-678a-4880-a1d0-85d9345d563e&quot;,&quot;03701dfe-1676-47ab-8ea8-c8945b0409fa&quot;,&quot;039c2870-d0ff-49dd-94f1-2229e478a175&quot;,&quot;03ad6588-a179-4492-a121-8882eaa7164a&quot;,&quot;03add517-7b9d-4d63-940b-0b2f6cfc9bfa&quot;,&quot;03ea9321-4c16-47b5-94ae-5bea8ae0056f&quot;,&quot;04193181-5e01-4935-a891-2e7d2012437e&quot;,&quot;04332850-f747-4bd2-a76b-5c004a4a3a39&quot;,&quot;0446bbd8-5f15-4a77-aa22-ca8e0ef12465&quot;,&quot;0455f339-33f3-4882-bb2a-81b035aa731f&quot;,&quot;04638e3a-b950-4ba7-b4a7-415f634ebd4b&quot;,&quot;046a54de-0039-4891-a051-70e61e37ea3c&quot;};
+JSONArray imageList = commonList.getJSONArray(&quot;imageList&quot;);
 int imageNum = random.nextInt(9)+1;
+int imageIndex = -1;
 StringBuffer sb4 = new StringBuffer();
 sb4.append(&quot;&quot;);
 for(int m=0; m&lt;imageNum; m++){
 	if(m&lt;imageNum-1){
-		int imageIndex = random.nextInt(imageList.length);
-		sb4.append(imageList[imageIndex]).append(&quot;,&quot;);
+		imageIndex = random.nextInt(imageList.size());
+		sb4.append(imageList.get(imageIndex)).append(&quot;,&quot;);
 	}else{
-		int imageIndex = random.nextInt(imageList.length);
-		sb4.append(imageList[imageIndex]);
+		imageIndex = random.nextInt(imageList.size());
+		sb4.append(imageList.get(imageIndex));
 	}
 }
 map.put(&quot;offerImg&quot;, sb4.toString());
@@ -4630,47 +4628,37 @@ map.put(&quot;offerImg&quot;, sb4.toString());
 
 //***生成随机offerSheetArray
 //随机取产品sheet
-String jsonString = &quot;[{\&quot;sheetName\&quot;:\&quot;Warranty\&quot;},{\&quot;sheetName\&quot;:\&quot;CBM\&quot;},{\&quot;sheetName\&quot;:\&quot;Item No.\&quot;},{\&quot;sheetName\&quot;:\&quot;Colour\&quot;},{\&quot;sheetName\&quot;:\&quot;Material\&quot;},{\&quot;sheetName\&quot;:\&quot;Supply ability\&quot;},{\&quot;sheetName\&quot;:\&quot;Delivery time\&quot;},{\&quot;sheetName\&quot;:\&quot;Production time\&quot;},{\&quot;sheetName\&quot;:\&quot;Certification\&quot;},{\&quot;sheetName\&quot;:\&quot;Condition\&quot;},{\&quot;sheetName\&quot;:\&quot;Place of Origin\&quot;},{\&quot;sheetName\&quot;:\&quot;Terms\&quot;},{\&quot;sheetName\&quot;:\&quot;Pcs/box\&quot;},{\&quot;sheetName\&quot;:\&quot;Weight\&quot;},{\&quot;sheetName\&quot;:\&quot;Size\&quot;},{\&quot;sheetName\&quot;:\&quot;Packing\&quot;},{\&quot;sheetName\&quot;:\&quot;MOQ\&quot;}]&quot;;
-//这里如果用List&lt;String&gt; list = new ArrayList&lt;String&gt;();会报错
-list = new ArrayList();
-list = JSON.parseArray(jsonString, String.class);
-//num=随机取得sheet个数，如果指定sheet个数可以赋值给它
-int num = random.nextInt(list.size());
-ArrayList sheetArray = new ArrayList();
-for(int i=0; i&lt;num; i++){
-	int newNum = random.nextInt(list.size());
-	sheetArray.add(list.get(newNum));
-	list.remove(newNum);
-}
+JSONArray sheetList = commonList.getJSONArray(&quot;sheetList&quot;);
+JSONArray chosenSheet = new JSONArray();
 
-JSONArray ja = new JSONArray();
-for(int j=0; j&lt;num; j++){
-	JSONObject jo = new JSONObject();
-	JSONObject sheet = JSONObject.parseObject(sheetArray.get(j).toString());
-	String sheetName = sheet.getString(&quot;sheetName&quot;);
-	jo.put(&quot;sheetName&quot;, sheetName);
-	
+//sheetValue的随机字符从这个string里取
+String str1 = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789欧加网络科技有限公司&quot;;
+
+int num = random.nextInt(sheetList.size());
+for(int i=0; i&lt;num; i++){
+	int newNum = random.nextInt(sheetList.size());
+	JSONObject sheet = new JSONObject();
 	// 随机给sheetValue赋值
-	String str = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789欧加网络科技有限公司&quot;;
-	StringBuffer sb3 = new StringBuffer();
-	int sb3length = random.nextInt(str.length());
-	for (int k = 0; k &lt; sb3length; k++) {
-		int number = random.nextInt(str.length());
-		sb3.append(str.charAt(number));
+	StringBuffer sheetValue = new StringBuffer();
+	int valueLength = random.nextInt(str1.length());
+	for (int k = 0; k &lt; valueLength; k++) {
+		int number = random.nextInt(str1.length());
+		sheetValue.append(str1.charAt(number));
 	}
-	jo.put(&quot;sheetValue&quot;,sb3.toString());
-	ja.add(jo);
+	sheet.put(&quot;sheetName&quot;, sheetList.get(newNum).getString(&quot;sheetName&quot;));
+	sheet.put(&quot;sheetValue&quot;, sheetValue.toString());
+	chosenSheet.add(sheet);
+	sheetList.remove(newNum);
 }
 //map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
 if(random.nextInt(2)==0){
-	map.put(&quot;offerArrSheet&quot;, ja.toString());
+	map.put(&quot;offerArrSheet&quot;, chosenSheet.toJSONString());
 }else{
 	map.put(&quot;offerArrSheet&quot;, &quot;[]&quot;);	
 }
 
 //sheet生成结束
 //***入参赋值完毕
-
 
 
 String []str = new String[map.size()];
@@ -4693,7 +4681,7 @@ Arrays.sort(str);
 for (int j = 0; j &lt; str.length; j ++) {
 	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
 	if (str[j].equals(&quot;offerArrSheet&quot;)) {
-		sb2.append(str[j]).append(&quot;=&quot;).append(JSON.toJSON(ja));
+		sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
 	} else {
 		sb2.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
 	}
@@ -7380,7 +7368,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Inquiry" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Inquiry" enabled="false"/>
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="定义用户和询价模式" enabled="true">
             <collectionProp name="UserParameters.names">
