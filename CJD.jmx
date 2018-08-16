@@ -56,6 +56,7 @@ char korean = (char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1)));</str
         <stringProp name="filename"></stringProp>
         <stringProp name="script">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
+
 //所有常用参数列表放在这个json里
 JSONObject commonList = new JSONObject();
 
@@ -360,7 +361,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录用户" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -3646,7 +3647,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="14.新建产品-随机参数" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="14.新建产品-随机参数" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -4443,9 +4444,13 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
             <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：设定新建几个" enabled="true">
               <boolProp name="LoopController.continue_forever">true</boolProp>
-              <stringProp name="LoopController.loops">20</stringProp>
+              <stringProp name="LoopController.loops">1</stringProp>
             </LoopController>
             <hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定定时器" enabled="true">
+                <stringProp name="ConstantTimer.delay">1000</stringProp>
+              </ConstantTimer>
+              <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建产品（随机参数）" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -4637,21 +4642,23 @@ String str1 = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 int num = random.nextInt(sheetList.size());
 for(int i=0; i&lt;num; i++){
 	int newNum = random.nextInt(sheetList.size());
-	JSONObject sheet = new JSONObject();
 	// 随机给sheetValue赋值
+	//下面这个new不能拿到循环外，不然会造成{&quot;$ref&quot;:&quot;$[0]&quot;}
+	JSONObject sheet = new JSONObject();
 	StringBuffer sheetValue = new StringBuffer();
 	int valueLength = random.nextInt(str1.length());
 	for (int k = 0; k &lt; valueLength; k++) {
 		int number = random.nextInt(str1.length());
 		sheetValue.append(str1.charAt(number));
 	}
+	log.info(&quot;**********************&quot;+sheet.toJSONString());
 	sheet.put(&quot;sheetName&quot;, sheetList.get(newNum).getString(&quot;sheetName&quot;));
 	sheet.put(&quot;sheetValue&quot;, sheetValue.toString());
 	chosenSheet.add(sheet);
 	sheetList.remove(newNum);
 }
 //map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
-if(random.nextInt(2)==0){
+if(random.nextInt(3)==0){
 	map.put(&quot;offerArrSheet&quot;, chosenSheet.toJSONString());
 }else{
 	map.put(&quot;offerArrSheet&quot;, &quot;[]&quot;);	
@@ -4707,61 +4714,6 @@ vars.put(&quot;body&quot;, body);</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
                   <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
-                <hashTree/>
-                <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
-                  <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                  <stringProp name="RegexExtractor.refname">data</stringProp>
-                  <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
-                  <stringProp name="RegexExtractor.template">$1$</stringProp>
-                  <stringProp name="RegexExtractor.default">-1</stringProp>
-                  <stringProp name="RegexExtractor.match_number">1</stringProp>
-                </RegexExtractor>
-                <hashTree/>
-                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
-                  <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
-import org.apache.jmeter.samplers.SampleResult; 
-import org.apache.jmeter.assertions.AssertionResult; 
-import org.json.*;
-import test.AesUtils;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-
-String isEncrypt = vars.get(&quot;isEncrypt&quot;);
-if (isEncrypt.equals(&quot;true&quot;)) {
-	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
-	AesUtils appAes = new AesUtils();
-	String encrypt = vars.get(&quot;data&quot;);
-	
-	if (encrypt.equals(&quot;-1&quot;)) {
-		
-		Failure = false;
-	} else {
-		try{
-			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
-			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
-			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
-			Failure = false;
-			
-		}catch(Exception e){
-			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
-			Failure = true;
-		}
-	}
-} else {
-	Failure = false;
-}
-
-
-
-
-
-
-</stringProp>
-                  <stringProp name="BeanShellAssertion.filename"></stringProp>
-                  <stringProp name="BeanShellAssertion.parameters"></stringProp>
-                  <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-                </BeanShellAssertion>
                 <hashTree/>
               </hashTree>
             </hashTree>
@@ -5823,63 +5775,6 @@ vars.put(&quot;body&quot;, body);</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
                 <stringProp name="Assertion.custom_message"></stringProp>
               </ResponseAssertion>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="获取接口返回结果" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                <stringProp name="RegexExtractor.refname">data</stringProp>
-                <stringProp name="RegexExtractor.regex">&quot;data&quot;:&quot;(.+?)&quot;,</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default">-1</stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
-                <stringProp name="BeanShellAssertion.query">import org.apache.jmeter.assertions; 
-import org.apache.jmeter.samplers.SampleResult; 
-import org.apache.jmeter.assertions.AssertionResult; 
-import org.json.*;
-import test.AesUtils;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-
-String isEncrypt = vars.get(&quot;isEncrypt&quot;);
-if (isEncrypt.equals(&quot;true&quot;)) {
-	String KEY = &quot;6mpQfK5BSzzOfrZ6&quot;;
-	AesUtils appAes = new AesUtils();
-	String encrypt = vars.get(&quot;data&quot;);
-	
-	if (encrypt.equals(&quot;-1&quot;)) {
-		
-		Failure = false;
-	} else {
-		try{
-			byte[] un = appAes.uncompress(appAes.base64Decode(encrypt));
-			String jsonStr = new String(java.net.URLDecoder.decode(appAes.aesDecryptByBytes(un,KEY)).getBytes(), &quot;UTF-8&quot;);
-			FailureMessage = &quot;成功，解密的json串：&quot; + jsonStr; 
-			Failure = false;
-			
-		}catch(Exception e){
-			FailureMessage = &quot;失败，接口加密串：&quot; + encrypt; 
-			Failure = true;
-			
-		}
-	}
-} else {
-	Failure = false;
-	
-}
-
-
-
-
-
-
-</stringProp>
-                <stringProp name="BeanShellAssertion.filename"></stringProp>
-                <stringProp name="BeanShellAssertion.parameters"></stringProp>
-                <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-              </BeanShellAssertion>
               <hashTree/>
             </hashTree>
           </hashTree>
@@ -13036,7 +12931,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
           </BeanShellAssertion>
           <hashTree/>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="在此DEBUG" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="在此DEBUG" enabled="false">
           <stringProp name="BeanShellSampler.query">import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
