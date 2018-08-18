@@ -1,0 +1,7 @@
+“chenwenkun”
+拷贝脚本到服务器上scp /Users/chenwenkun/Desktop/UIauto/exe/ip_change_1.py root@192.168.1.41:/home
+crontab -e 有选项的话选择3
+输入i 进行编辑输入
+*/30 * * * * python /home/ip_change_1.py >my.log
+按esc 在输入 :wq保存 (与vim设置的快捷键一致)
+查看部署成功与否 crontab -l

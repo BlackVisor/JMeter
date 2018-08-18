@@ -1,0 +1,1 @@
+[{"request":{"uri":"/com/terms/list.do"},"response":{ "headers":{"Access-Control-Allow-Origin":"http://localhost:3000","Access-Control-Allow-Credentials":"true"},"json":{"data":[{"id":278,"terms":"terms_2333_2333"},{"id":276,"terms":"terms_2333_2333"},{"id":269,"terms":"d"}],"msg":"Success","status":"000"}}}]

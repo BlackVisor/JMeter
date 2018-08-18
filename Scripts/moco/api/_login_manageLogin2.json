@@ -1,0 +1,1 @@
+[{"request":{"uri":"/login/manageLogin2.do"},"response":{ "headers":{"Access-Control-Allow-Origin":"http://localhost:3000","Access-Control-Allow-Credentials":"true"},"json":{"status":"fail","msg":"111用户名或密码错误,密码输错超过5次将被锁定哦！已输错1次","data":"","externData":null}}}]
