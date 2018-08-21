@@ -340,7 +340,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -12968,7 +12968,7 @@ catch (Throwable ex) {
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Web" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Web" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -12996,13 +12996,13 @@ catch (Throwable ex) {
             <stringProp name="1636031437">subAccount</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="1970983947">
-              <stringProp name="1958132462">1004001</stringProp>
+            <collectionProp name="834121846">
+              <stringProp name="1958102671">1003001</stringProp>
               <stringProp name="2138274831">f492a324fbf16d306ee09f5d0ac5e1eb</stringProp>
               <stringProp name="-2071820130">hzdev.offerplus.com</stringProp>
               <stringProp name="1786">82</stringProp>
               <stringProp name="98689">com</stringProp>
-              <stringProp name="1958102673">1003003</stringProp>
+              <stringProp name="1958072880">1002001</stringProp>
             </collectionProp>
           </collectionProp>
           <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -13116,7 +13116,7 @@ vars.put(&quot;body&quot;, body);
           <stringProp name="LoopController.loops">1</stringProp>
         </LoopController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="修改子账号权限" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="修改子账号权限" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -13177,7 +13177,7 @@ request.put(&quot;accessCompanyProducts&quot;, 1-random.nextInt(1));
 request.put(&quot;showProductOnCompany&quot;, 1-random.nextInt(1));
 
 //是否属于company home页的contact列表
-request.put(&quot;isContact&quot;, 1-random.nextInt(1));
+request.put(&quot;isContact&quot;, random.nextInt(1));
 
 //是否封禁这个帐号 0=否，1=是
 request.put(&quot;accountStatus&quot;, random.nextInt(1));
@@ -13185,14 +13185,118 @@ request.put(&quot;accountStatus&quot;, random.nextInt(1));
 //是否允许登录公司后台 0=否，1=是
 if(random.nextInt(1)==1){
 	request.put(&quot;allowAdmin&quot;, 1);
-	//可以访问的模块，逗号隔开的字符串
-//	request.put(&quot;accessModel&quot;, 1);
+	//可以访问的模块，逗号隔开的字符串 account,public,insight,data
+	request.put(&quot;accessModel&quot;, &quot;account&quot;);
 }else{
 	request.put(&quot;allowAdmin&quot;, 0);
 }
 
 //这个帐号的职位
 request.put(&quot;position&quot;, &quot;开发部の员工No.&quot;+String.valueOf(Integer.valueOf(vars.get(&quot;order&quot;))+1));
+
+//入参输入结束
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="修改子账号名额" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">${path}/account/setproductnum.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import offerplus.AesUtils;
+import org.apache.commons.codec.digest.DigestUtils;
+
+long L = System.currentTimeMillis();
+Map map = new HashMap();
+Random random = new Random();
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+
+request.put(&quot;userId&quot;, 1002001);
+request.put(&quot;count&quot;, 0);
+
 
 //入参输入结束
 String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
