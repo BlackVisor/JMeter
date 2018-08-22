@@ -123,7 +123,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
 //log.info(&quot;****************&quot;+props.get(&quot;commonList&quot;));</stringProp>
       </BeanShellPreProcessor>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="false">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="true">
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
@@ -361,7 +361,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="false"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录用户" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -8950,22 +8950,22 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="true"/>
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="谁想充值" enabled="true">
             <collectionProp name="UserParameters.names">
               <stringProp name="-649439915">memberId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="537425959">
-                <stringProp name="1958045010">1001200</stringProp>
+              <collectionProp name="568297782">
+                <stringProp name="1958052025">1001999</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
             <stringProp name="TestPlan.comments">memberId就是被充钱的帐号</stringProp>
           </UserParameters>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录并取会员状态" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录并取会员状态" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -9143,6 +9143,29 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
               <stringProp name="BeanShellAssertion.parameters"></stringProp>
               <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
             </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="保持APP登录的走法" enabled="true"/>
+          <hashTree>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request" enabled="true">
+              <stringProp name="dataSource">DB</stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="query">select token_id from ejet_user_separate where user_id = 1001999 and server_type = &quot;C&quot; order by token_over_time desc limit 1 </stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="variableNames">token_id,</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="queryTimeout"></stringProp>
+              <stringProp name="resultSetHandler">Store as String</stringProp>
+            </JDBCSampler>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+              <stringProp name="BeanShellSampler.query">vars.put(&quot;tokenId&quot;, &quot;${token_id_1}&quot;);
+vars.put(&quot;rechargeType&quot;, &quot;2&quot;);</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
             <hashTree/>
           </hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="随机选择充值方" enabled="true">
@@ -9383,11 +9406,9 @@ map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
 map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 
 //以下为接口可变参数
-//续费的type=1
+//续费的type=1,续费的时候不能加子账号和产品名额
 map.put(&quot;type&quot;, &quot;1&quot;);
-//随机要买的子账号数和产品名额,上下限定义如右rand.nextInt((max - min) + 1) + min
-map.put(&quot;subAccountTotal&quot;, random.nextInt((20-10)+1)+10);
-map.put(&quot;productTotal&quot;, random.nextInt((20-10)+1)+10);
+
 
 
 //拼接入参
@@ -9544,8 +9565,8 @@ map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
 //额外包的type=2
 map.put(&quot;type&quot;, &quot;2&quot;);
 //随机要买的子账号数和产品名额,上下限定义如右rand.nextInt((max - min) + 1) + min
-map.put(&quot;subAccountTotal&quot;, random.nextInt((30-10)+1)+10);
-map.put(&quot;productTotal&quot;, random.nextInt((30-10)+1)+10);
+map.put(&quot;subAccountTotal&quot;, random.nextInt((5-1)+1)+1);
+map.put(&quot;productTotal&quot;, random.nextInt((5-1)+1)+1);
 
 //拼接入参
 String []str = new String[map.size()];
@@ -12996,13 +13017,13 @@ catch (Throwable ex) {
             <stringProp name="1636031437">subAccount</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="834121846">
+            <collectionProp name="1654166099">
               <stringProp name="1958102671">1003001</stringProp>
               <stringProp name="2138274831">f492a324fbf16d306ee09f5d0ac5e1eb</stringProp>
               <stringProp name="-2071820130">hzdev.offerplus.com</stringProp>
               <stringProp name="1786">82</stringProp>
               <stringProp name="98689">com</stringProp>
-              <stringProp name="1958072880">1002001</stringProp>
+              <stringProp name="1958102672">1003002</stringProp>
             </collectionProp>
           </collectionProp>
           <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -13177,7 +13198,7 @@ request.put(&quot;accessCompanyProducts&quot;, 1-random.nextInt(1));
 request.put(&quot;showProductOnCompany&quot;, 1-random.nextInt(1));
 
 //是否属于company home页的contact列表
-request.put(&quot;isContact&quot;, random.nextInt(1));
+request.put(&quot;isContact&quot;, 1-random.nextInt(1));
 
 //是否封禁这个帐号 0=否，1=是
 request.put(&quot;accountStatus&quot;, random.nextInt(1));
@@ -13294,8 +13315,8 @@ AesUtils aes = new AesUtils();
 JSONObject request = new JSONObject();
 //入参输入
 
-request.put(&quot;userId&quot;, 1002001);
-request.put(&quot;count&quot;, 0);
+request.put(&quot;userId&quot;, 1003002);
+request.put(&quot;count&quot;, 2);
 
 
 //入参输入结束
