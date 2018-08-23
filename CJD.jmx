@@ -139,7 +139,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -205,7 +205,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -221,7 +221,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -287,7 +287,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -9996,32 +9996,51 @@ Map map = new HashMap();
 String KEY = &quot;viFZiOhDArcQTjkC&quot;;
 AesUtils aes = new AesUtils();
 JSONObject commonList = JSONObject.parseObject(props.get(&quot;commonList&quot;));
+JSONArray unitList = commonList.getJSONArray(&quot;unitList&quot;);
+JSONArray priceTermList = commonList.getJSONArray(&quot;priceTermList&quot;);
+JSONArray paymentWayList = commonList.getJSONArray(&quot;paymentWayList&quot;);
+JSONArray imageList = commonList.getJSONArray(&quot;imageList&quot;);
 Random random = new Random();
+
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
 //入参输入
 map.put(&quot;inquiryId&quot;, vars.get(&quot;publicInquiryId&quot;));
 
-map.put(&quot;products&quot;, &quot;&quot;);
+map.put(&quot;quotationId&quot;, String.valueOf(${quoterMin}+${queue}-1)+&quot; on &quot;+ vars.get(&quot;publicInquiryId&quot;));
 
+//type:0=正式，1=草稿
+map.put(&quot;type&quot;, 0);
+
+map.put(&quot;products&quot;, vars.get(&quot;quoteProducts&quot;));
+
+[{&quot;productName&quot;: &quot;pName&quot;, &quot;productImg&quot;: &quot;pImg&quot;, &quot;productQuantity&quot;: 12, &quot;productPrice&quot;: &quot;1000.2&quot;, &quot;productPriceCry&quot;: &quot;CNY&quot;, &quot;productUnit&quot;: &quot;BOX&quot;, &quot;remark&quot;: &quot;remark&quot;, &quot;productArrSheet&quot;: [{ &quot;sheetValue&quot;: &quot;123&quot;, &quot;sheetName&quot;: &quot;MOQ&quot; }, { &quot;sheetValue&quot;: &quot;132&quot;, &quot;sheetName&quot;: &quot;Brand Name&quot; }, { &quot;sheetValue&quot;: &quot;132&quot;, &quot;sheetName&quot;: &quot;Stock&quot; }, { &quot;sheetValue&quot;: &quot;1321&quot;, &quot;sheetName&quot;: &quot;Port&quot; }, { &quot;sheetValue&quot;: &quot;132132&quot;, &quot;sheetName&quot;: &quot;CBM&quot; } ], &quot;remarkImg&quot;: &quot;remark-img&quot; }]
+
+
+map.put(&quot;otherFees&quot;, &quot;&quot;);
 map.put(&quot;validateTime&quot;, 30*${__Random(1,4,)});
-
-JSONArray unitList = commonList.getJSONArray(&quot;unitList&quot;);
+map.put(&quot;priceTerms&quot;, priceTermList.get(random.nextInt(priceTermList.size())));
+map.put(&quot;paymentWay&quot;, paymentWayList.get(random.nextInt(paymentWayList.size())));
 map.put(&quot;unit&quot;, unitList.get(random.nextInt(unitList.size())));
-
+map.put(&quot;placeDelivery&quot;, &quot;这是Place of Delivery&quot;);
+map.put(&quot;deliveryTime&quot;, ${__Random(1,9999,)});
 map.put(&quot;tradeTerms&quot;, &quot;&quot;);
 map.put(&quot;bankAccount&quot;, &quot;&quot;);
-map.put(&quot;otherFees&quot;, &quot;&quot;);
 
-JSONArray priceTermList = commonList.getJSONArray(&quot;priceTermList&quot;);
-map.put(&quot;priceTerms&quot;, priceTermList.get(random.nextInt(priceTermList.size())));
 
-JSONArray paymentWayList = commonList.getJSONArray(&quot;paymentWayList&quot;);
-map.put(&quot;paymentWay&quot;, paymentWayList.get(random.nextInt(paymentWayList.size())));
+
+
+
 
 
 map.put(&quot;remark&quot;, &quot;这是基于public inquiry的quotation&quot;);
-
 //***随机赋予remark image
-JSONArray imageList = commonList.getJSONArray(&quot;imageList&quot;);
 JSONArray remarkImg = new JSONArray();
 int remarkImgNum = random.nextInt(6);
 if(remarkImgNum!=0){
@@ -10032,20 +10051,7 @@ if(remarkImgNum!=0){
 }
 
 
-map.put(&quot;placeDelivery&quot;, &quot;这是Place of Delivery&quot;);
-
-map.put(&quot;deliveryTime&quot;, &quot;&quot;);
-
-//type:0=正式，1=草稿
-map.put(&quot;type&quot;, 0);
 //入参输入结束
-
-String encrypted = aes.aesWebEncrypt(request.toJSONString())
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
-map.put(&quot;timestamp&quot;, String.valueOf(L));
-
-
-
 
 
 
@@ -13372,8 +13378,8 @@ catch (Throwable ex) {
             <stringProp name="1636031437">subAccount</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="1654166099">
-              <stringProp name="1958102671">1003001</stringProp>
+            <collectionProp name="-1552893459">
+              <stringProp name="1958102672">1003002</stringProp>
               <stringProp name="2138274831">f492a324fbf16d306ee09f5d0ac5e1eb</stringProp>
               <stringProp name="-2071820130">hzdev.offerplus.com</stringProp>
               <stringProp name="1786">82</stringProp>
@@ -13670,8 +13676,8 @@ AesUtils aes = new AesUtils();
 JSONObject request = new JSONObject();
 //入参输入
 
-request.put(&quot;userId&quot;, 1003002);
-request.put(&quot;count&quot;, 3);
+request.put(&quot;userId&quot;, 1003005);
+request.put(&quot;count&quot;, 1);
 
 
 //入参输入结束
