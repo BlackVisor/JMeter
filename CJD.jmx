@@ -123,7 +123,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
 //log.info(&quot;****************&quot;+props.get(&quot;commonList&quot;));</stringProp>
       </BeanShellPreProcessor>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="false">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="true">
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
@@ -139,7 +139,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -205,7 +205,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -221,7 +221,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -287,7 +287,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -340,7 +340,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -8950,7 +8950,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="false"/>
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="谁想充值" enabled="true">
             <collectionProp name="UserParameters.names">
@@ -9787,10 +9787,10 @@ vars.put(&quot;body&quot;, body);
                 <stringProp name="-1482121202">quoterMax</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="-595826996">
-                  <stringProp name="0"></stringProp>
-                  <stringProp name="1958102701">1003010</stringProp>
-                  <stringProp name="1958102741">1003029</stringProp>
+                <collectionProp name="1256043893">
+                  <stringProp name="1541082408">473646</stringProp>
+                  <stringProp name="1958102675">1003005</stringProp>
+                  <stringProp name="1958102676">1003006</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -9838,11 +9838,10 @@ vars.put(&quot;body&quot;, body);
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
                   <stringProp name="script">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -9851,6 +9850,8 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import offerplus.SaltyPwd;
 
+
+try{
 long L = System.currentTimeMillis();
 
 Map map = new HashMap();
@@ -9869,6 +9870,9 @@ ${__counter(TRUE,queue)};
 map.put(&quot;loginName&quot;, String.valueOf(${quoterMin}+${queue}-1));
 log.info(&quot;****************用户：&quot;+map.get(&quot;loginName&quot;)+&quot;登录****************&quot;);
 map.put(&quot;password&quot;, password.saltyPwd(&quot;Aa123456&quot;));
+
+
+
 
 
 
@@ -9904,6 +9908,11 @@ String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b
 String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
 
 vars.put(&quot;body&quot;, body);
+}
+catch (Throwable ex) {
+    log.error(&quot;Something went wrong&quot;, ex);
+    throw ex;
+}
 </stringProp>
                 </BeanShellTimer>
                 <hashTree/>
@@ -9989,19 +9998,27 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import offerplus.AesUtils;
 
 long L = System.currentTimeMillis();
 
 Map map = new HashMap();
 String KEY = &quot;viFZiOhDArcQTjkC&quot;;
 AesUtils aes = new AesUtils();
+
 JSONObject commonList = JSONObject.parseObject(props.get(&quot;commonList&quot;));
 JSONArray unitList = commonList.getJSONArray(&quot;unitList&quot;);
 JSONArray priceTermList = commonList.getJSONArray(&quot;priceTermList&quot;);
 JSONArray paymentWayList = commonList.getJSONArray(&quot;paymentWayList&quot;);
 JSONArray imageList = commonList.getJSONArray(&quot;imageList&quot;);
-Random random = new Random();
+JSONArray sheetList = commonList.getJSONArray(&quot;sheetList&quot;);
+JSONArray currencyList = commonList.getJSONArray(&quot;currencyList&quot;);
 
+Random random = new Random();
+String text = &quot;鑫森淼焱垚犇骉猋鱻贔掱劦晶磊毳畾刕叒壵尛孨歮惢皛三众叒品晿雥矗&quot;;
+String sheetText = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789欧加网络科技有限公司&quot;;
+
+//固定入参
 map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
 map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
 map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
@@ -10018,37 +10035,151 @@ map.put(&quot;quotationId&quot;, String.valueOf(${quoterMin}+${queue}-1)+&quot; 
 //type:0=正式，1=草稿
 map.put(&quot;type&quot;, 0);
 
-map.put(&quot;products&quot;, vars.get(&quot;quoteProducts&quot;));
+JSONArray quoteProducts = new JSONArray();
+//币种需要相同
+String uniformCurrency = currencyList.get(random.nextInt(currencyList.size()));
+for(int i=0; i&lt;${__Random(1,20,)}; i++){
+	
+	JSONObject product = new JSONObject();
 
-[{&quot;productName&quot;: &quot;pName&quot;, &quot;productImg&quot;: &quot;pImg&quot;, &quot;productQuantity&quot;: 12, &quot;productPrice&quot;: &quot;1000.2&quot;, &quot;productPriceCry&quot;: &quot;CNY&quot;, &quot;productUnit&quot;: &quot;BOX&quot;, &quot;remark&quot;: &quot;remark&quot;, &quot;productArrSheet&quot;: [{ &quot;sheetValue&quot;: &quot;123&quot;, &quot;sheetName&quot;: &quot;MOQ&quot; }, { &quot;sheetValue&quot;: &quot;132&quot;, &quot;sheetName&quot;: &quot;Brand Name&quot; }, { &quot;sheetValue&quot;: &quot;132&quot;, &quot;sheetName&quot;: &quot;Stock&quot; }, { &quot;sheetValue&quot;: &quot;1321&quot;, &quot;sheetName&quot;: &quot;Port&quot; }, { &quot;sheetValue&quot;: &quot;132132&quot;, &quot;sheetName&quot;: &quot;CBM&quot; } ], &quot;remarkImg&quot;: &quot;remark-img&quot; }]
+	product.put(&quot;productName&quot;, &quot;这是QuotationのProduct&quot;+ text.substring(0,random.nextInt(31)));
+	
+	int imageNum = random.nextInt(9)+1;
+	int imageIndex = -1;
+	StringBuffer productImg = new StringBuffer();
+	for(int m=0; m&lt;imageNum; m++){
+		if(m&lt;imageNum-1){
+			imageIndex = random.nextInt(imageList.size());
+			productImg.append(imageList.get(imageIndex)).append(&quot;,&quot;);
+		}else{
+			imageIndex = random.nextInt(imageList.size());
+			productImg.append(imageList.get(imageIndex));
+		}
+	}
+	product.put(&quot;productImg&quot;, productImg.toString());
+	
+	product.put(&quot;productQuantity&quot;, random.nextInt(100)+1);
+	
+	StringBuffer pricePattern = new StringBuffer();
+	int index2 = random.nextInt(5);
+	if(index2==0){
+		pricePattern.append(&quot;0&quot;);
+	}else{
+		pricePattern.append(&quot;0.&quot;);
+		for(int j=0; j&lt;index2; j++){
+			pricePattern.append(&quot;#&quot;);
+		}
+	}
+	DecimalFormat priceFormat2 = new DecimalFormat(pricePattern.toString());
+	double d2 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
+	product.put(&quot;productPrice&quot;, priceFormat2.format(d2).toString());
+	
+	product.put(&quot;productPriceCry&quot;, uniformCurrency);
+	
+	product.put(&quot;productUnit&quot;, unitList.get(random.nextInt(unitList.size())));
 
+	JSONArray chosenSheet = new JSONArray();
+	int num = random.nextInt(sheetList.size());
+	for(int l=0; l&lt;num; l++){
+		int newNum = random.nextInt(sheetList.size());
+		// 随机给sheetValue赋值
+		//下面这个new不能拿到循环外，不然会造成{&quot;$ref&quot;:&quot;$[0]&quot;}
+		JSONObject sheet = new JSONObject();
+		StringBuffer sheetValue = new StringBuffer();
+		int valueLength = random.nextInt(sheetText.length());
+		for (int k = 0; k &lt; valueLength; k++) {
+			int number = random.nextInt(sheetText.length());
+			sheetValue.append(sheetText.charAt(number));
+		}
+		sheet.put(&quot;sheetName&quot;, sheetList.get(newNum).getString(&quot;sheetName&quot;));
+		sheet.put(&quot;sheetValue&quot;, sheetValue.toString());
+		chosenSheet.add(sheet);
+		sheetList.remove(newNum);
+	}
+	product.put(&quot;productArrSheet&quot;, chosenSheet);
+	
+	product.put(&quot;remark&quot;, &quot;This is Quotation Remark&quot;);
 
-map.put(&quot;otherFees&quot;, &quot;&quot;);
-map.put(&quot;validateTime&quot;, 30*${__Random(1,4,)});
+	int remarkImgNum = random.nextInt(6)+1;
+	int remarkImageIndex = -1;
+	StringBuffer remarkImg = new StringBuffer();
+	for(int m=0; m&lt;remarkImgNum; m++){
+		if(m&lt;remarkImgNum-1){
+			remarkImageIndex = random.nextInt(imageList.size());
+			remarkImg.append(imageList.get(remarkImageIndex)).append(&quot;,&quot;);
+		}else{
+			remarkImageIndex = random.nextInt(imageList.size());
+			remarkImg.append(imageList.get(remarkImageIndex));
+		}
+	}
+	product.put(&quot;remarkImg&quot;, remarkImg.toString());
+	quoteProducts.add(product);
+}
+map.put(&quot;products&quot;, quoteProducts.toJSONString());
+
+JSONArray fees = new JSONArray();
+for(int n=0; n&lt;10; n++){
+	JSONObject fee = new JSONObject();
+	fee.put(&quot;fees&quot;, &quot;第&quot;+String.valueOf(n)+&quot;种 Other Fee&quot;);
+	StringBuffer feePattern = new StringBuffer();
+	int feeIndex = random.nextInt(5);
+	if(feeIndex==0){
+		feePattern.append(&quot;0&quot;);
+	}else{
+		feePattern.append(&quot;0.&quot;);
+		for(int j=0; j&lt;feeIndex; j++){
+			feePattern.append(&quot;#&quot;);
+		}
+	}
+	DecimalFormat feeFormat = new DecimalFormat(feePattern.toString());
+	double d13 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
+	fee.put(&quot;price&quot;, feeFormat.format(d13).toString());
+	fees.add(fee);
+}
+map.put(&quot;otherFees&quot;, fees.toJSONString());
+
 map.put(&quot;priceTerms&quot;, priceTermList.get(random.nextInt(priceTermList.size())));
-map.put(&quot;paymentWay&quot;, paymentWayList.get(random.nextInt(paymentWayList.size())));
-map.put(&quot;unit&quot;, unitList.get(random.nextInt(unitList.size())));
+
 map.put(&quot;placeDelivery&quot;, &quot;这是Place of Delivery&quot;);
+
 map.put(&quot;deliveryTime&quot;, ${__Random(1,9999,)});
-map.put(&quot;tradeTerms&quot;, &quot;&quot;);
-map.put(&quot;bankAccount&quot;, &quot;&quot;);
 
+map.put(&quot;validateTime&quot;, 10*${__Random(1,6,)});
 
+map.put(&quot;paymentWay&quot;, paymentWayList.get(random.nextInt(paymentWayList.size())));
 
+JSONObject bankAccount = new JSONObject();
+bankAccount.put(&quot;accountNum&quot;, vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;accountName&quot;, &quot;account name:&quot;+vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;swiftCode&quot;, vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;beneficiaryBank&quot;, &quot;bank:&quot;+vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;beneficiaryBankAddress&quot;, &quot;bank address:&quot;+vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;remark&quot;, &quot;bank account remark:&quot;+vars.get(&quot;publicInquiryId&quot;));
+map.put(&quot;bankAccount&quot;, bankAccount.toJSONString());
 
-
-
+JSONArray tradeTerms = new JSONArray();
+for(int o=0; o&lt;${__Random(1,10,)}; o++){
+	String tradeTerm = &quot;这是第&quot;+String.valueOf(o)+&quot;种 Trade Term&quot;;
+	tradeTerms.add(tradeTerm);    
+}
+map.put(&quot;tradeTerms&quot;, tradeTerms.toJSONString());
 
 map.put(&quot;remark&quot;, &quot;这是基于public inquiry的quotation&quot;);
+
 //***随机赋予remark image
-JSONArray remarkImg = new JSONArray();
-int remarkImgNum = random.nextInt(6);
-if(remarkImgNum!=0){
-	for(int i=0; i&lt;remarkImgNum; i++){
-		remarkImg.add(imageList.get(random.nextInt(imageList.size())));
+int a1 = random.nextInt(6)+1;
+int a3 = -1;
+StringBuffer a2 = new StringBuffer();
+for(int m=0; m&lt;a1; m++){
+	if(m&lt;a1-1){
+		a3 = random.nextInt(imageList.size());
+		a2.append(imageList.get(a3)).append(&quot;,&quot;);
+	}else{
+		a3 = random.nextInt(imageList.size());
+		a2.append(imageList.get(a3));
 	}
-	map.put(&quot;remarkImg&quot;, remarkImg.toJSONString());
 }
+map.put(&quot;remarkImg&quot;, a2.toString());
 
 
 //入参输入结束
@@ -10114,12 +10245,11 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 }else{
 	Failure = false;
 	try{
-		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
-		if(response.size() &gt; 0) {
-			int num = random.nextInt(response.size());
-			vars.put(&quot;&quot;, response.getJSONObject(num).getInteger(&quot;&quot;).toString());
-			log.info(&quot;****************=&quot;++&quot;****************&quot;);
+		if((${quoterMin}+${queue}-1)&gt;=${quoterMax}){
+			vars.put(&quot;keepQuote&quot;, &quot;false&quot;);
+			log.info(&quot;**********************Quote结束************************&quot;);
 		}
+		
 	}catch (Throwable ex) {
 		log.error(&quot;Something went wrong&quot;, ex);
 		throw ex;
@@ -13314,11 +13444,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
           <hashTree/>
         </hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="在此DEBUG" enabled="false">
-          <stringProp name="BeanShellSampler.query">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+          <stringProp name="BeanShellSampler.query">import java.util.HashMap;
 import java.util.Map;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -13326,19 +13452,193 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import offerplus.AesUtils;
 
 try {
 //	在这里输入代码可以报出完整的error
-	log.info(&quot;---------------------------------&quot;+${data_productId_matchNr});
-	if (${data_productId_matchNr}==1){
-		log.info(&quot;---------------------------------go to 1&quot;);
-	}else if (${data_productId_matchNr}==2){
-		log.info(&quot;---------------------------------go to 2&quot;);
-	}else if (${data_productId_matchNr}==3){
-		log.info(&quot;---------------------------------go to 3&quot;);
-	}else {
-		log.info(&quot;---------------------------------go to 4&quot;);
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+AesUtils aes = new AesUtils();
+
+JSONObject commonList = JSONObject.parseObject(props.get(&quot;commonList&quot;));
+JSONArray unitList = commonList.getJSONArray(&quot;unitList&quot;);
+JSONArray priceTermList = commonList.getJSONArray(&quot;priceTermList&quot;);
+JSONArray paymentWayList = commonList.getJSONArray(&quot;paymentWayList&quot;);
+JSONArray imageList = commonList.getJSONArray(&quot;imageList&quot;);
+JSONArray sheetList = commonList.getJSONArray(&quot;sheetList&quot;);
+JSONArray currencyList = commonList.getJSONArray(&quot;currencyList&quot;);
+
+Random random = new Random();
+String text = &quot;鑫森淼焱垚犇骉猋鱻贔掱劦晶磊毳畾刕叒壵尛孨歮惢皛三众叒品晿雥矗&quot;;
+String sheetText = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789欧加网络科技有限公司&quot;;
+
+//固定入参
+map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
+map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
+map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
+map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
+map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
+
+//入参输入
+vars.put(&quot;publicInquiryId&quot;, &quot;47223&quot;);
+map.put(&quot;inquiryId&quot;, vars.get(&quot;publicInquiryId&quot;));
+
+map.put(&quot;quotationId&quot;, String.valueOf(2)+&quot; on &quot;+ vars.get(&quot;publicInquiryId&quot;));
+
+//type:0=正式，1=草稿
+map.put(&quot;type&quot;, 0);
+
+JSONArray quoteProducts = new JSONArray();
+//币种需要相同
+String uniformCurrency = currencyList.get(random.nextInt(currencyList.size()));
+for(int i=0; i&lt;${__Random(1,20,)}; i++){
+	
+	JSONObject product = new JSONObject();
+
+	product.put(&quot;productName&quot;, &quot;这是QuotationのProduct&quot;+ text.substring(0,random.nextInt(31)));
+	
+	int imageNum = random.nextInt(9)+1;
+	int imageIndex = -1;
+	StringBuffer productImg = new StringBuffer();
+	for(int m=0; m&lt;imageNum; m++){
+		if(m&lt;imageNum-1){
+			imageIndex = random.nextInt(imageList.size());
+			productImg.append(imageList.get(imageIndex)).append(&quot;,&quot;);
+		}else{
+			imageIndex = random.nextInt(imageList.size());
+			productImg.append(imageList.get(imageIndex));
+		}
 	}
+	product.put(&quot;productImg&quot;, productImg.toString());
+	
+	product.put(&quot;productQuantity&quot;, random.nextInt(100)+1);
+	
+	StringBuffer pricePattern = new StringBuffer();
+	int index2 = random.nextInt(5);
+	if(index2==0){
+		pricePattern.append(&quot;0&quot;);
+	}else{
+		pricePattern.append(&quot;0.&quot;);
+		for(int j=0; j&lt;index2; j++){
+			pricePattern.append(&quot;#&quot;);
+		}
+	}
+	DecimalFormat priceFormat2 = new DecimalFormat(pricePattern.toString());
+	double d2 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
+	product.put(&quot;productPrice&quot;, priceFormat2.format(d2).toString());
+	
+	product.put(&quot;productPriceCry&quot;, uniformCurrency);
+	
+	product.put(&quot;productUnit&quot;, unitList.get(random.nextInt(unitList.size())));
+
+	JSONArray chosenSheet = new JSONArray();
+	int num = random.nextInt(sheetList.size());
+	for(int l=0; l&lt;num; l++){
+		int newNum = random.nextInt(sheetList.size());
+		// 随机给sheetValue赋值
+		//下面这个new不能拿到循环外，不然会造成{&quot;$ref&quot;:&quot;$[0]&quot;}
+		JSONObject sheet = new JSONObject();
+		StringBuffer sheetValue = new StringBuffer();
+		int valueLength = random.nextInt(sheetText.length());
+		for (int k = 0; k &lt; valueLength; k++) {
+			int number = random.nextInt(sheetText.length());
+			sheetValue.append(sheetText.charAt(number));
+		}
+		sheet.put(&quot;sheetName&quot;, sheetList.get(newNum).getString(&quot;sheetName&quot;));
+		sheet.put(&quot;sheetValue&quot;, sheetValue.toString());
+		chosenSheet.add(sheet);
+		sheetList.remove(newNum);
+	}
+	product.put(&quot;productArrSheet&quot;, chosenSheet.toJSONString());
+	
+	product.put(&quot;remark&quot;, &quot;This is Quotation Remark&quot;);
+
+	int remarkImgNum = random.nextInt(6)+1;
+	int remarkImageIndex = -1;
+	StringBuffer remarkImg = new StringBuffer();
+	for(int m=0; m&lt;remarkImgNum; m++){
+		if(m&lt;remarkImgNum-1){
+			remarkImageIndex = random.nextInt(imageList.size());
+			remarkImg.append(imageList.get(remarkImageIndex)).append(&quot;,&quot;);
+		}else{
+			remarkImageIndex = random.nextInt(imageList.size());
+			remarkImg.append(imageList.get(remarkImageIndex));
+		}
+	}
+	product.put(&quot;remarkImg&quot;, remarkImg.toString());
+	quoteProducts.add(product);
+}
+map.put(&quot;products&quot;, quoteProducts.toJSONString());
+
+JSONArray fees = new JSONArray();
+for(int n=0; n&lt;10; n++){
+	JSONObject fee = new JSONObject();
+	fee.put(&quot;fees&quot;, &quot;第&quot;+String.valueOf(n)+&quot;种 Other Fee&quot;);
+	StringBuffer feePattern = new StringBuffer();
+	int feeIndex = random.nextInt(5);
+	if(feeIndex==0){
+		feePattern.append(&quot;0&quot;);
+	}else{
+		feePattern.append(&quot;0.&quot;);
+		for(int j=0; j&lt;feeIndex; j++){
+			feePattern.append(&quot;#&quot;);
+		}
+	}
+	DecimalFormat feeFormat = new DecimalFormat(feePattern.toString());
+	double d13 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
+	fee.put(&quot;price&quot;, feeFormat.format(d13).toString());
+	fees.add(fee);
+}
+map.put(&quot;otherFees&quot;, fees.toJSONString());
+
+map.put(&quot;priceTerms&quot;, priceTermList.get(random.nextInt(priceTermList.size())));
+
+map.put(&quot;placeDelivery&quot;, &quot;这是Place of Delivery&quot;);
+
+map.put(&quot;deliveryTime&quot;, ${__Random(1,9999,)});
+
+map.put(&quot;validateTime&quot;, 10*${__Random(1,6,)});
+
+map.put(&quot;paymentWay&quot;, paymentWayList.get(random.nextInt(paymentWayList.size())));
+
+JSONObject bankAccount = new JSONObject();
+bankAccount.put(&quot;accountNum&quot;, vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;accountName&quot;, &quot;account name:&quot;+vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;swiftCode&quot;, vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;beneficiaryBank&quot;, &quot;bank:&quot;+vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;beneficiaryBankAddress&quot;, &quot;bank address:&quot;+vars.get(&quot;publicInquiryId&quot;));
+bankAccount.put(&quot;remark&quot;, &quot;bank account remark:&quot;+vars.get(&quot;publicInquiryId&quot;));
+map.put(&quot;bankAccount&quot;, bankAccount.toJSONString());
+
+JSONArray tradeTerms = new JSONArray();
+for(int o=0; o&lt;${__Random(1,10,)}; o++){
+	String tradeTerm = &quot;这是第&quot;+String.valueOf(o)+&quot;种 Trade Term&quot;;
+	tradeTerms.add(tradeTerm);    
+}
+map.put(&quot;tradeTerms&quot;, tradeTerms.toJSONString());
+
+map.put(&quot;remark&quot;, &quot;这是基于public inquiry的quotation&quot;);
+
+//***随机赋予remark image
+int a1 = random.nextInt(6)+1;
+int a3 = -1;
+StringBuffer a2 = new StringBuffer();
+for(int m=0; m&lt;a1; m++){
+	if(m&lt;a1-1){
+		a3 = random.nextInt(imageList.size());
+		a2.append(imageList.get(a3)).append(&quot;,&quot;);
+	}else{
+		a3 = random.nextInt(imageList.size());
+		a2.append(imageList.get(a3));
+	}
+}
+map.put(&quot;remarkImg&quot;, a2.toString());
+
 }
 catch (Throwable ex) {
     log.error(&quot;Something went wrong&quot;, ex);
@@ -13350,7 +13650,7 @@ catch (Throwable ex) {
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Web" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Web" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
