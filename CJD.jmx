@@ -139,7 +139,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -205,7 +205,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -221,7 +221,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -287,7 +287,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -9787,10 +9787,10 @@ vars.put(&quot;body&quot;, body);
                 <stringProp name="-1482121202">quoterMax</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="1256043893">
-                  <stringProp name="1541082408">473646</stringProp>
-                  <stringProp name="1958102675">1003005</stringProp>
-                  <stringProp name="1958102676">1003006</stringProp>
+                <collectionProp name="-670569092">
+                  <stringProp name="1541054449">472819</stringProp>
+                  <stringProp name="1958102705">1003014</stringProp>
+                  <stringProp name="1958102707">1003016</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -9999,20 +9999,22 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import offerplus.AesUtils;
+import offerplus.RandomImage;
+import offerplus.OrderProduct;
 
 long L = System.currentTimeMillis();
 
 Map map = new HashMap();
 String KEY = &quot;viFZiOhDArcQTjkC&quot;;
 AesUtils aes = new AesUtils();
+RandomImage randomImage = new RandomImage();
+OrderProduct orderProduct = new OrderProduct();
 
 JSONObject commonList = JSONObject.parseObject(props.get(&quot;commonList&quot;));
-JSONArray unitList = commonList.getJSONArray(&quot;unitList&quot;);
 JSONArray priceTermList = commonList.getJSONArray(&quot;priceTermList&quot;);
 JSONArray paymentWayList = commonList.getJSONArray(&quot;paymentWayList&quot;);
 JSONArray imageList = commonList.getJSONArray(&quot;imageList&quot;);
-JSONArray sheetList = commonList.getJSONArray(&quot;sheetList&quot;);
-JSONArray currencyList = commonList.getJSONArray(&quot;currencyList&quot;);
+
 
 Random random = new Random();
 String text = &quot;鑫森淼焱垚犇骉猋鱻贔掱劦晶磊毳畾刕叒壵尛孨歮惢皛三众叒品晿雥矗&quot;;
@@ -10035,87 +10037,7 @@ map.put(&quot;quotationId&quot;, String.valueOf(${quoterMin}+${queue}-1)+&quot; 
 //type:0=正式，1=草稿
 map.put(&quot;type&quot;, 0);
 
-JSONArray quoteProducts = new JSONArray();
-//币种需要相同
-String uniformCurrency = currencyList.get(random.nextInt(currencyList.size()));
-for(int i=0; i&lt;${__Random(1,20,)}; i++){
-	
-	JSONObject product = new JSONObject();
-
-	product.put(&quot;productName&quot;, &quot;这是QuotationのProduct&quot;+ text.substring(0,random.nextInt(31)));
-	
-	int imageNum = random.nextInt(9)+1;
-	int imageIndex = -1;
-	StringBuffer productImg = new StringBuffer();
-	for(int m=0; m&lt;imageNum; m++){
-		if(m&lt;imageNum-1){
-			imageIndex = random.nextInt(imageList.size());
-			productImg.append(imageList.get(imageIndex)).append(&quot;,&quot;);
-		}else{
-			imageIndex = random.nextInt(imageList.size());
-			productImg.append(imageList.get(imageIndex));
-		}
-	}
-	product.put(&quot;productImg&quot;, productImg.toString());
-	
-	product.put(&quot;productQuantity&quot;, random.nextInt(100)+1);
-	
-	StringBuffer pricePattern = new StringBuffer();
-	int index2 = random.nextInt(5);
-	if(index2==0){
-		pricePattern.append(&quot;0&quot;);
-	}else{
-		pricePattern.append(&quot;0.&quot;);
-		for(int j=0; j&lt;index2; j++){
-			pricePattern.append(&quot;#&quot;);
-		}
-	}
-	DecimalFormat priceFormat2 = new DecimalFormat(pricePattern.toString());
-	double d2 = random.nextFloat()*(Math.pow(10, random.nextInt(6)));
-	product.put(&quot;productPrice&quot;, priceFormat2.format(d2).toString());
-	
-	product.put(&quot;productPriceCry&quot;, uniformCurrency);
-	
-	product.put(&quot;productUnit&quot;, unitList.get(random.nextInt(unitList.size())));
-
-	JSONArray chosenSheet = new JSONArray();
-	int num = random.nextInt(sheetList.size());
-	for(int l=0; l&lt;num; l++){
-		int newNum = random.nextInt(sheetList.size());
-		// 随机给sheetValue赋值
-		//下面这个new不能拿到循环外，不然会造成{&quot;$ref&quot;:&quot;$[0]&quot;}
-		JSONObject sheet = new JSONObject();
-		StringBuffer sheetValue = new StringBuffer();
-		int valueLength = random.nextInt(sheetText.length());
-		for (int k = 0; k &lt; valueLength; k++) {
-			int number = random.nextInt(sheetText.length());
-			sheetValue.append(sheetText.charAt(number));
-		}
-		sheet.put(&quot;sheetName&quot;, sheetList.get(newNum).getString(&quot;sheetName&quot;));
-		sheet.put(&quot;sheetValue&quot;, sheetValue.toString());
-		chosenSheet.add(sheet);
-		sheetList.remove(newNum);
-	}
-	product.put(&quot;productArrSheet&quot;, chosenSheet);
-	
-	product.put(&quot;remark&quot;, &quot;This is Quotation Remark&quot;);
-
-	int remarkImgNum = random.nextInt(6)+1;
-	int remarkImageIndex = -1;
-	StringBuffer remarkImg = new StringBuffer();
-	for(int m=0; m&lt;remarkImgNum; m++){
-		if(m&lt;remarkImgNum-1){
-			remarkImageIndex = random.nextInt(imageList.size());
-			remarkImg.append(imageList.get(remarkImageIndex)).append(&quot;,&quot;);
-		}else{
-			remarkImageIndex = random.nextInt(imageList.size());
-			remarkImg.append(imageList.get(remarkImageIndex));
-		}
-	}
-	product.put(&quot;remarkImg&quot;, remarkImg.toString());
-	quoteProducts.add(product);
-}
-map.put(&quot;products&quot;, quoteProducts.toJSONString());
+map.put(&quot;products&quot;, orderProduct.orderProduct(${__Random(1,20,)}, commonList));
 
 JSONArray fees = new JSONArray();
 for(int n=0; n&lt;10; n++){
@@ -10168,19 +10090,7 @@ map.put(&quot;remark&quot;, &quot;这是基于public inquiry的quotation&quot;);
 
 //***随机赋予remark image
 int a1 = random.nextInt(6)+1;
-int a3 = -1;
-StringBuffer a2 = new StringBuffer();
-for(int m=0; m&lt;a1; m++){
-	if(m&lt;a1-1){
-		a3 = random.nextInt(imageList.size());
-		a2.append(imageList.get(a3)).append(&quot;,&quot;);
-	}else{
-		a3 = random.nextInt(imageList.size());
-		a2.append(imageList.get(a3));
-	}
-}
-map.put(&quot;remarkImg&quot;, a2.toString());
-
+map.put(&quot;remarkImg&quot;, randomImage.randomImage(a1, imageList));
 
 //入参输入结束
 
