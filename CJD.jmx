@@ -9787,10 +9787,10 @@ vars.put(&quot;body&quot;, body);
                 <stringProp name="-1482121202">quoterMax</stringProp>
               </collectionProp>
               <collectionProp name="UserParameters.thread_values">
-                <collectionProp name="-670569092">
-                  <stringProp name="1541054449">472819</stringProp>
-                  <stringProp name="1958102705">1003014</stringProp>
-                  <stringProp name="1958102707">1003016</stringProp>
+                <collectionProp name="1260222770">
+                  <stringProp name="1541082434">473651</stringProp>
+                  <stringProp name="1958102732">1003020</stringProp>
+                  <stringProp name="1958102734">1003022</stringProp>
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -13642,7 +13642,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import test.AesUtils;
+import offerplus.AesUtils;
 
 
 long L = System.currentTimeMillis();
@@ -13650,14 +13650,19 @@ long L = System.currentTimeMillis();
 Map map = new HashMap();
 
 //以下为接口必传参数
-map.put(&quot;timestamp&quot;, String.valueOf(L));
+
 String KEY = &quot;viFZiOhDArcQTjkC&quot;;
 AesUtils aes = new AesUtils();
 JSONObject request = new JSONObject();
 request.put(&quot;loginName&quot;, vars.get(&quot;adminAccount&quot;));
 request.put(&quot;password&quot;, vars.get(&quot;password&quot;));
+
 String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
+
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+
+
+map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
 //拼接入参
