@@ -67,6 +67,10 @@ char korean = (char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1)));</str
         <stringProp name="script">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
 
+
+//定义aes用的AppKey和WebKey
+props.put(&quot;AppKey&quot;, &quot;6mpQfK5BSzzOfrZ6&quot;);
+props.put(&quot;WebKey&quot;, &quot;viFZiOhDArcQTjkC&quot;);
 //所有常用参数列表放在这个json里
 JSONObject commonList = new JSONObject();
 
@@ -350,7 +354,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -13589,6 +13593,1144 @@ catch (Throwable ex) {
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie 管理器" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+        </CookieManager>
+        <hashTree/>
+        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="配置用户" enabled="true">
+          <collectionProp name="UserParameters.names">
+            <stringProp name="1370822415">loginUserId</stringProp>
+            <stringProp name="1216985755">password</stringProp>
+            <stringProp name="3208616">host</stringProp>
+            <stringProp name="3446913">port</stringProp>
+          </collectionProp>
+          <collectionProp name="UserParameters.thread_values">
+            <collectionProp name="1796497191">
+              <stringProp name="1958045010">1001200</stringProp>
+              <stringProp name="2138274831">f492a324fbf16d306ee09f5d0ac5e1eb</stringProp>
+              <stringProp name="-2071820130">hzdev.offerplus.com</stringProp>
+              <stringProp name="1786">82</stringProp>
+            </collectionProp>
+          </collectionProp>
+          <boolProp name="UserParameters.per_iteration">false</boolProp>
+        </UserParameters>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录用户并获取Cookie" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">82</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">user/login.do</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+
+//以下为接口必传参数
+
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+request.put(&quot;loginName&quot;, vars.get(&quot;loginUserId&quot;));
+request.put(&quot;password&quot;, vars.get(&quot;password&quot;));
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
+
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+          </BeanShellTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message">主账号没有登录成功！！！</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.获取Profile" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">/account/profile.do</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString())
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+          </BeanShellTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="2.修改头像" enabled="false">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="修改头像" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/account/editHeadImg.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+import offerplus.RandomImage;
+
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+AesUtils aes = new AesUtils();
+RandomImage randomImage = new RandomImage();
+JSONObject request = new JSONObject();
+//入参输入
+JSONObject commonList = JSONObject.parseObject(props.get(&quot;commonList&quot;));
+JSONArray imageList = commonList.getJSONArray(&quot;imageList&quot;);
+//保存新图片用于断言 
+String newImage = randomImage.randomImage(1, imageList);
+request.put(&quot;headImg&quot;, newImage);
+vars.put(&quot;newImage&quot;, newImage);
+
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="验证修改成功" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/account/profile.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="断言是否返回新头像" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	try{
+		JSONObject response = JSONObject.parseObject(vars.get(&quot;data&quot;));
+		if(response.containsKey(&quot;headImg&quot;)) {
+			if(response.getString(&quot;headImg&quot;).equals(vars.get(&quot;newImage&quot;))){
+				Failure = false;	
+				log.info(&quot;******************头像修改成功*******************&quot;);
+			}else{
+				Failure = true;
+				log.info(&quot;******************头像修改失败*******************&quot;);
+			}
+		}else{
+			Failure = true;
+			log.info(&quot;******************头像都没有了*******************&quot;);
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="3.修改用户名" enabled="false">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="修改用户名" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/account/editUserName.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+request.put(&quot;firstName&quot;, vars.get(&quot;loginUserId&quot;)+&quot;の姓&quot;+(char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1))));
+request.put(&quot;lastName&quot;, vars.get(&quot;loginUserId&quot;)+&quot;の名&quot;+(char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1))));
+vars.put(&quot;newName&quot;, request.getString(&quot;firstName&quot;)+&quot; &quot;+request.getString(&quot;lastName&quot;));
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), props.get(&quot;WebKey&quot;));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="验证修改成功" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/account/profile.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+String KEY = &quot;viFZiOhDArcQTjkC&quot;;
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="断言是否返回新名字" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	try{
+		JSONObject response = JSONObject.parseObject(vars.get(&quot;data&quot;));
+		if(response.containsKey(&quot;userName&quot;)) {
+			if(response.getString(&quot;userName&quot;).equals(vars.get(&quot;newName&quot;))){
+				Failure = false;	
+				log.info(&quot;******************用户名修改成功*******************&quot;);
+			}else{
+				Failure = true;
+				log.info(&quot;******************用户名修改失败*******************&quot;);
+			}
+		}else{
+			Failure = true;
+			log.info(&quot;******************用户名都没有了*******************&quot;);
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="4.申请试用" enabled="false">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <stringProp name="TestPlan.comments">这个接口适合手动调试，压测时建议屏蔽</stringProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="申请试用" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/account/requestTrial.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+//type:0判断公司审核情况 1提交试用申请
+request.put(&quot;type&quot;, &quot;0&quot;);
+request.put(&quot;productTotal&quot;, ${__Random(1,10,)});
+request.put(&quot;subAccountTotal&quot;, ${__Random(1,10,)});
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), props.get(&quot;WebKey&quot;));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="5.获取和修改个人设置" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="修改个人设置" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/account/settings/save.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+request.put(&quot;userStrangeStatus&quot;, ${__Random(0,1,)});
+request.put(&quot;userSearchStatus&quot;, ${__Random(0,1,)});
+vars.put(&quot;privateSetting&quot;, request.getString(&quot;userStrangeStatus&quot;)+request.getString(&quot;userStrangeStatus&quot;));
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), props.get(&quot;WebKey&quot;));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取个人设置" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">/account/settings.do</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+AesUtils aes = new AesUtils();
+JSONObject request = new JSONObject();
+//入参输入
+//入参输入结束
+
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), props.get(&quot;WebKey&quot;));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="判断修改是否生效" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	try{
+		JSONObject response = JSONObject.parseObject(vars.get(&quot;data&quot;));
+		if(response.containsKey(&quot;bindCountry&quot;) &amp;&amp; response.containsKey(&quot;userSearchStatus&quot;) &amp;&amp; response.containsKey(&quot;userStrangeStatus&quot;) &amp;&amp; (response.containsKey(&quot;bindPhone&quot;) || response.containsKey(&quot;userEmail&quot;))) {
+			if((response.getString(&quot;userStrangeStatus&quot;)+response.getString(&quot;userStrangeStatus&quot;)).equals(vars.get(&quot;privateSetting&quot;))){
+				log.info(&quot;****************个人设置保存成功****************&quot;);
+			}else{
+				log.info(&quot;****************个人设置保存失败****************&quot;);
+			}			
+			
+		}else{
+			log.info(&quot;****************必有参数中少了几个****************&quot;);	
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TEMPLATE" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -13631,11 +14773,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import offerplus.AesUtils;
+
 
 long L = System.currentTimeMillis();
 
 Map map = new HashMap();
-String KEY = &quot;viFZiOhDArcQTjkC&quot;;
 AesUtils aes = new AesUtils();
 JSONObject request = new JSONObject();
 //入参输入
@@ -13643,7 +14786,7 @@ request.put(&quot;&quot;, &quot;&quot;);
 request.put(&quot;&quot;, &quot;&quot;);
 //入参输入结束
 
-String encrypted = aes.aesWebEncrypt(request.toJSONString())
+String encrypted = aes.aesWebEncrypt(request.toJSONString(), props.get(&quot;WebKey&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -13712,6 +14855,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 	Failure = false;
 	try{
 		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		JSONObject response = JSONObject.parseObject(vars.get(&quot;data&quot;));
 		if(response.size() &gt; 0) {
 			int num = random.nextInt(response.size());
 			vars.put(&quot;&quot;, response.getJSONObject(num).getInteger(&quot;&quot;).toString());
@@ -13770,114 +14914,6 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
           <boolProp name="UserParameters.per_iteration">false</boolProp>
         </UserParameters>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录主账号并获取Cookie" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${body}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">${host}</stringProp>
-          <stringProp name="HTTPSampler.port">82</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-          <stringProp name="HTTPSampler.path">user/login.do</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-        </HTTPSamplerProxy>
-        <hashTree>
-          <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
-            <boolProp name="resetInterpreter">false</boolProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="script">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import offerplus.AesUtils;
-
-
-long L = System.currentTimeMillis();
-
-Map map = new HashMap();
-
-//以下为接口必传参数
-
-String KEY = &quot;viFZiOhDArcQTjkC&quot;;
-AesUtils aes = new AesUtils();
-JSONObject request = new JSONObject();
-request.put(&quot;loginName&quot;, vars.get(&quot;adminAccount&quot;));
-request.put(&quot;password&quot;, vars.get(&quot;password&quot;));
-
-String encrypted = aes.aesWebEncrypt(request.toJSONString(), KEY);
-
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
-
-
-map.put(&quot;timestamp&quot;, String.valueOf(L));
-
-
-//拼接入参
-String []str = new String[map.size()];
-
-Iterator it = map.keySet().iterator();  
-
-StringBuffer sb = new StringBuffer();
-sb.append(&quot;&quot;);
-int i = 0;
-while(it.hasNext()) {
-	str[i] = (String) it.next();
-	i ++;
-}
-
-//排序
-Arrays.sort(str);
-
-for (int j = 0; j &lt; str.length; j ++) {
-	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
-	if (j != str.length -1) {
-		sb.append(&quot;&amp;&quot;);
-	} 
-}
-
-//对入参进行MD5签名
-String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
-
-String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
-
-vars.put(&quot;body&quot;, body);
-</stringProp>
-          </BeanShellTimer>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
-            <stringProp name="Assertion.custom_message">主账号没有登录成功！！！</stringProp>
-          </ResponseAssertion>
-          <hashTree/>
-        </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：要修改哪些子账号" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
