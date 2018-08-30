@@ -125,7 +125,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
 //log.info(&quot;****************&quot;+props.get(&quot;commonList&quot;));</stringProp>
       </BeanShellPreProcessor>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="true">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="false">
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
@@ -141,7 +141,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -207,7 +207,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="false">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -223,7 +223,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="password">R7evMxOvLX</stringProp>
       </JDBCDataSource>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -289,7 +289,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -13584,7 +13584,7 @@ catch (Throwable ex) {
             <stringProp name="3446913">port</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="1796497191">
+            <collectionProp name="1740440970">
               <stringProp name="1958045010">1001200</stringProp>
               <stringProp name="2138274831">f492a324fbf16d306ee09f5d0ac5e1eb</stringProp>
               <stringProp name="-2071820130">hzdev.offerplus.com</stringProp>
@@ -13606,7 +13606,7 @@ catch (Throwable ex) {
             </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${host}</stringProp>
-          <stringProp name="HTTPSampler.port">82</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
           <stringProp name="HTTPSampler.path">user/login.do</stringProp>
@@ -13761,7 +13761,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             <stringProp name="HTTPSampler.port">${port}</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-            <stringProp name="HTTPSampler.path">/account/profile.do</stringProp>
+            <stringProp name="HTTPSampler.path">account/profile.do</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -13871,7 +13871,7 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">/account/editHeadImg.do</stringProp>
+              <stringProp name="HTTPSampler.path">account/editHeadImg.do</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -13984,7 +13984,7 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">/account/profile.do</stringProp>
+              <stringProp name="HTTPSampler.path">account/profile.do</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -14136,7 +14136,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
               <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">/account/editUserName.do</stringProp>
+              <stringProp name="HTTPSampler.path">account/editUserName.do</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -14245,7 +14245,7 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">/account/profile.do</stringProp>
+              <stringProp name="HTTPSampler.path">account/profile.do</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -14398,7 +14398,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
               <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">/account/requestTrial.do</stringProp>
+              <stringProp name="HTTPSampler.path">account/requestTrial.do</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -14514,7 +14514,7 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">/account/settings/save.do</stringProp>
+              <stringProp name="HTTPSampler.path">account/settings/save.do</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -14622,7 +14622,7 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">http</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">/account/settings.do</stringProp>
+              <stringProp name="HTTPSampler.path">account/settings.do</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -14777,7 +14777,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
                 <stringProp name="HTTPSampler.protocol">http</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                <stringProp name="HTTPSampler.path">/account/settings.do</stringProp>
+                <stringProp name="HTTPSampler.path">account/settings.do</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -15171,7 +15171,7 @@ vars.put(&quot;body&quot;, body);
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                  <stringProp name="HTTPSampler.path">/account/replaceEmail.do</stringProp>
+                  <stringProp name="HTTPSampler.path">account/replaceEmail.do</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
                   <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                   <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -15446,7 +15446,7 @@ vars.put(&quot;body&quot;, body);
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                  <stringProp name="HTTPSampler.path">/account/bindEmail.do</stringProp>
+                  <stringProp name="HTTPSampler.path">account/bindEmail.do</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
                   <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                   <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -15600,7 +15600,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
                 <stringProp name="HTTPSampler.protocol">http</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                <stringProp name="HTTPSampler.path">/account/settings.do</stringProp>
+                <stringProp name="HTTPSampler.path">account/settings.do</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -15998,7 +15998,7 @@ vars.put(&quot;body&quot;, body);
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                  <stringProp name="HTTPSampler.path">/account/replacePhone.do</stringProp>
+                  <stringProp name="HTTPSampler.path">account/replacePhone.do</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
                   <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                   <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -16277,7 +16277,7 @@ vars.put(&quot;body&quot;, body);
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                  <stringProp name="HTTPSampler.path">/account/bindPhone.do</stringProp>
+                  <stringProp name="HTTPSampler.path">account/bindPhone.do</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
                   <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                   <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -16415,10 +16415,10 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
           </hashTree>
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Catalog" enabled="true">
-          <stringProp name="TestPlan.comments">适合手动调试，自动跑得调参数</stringProp>
+          <stringProp name="TestPlan.comments">自动跑的流程，如果要手动调试的话注意1和4是必须开的</stringProp>
         </GenericController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.一级列表" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.Catalog一级列表" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -16433,7 +16433,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             <stringProp name="HTTPSampler.port">${port}</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-            <stringProp name="HTTPSampler.path">/catalog/list.do</stringProp>
+            <stringProp name="HTTPSampler.path">catalog/list.do</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -16532,7 +16532,7 @@ vars.put(&quot;body&quot;, body);
             <hashTree/>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.list</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
             </JSONPostProcessor>
@@ -16547,30 +16547,23 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 }else{
 	Failure = false;
 	vars.put(&quot;notCategoryMax&quot;, &quot;false&quot;);
-	vars.put(&quot;notEmptyCategory&quot;, &quot;false&quot;);
 	vars.put(&quot;hasCategory&quot;, &quot;false&quot;);
 	try{
-		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		JSONObject data = JSONObject.parseObject(vars.get(&quot;data&quot;));
+		JSONArray response = data.getJSONArray(&quot;list&quot;);
 		JSONArray result = new JSONArray();
-		if(response.size()&gt;0){
+		if(data.getInteger(&quot;total&quot;)&gt;0){
 			//判断category是否超限		
-			if(response.size()&lt;50){
+			if(data.getInteger(&quot;total&quot;)&lt;50){
 				vars.put(&quot;notCategoryMax&quot;, &quot;true&quot;);
 			}
-			//将有产品的category且未满归为一组			
-			for(int i=0; i&lt;response.size(); i++){
-				if(response.getJSONObject(i).getInteger(&quot;productTotal&quot;).equals(0)){
-					continue;
-				}else{
-					result.add(response.getJSONObject(i));
-				}
+			if(response.size()&gt;0){
+				vars.put(&quot;hasCategory&quot;, &quot;true&quot;);
+				//去要删的category id
+				vars.put(&quot;toDeleteCategoryId&quot;, String.valueOf(response.getJSONObject(random.nextInt(response.size())).getInteger(&quot;categoryId&quot;)));
+				//从category中随机取一个category id用于改名和新增
+				vars.put(&quot;categoryId&quot;, String.valueOf(response.getJSONObject(random.nextInt(response.size())).getInteger(&quot;categoryId&quot;)));		
 			}
-			//从有产品的category中随机取一个category id用于改名和新增
-			if(result.size()&gt;0){
-				vars.put(&quot;notEmptyCategory&quot;, &quot;true&quot;);
-				vars.put(&quot;categoryId&quot;, String.valueOf(result.getJSONObject(random.nextInt(result.size())).getInteger(&quot;categoryId&quot;)));
-			}
-			vars.put(&quot;toDeleteCategoryId&quot;, String.valueOf(response.getJSONObject(random.nextInt(response.size())).getInteger(&quot;categoryId&quot;)));
 		}
 	}catch (Throwable ex) {
 		log.error(&quot;Something went wrong&quot;, ex);
@@ -16695,12 +16688,12 @@ vars.put(&quot;body&quot;, body);
               <hashTree/>
             </hashTree>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="3.新增Category" enabled="false">
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="3.新增Category" enabled="true">
             <stringProp name="IfController.condition">${notCategoryMax}</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新增Category" enabled="false">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新增Category" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -16805,7 +16798,7 @@ vars.put(&quot;body&quot;, body);
               <hashTree/>
             </hashTree>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="5.Catalog二级列表" enabled="false">
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="4.Catalog二级列表" enabled="true">
             <stringProp name="IfController.condition">${hasCategory}</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
@@ -16935,7 +16928,7 @@ vars.put(&quot;body&quot;, body);
                 <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
               </JSONPostProcessor>
               <hashTree/>
-              <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="判断能否新增" enabled="true">
+              <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="判断能否增删" enabled="true">
                 <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
 Random random = new Random();
@@ -16946,11 +16939,20 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 	Failure = false;
 	try{
 		vars.put(&quot;canAddProduct&quot;, &quot;false&quot;);
-		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
-		if(response.getInteger(&quot;total&quot;)&lt;200){
+		vars.put(&quot;canDeleteProduct&quot;, &quot;false&quot;);
+		vars.put(&quot;categoryProductList&quot;, &quot;[]&quot;);
+		JSONObject data = JSONObject.parseObject(vars.get(&quot;data&quot;));
+		JSONArray response = data.getJSONArray(&quot;list&quot;);
+		if(data.getInteger(&quot;total&quot;)&lt;200){
 			vars.put(&quot;canAddProduct&quot;, &quot;true&quot;);
+			log.info(&quot;****************产品未满200个可以往里面加产品****************&quot;);
 		}
-		vars.put(&quot;categoryProductList&quot;, response.toJSONString());
+		if(data.getInteger(&quot;total&quot;)&gt;0){
+			vars.put(&quot;canDeleteProduct&quot;, &quot;true&quot;);
+			log.info(&quot;****************there are products that can be deleted****************&quot;);
+			vars.put(&quot;categoryProductList&quot;, response.toJSONString());
+			vars.put(&quot;existedProductTotal&quot;, String.valueOf(data.getInteger(&quot;total&quot;)));
+		}
 	}catch (Throwable ex) {
 		log.error(&quot;Something went wrong&quot;, ex);
 		throw ex;
@@ -16964,17 +16966,17 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
               <hashTree/>
             </hashTree>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="6.新增/删除产品" enabled="false">
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="5.增删产品" enabled="true">
             <stringProp name="IfController.condition">${hasCategory}</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="增加产品" enabled="true">
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:能增加产品" enabled="true">
               <stringProp name="IfController.condition">${canAddProduct}</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取by time一级列表" enabled="false">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="获取by time一级列表" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -17098,7 +17100,7 @@ vars.put(&quot;body&quot;, body);
                 <hashTree/>
                 <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
-                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.list</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
                 </JSONPostProcessor>
@@ -17136,7 +17138,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
-                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="增加产品" enabled="false">
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="增加产品" enabled="true">
                   <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                     <collectionProp name="Arguments.arguments">
@@ -17188,16 +17190,31 @@ Oujia oujia = new Oujia();
 JSONObject request = new JSONObject();
 Random random = new Random();
 //入参输入
+
+try{
+
 JSONArray productList = JSONArray.parseArray(vars.get(&quot;productList&quot;));
 JSONArray categoryProductList = JSONArray.parseArray(vars.get(&quot;categoryProductList&quot;));
 JSONArray toAddId = new JSONArray();
 
-int addNumber = random.nextInt(200-categoryProductList.size())+1;
-for(int i=0; i&lt;addNumer; i++){
-	toAddId
+int addNumber = random.nextInt(200-Integer.parseInt(vars.get(&quot;existedProductTotal&quot;)))+1;
+int index = -1;
+for(int i=0; i&lt;addNumber; i++){
+	if(productList.size()&gt;0){
+		index = random.nextInt(productList.size());
+		toAddId.add(productList.getJSONObject(index).getInteger(&quot;offerId&quot;));
+		productList.remove(index);	
+	}
 }
 request.put(&quot;categoryId&quot;, vars.get(&quot;categoryId&quot;));
-request.put(&quot;productId&quot;, &quot;4102539&quot;);
+request.put(&quot;productId&quot;, toAddId.toJSONString().substring(1,toAddId.toJSONString().length()-1));
+
+}
+catch (Throwable ex) {
+    log.error(&quot;Something went wrong&quot;, ex);
+    throw ex;
+}
+
 //入参输入结束
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
@@ -17252,37 +17269,42 @@ vars.put(&quot;body&quot;, body);
                 </hashTree>
               </hashTree>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="删除产品" enabled="false">
-              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">${body}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">http</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-              <stringProp name="HTTPSampler.path">catalog/product/remove.do</stringProp>
-              <stringProp name="HTTPSampler.method">POST</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout">10000</stringProp>
-              <stringProp name="HTTPSampler.response_timeout">10000</stringProp>
-            </HTTPSamplerProxy>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:能删除产品" enabled="true">
+              <stringProp name="IfController.condition">${canDeleteProduct}</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
             <hashTree>
-              <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
-                <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="parameters"></stringProp>
-                <stringProp name="filename"></stringProp>
-                <stringProp name="script">import java.util.ArrayList;
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="删除产品" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">${body}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                <stringProp name="HTTPSampler.port">${port}</stringProp>
+                <stringProp name="HTTPSampler.protocol">http</stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                <stringProp name="HTTPSampler.path">catalog/product/remove.do</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout">10000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">10000</stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                  <boolProp name="resetInterpreter">false</boolProp>
+                  <stringProp name="parameters"></stringProp>
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="script">import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17303,8 +17325,22 @@ Map map = new HashMap();
 Oujia oujia = new Oujia();
 JSONObject request = new JSONObject();
 //入参输入
+Random random = new Random();
+JSONArray categoryProductList = JSONArray.parseArray(vars.get(&quot;categoryProductList&quot;));
+JSONArray toDeleteId = new JSONArray();
+
+int deleteNumber = random.nextInt(categoryProductList.size())+1;
+int index = -1;
+for(int i=0; i&lt;deleteNumber; i++){
+	if(categoryProductList.size()&gt;0){
+		index = random.nextInt(categoryProductList.size());
+		toDeleteId.add(categoryProductList.getJSONObject(index).getInteger(&quot;productId&quot;));
+		categoryProductList.remove(index);
+	}
+}
+
 request.put(&quot;categoryId&quot;, vars.get(&quot;categoryId&quot;));
-request.put(&quot;productId&quot;, vars.get(&quot;productId&quot;));
+request.put(&quot;productId&quot;, toDeleteId.toJSONString().substring(1,toDeleteId.toJSONString().length()-1));
 //入参输入结束
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
@@ -17344,18 +17380,19 @@ String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
 
 vars.put(&quot;body&quot;, body);
 </stringProp>
-              </BeanShellTimer>
-              <hashTree/>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
-                <intProp name="Assertion.test_type">16</intProp>
-                <stringProp name="Assertion.custom_message"></stringProp>
-              </ResponseAssertion>
-              <hashTree/>
+                </BeanShellTimer>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
+                </ResponseAssertion>
+                <hashTree/>
+              </hashTree>
             </hashTree>
           </hashTree>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="6.删除Category" enabled="false">
@@ -17363,7 +17400,7 @@ vars.put(&quot;body&quot;, body);
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="删除Category" enabled="false">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="删除Category" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
