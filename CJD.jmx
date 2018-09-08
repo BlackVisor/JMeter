@@ -141,89 +141,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-内网(默认)" enabled="true">
-        <collectionProp name="Arguments.arguments">
-          <elementProp name="host" elementType="Argument">
-            <stringProp name="Argument.name">host</stringProp>
-            <stringProp name="Argument.value">192.168.1.50</stringProp>
-            <stringProp name="Argument.desc">内网Tomcat IP</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="port" elementType="Argument">
-            <stringProp name="Argument.name">port</stringProp>
-            <stringProp name="Argument.value">82</stringProp>
-            <stringProp name="Argument.desc">内网Tomcat 端口</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="path" elementType="Argument">
-            <stringProp name="Argument.name">path</stringProp>
-            <stringProp name="Argument.value">offerplus</stringProp>
-            <stringProp name="Argument.desc">项目路径，APP的是offerplus</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="packageName" elementType="Argument">
-            <stringProp name="Argument.name">packageName</stringProp>
-            <stringProp name="Argument.value">com.oujia.offerplus</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-            <stringProp name="Argument.desc">包名，默认安卓</stringProp>
-          </elementProp>
-          <elementProp name="appType" elementType="Argument">
-            <stringProp name="Argument.name">appType</stringProp>
-            <stringProp name="Argument.value">A</stringProp>
-            <stringProp name="Argument.desc">手机阵营，默认安卓</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="version" elementType="Argument">
-            <stringProp name="Argument.name">version</stringProp>
-            <stringProp name="Argument.value">1.1.6</stringProp>
-            <stringProp name="Argument.desc">APP版本，目前1.1.6</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="languagePack" elementType="Argument">
-            <stringProp name="Argument.name">languagePack</stringProp>
-            <stringProp name="Argument.value">en</stringProp>
-            <stringProp name="Argument.desc">语言，默认中文</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="source" elementType="Argument">
-            <stringProp name="Argument.name">source</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
-            <stringProp name="Argument.desc">APP下载地址，1=谷歌商店</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="isEncrypt" elementType="Argument">
-            <stringProp name="Argument.name">isEncrypt</stringProp>
-            <stringProp name="Argument.value">false</stringProp>
-            <stringProp name="Argument.desc">是否开启加密，布尔值</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="userId" elementType="Argument">
-            <stringProp name="Argument.name">userId</stringProp>
-            <stringProp name="Argument.value">1001240</stringProp>
-            <stringProp name="Argument.desc">单用户时的userId</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-        </collectionProp>
-        <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
-      </Arguments>
-      <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:内网" enabled="true">
-        <stringProp name="dataSource">DB</stringProp>
-        <stringProp name="poolMax">10</stringProp>
-        <stringProp name="timeout">10000</stringProp>
-        <stringProp name="trimInterval">60000</stringProp>
-        <boolProp name="autocommit">true</boolProp>
-        <stringProp name="transactionIsolation">DEFAULT</stringProp>
-        <boolProp name="keepAlive">true</boolProp>
-        <stringProp name="connectionAge">5000</stringProp>
-        <stringProp name="checkQuery">Select 1</stringProp>
-        <stringProp name="dbUrl">jdbc:mysql://192.168.1.7:3306/cn_offerplus</stringProp>
-        <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
-        <stringProp name="username">root</stringProp>
-        <stringProp name="password">R7evMxOvLX</stringProp>
-      </JDBCDataSource>
-      <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数-外网" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="全局参数配置" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
@@ -289,7 +207,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="TestPlan.comments">单用户时使用，多用户时禁用这个并启用CSV</stringProp>
       </Arguments>
       <hashTree/>
-      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL:外网" enabled="false">
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="MySQL配置" enabled="true">
         <stringProp name="dataSource">DB</stringProp>
         <stringProp name="poolMax">10</stringProp>
         <stringProp name="timeout">10000</stringProp>
@@ -342,7 +260,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -8952,22 +8870,22 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="true"/>
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="谁想充值" enabled="true">
             <collectionProp name="UserParameters.names">
               <stringProp name="-649439915">memberId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="568297782">
-                <stringProp name="1958052025">1001999</stringProp>
+              <collectionProp name="1456994559">
+                <stringProp name="1958102671">1003001</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
             <stringProp name="TestPlan.comments">memberId就是被充钱的帐号</stringProp>
           </UserParameters>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录并取会员状态" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="登录并取会员状态" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -9147,7 +9065,7 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="保持APP登录的走法" enabled="true"/>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="保持APP登录的走法" enabled="false"/>
           <hashTree>
             <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="JDBC Request" enabled="true">
               <stringProp name="dataSource">DB</stringProp>
@@ -9776,7 +9694,7 @@ vars.put(&quot;body&quot;, body);
             <hashTree/>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Quotation" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Quotation" enabled="false"/>
         <hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="基于PI报价" enabled="true">
             <stringProp name="TestPlan.comments">PI=public inquiry</stringProp>
@@ -13558,7 +13476,7 @@ catch (Throwable ex) {
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Customer" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Customer" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -17632,7 +17550,7 @@ vars.put(&quot;body&quot;, body);
             </ResponseAssertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2.by tag一级列表" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2.by tag一级列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
