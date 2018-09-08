@@ -125,7 +125,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
 //log.info(&quot;****************&quot;+props.get(&quot;commonList&quot;));</stringProp>
       </BeanShellPreProcessor>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="false">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="true">
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
