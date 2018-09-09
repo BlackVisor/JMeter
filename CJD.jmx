@@ -15,7 +15,7 @@
         <stringProp name="filename"></stringProp>
         <stringProp name="parameters"></stringProp>
         <boolProp name="resetInterpreter">false</boolProp>
-        <stringProp name="script">//这个文件保持禁用，只是用来说明
+        <stringProp name="script">//这个文件保持禁用，只是用来说明一些参数和函数的用法
 log.info(&quot;****************&quot;++&quot;****************&quot;);
 vars.get(&quot;&quot;);
 vars.put(&quot;&quot;, &quot;&quot;);
@@ -40,7 +40,6 @@ oujia.saltyPwd(string content); //用于把明文密码加盐加密
 JSONObject commonList = new JSONObject.parseObject(props.get(&quot;commonList&quot;));
 oujia.randomImage(int i, commonList.getJSONArray(&quot;imageList&quot;)); //用于生成数量0&lt;n≤i的图片的字符串，commonList就是在常用参数那个文件里定义的
 oujia.randomProduct(int i, commonList); //用于生成i个随机参数的产品
-
 
 //生成随机字符
 char chinese = (char) (19968 + (int) (Math.random() * (40869 - 19968 + 1)));
@@ -137,7 +136,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
         <stringProp name="HTTPSampler.proxyHost">127.0.0.1</stringProp>
         <stringProp name="HTTPSampler.proxyPort">8888</stringProp>
-        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+        <stringProp name="HTTPSampler.connect_timeout">15000</stringProp>
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
       <hashTree/>
@@ -251,7 +250,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           </elementProp>
           <elementProp name="Accept-Encoding" elementType="Header">
             <stringProp name="Header.name">Accept-Encoding</stringProp>
-            <stringProp name="Header.value">gzip, deflate</stringProp>
+            <stringProp name="Header.value">gzip,deflate</stringProp>
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">Content-Type</stringProp>
@@ -9696,9 +9695,7 @@ vars.put(&quot;body&quot;, body);
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Quotation" enabled="false"/>
         <hashTree>
-          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="基于PI报价" enabled="true">
-            <stringProp name="TestPlan.comments">PI=public inquiry</stringProp>
-          </GenericController>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="对公开询价报价" enabled="true"/>
           <hashTree>
             <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="定义PI与报价方" enabled="true">
               <collectionProp name="UserParameters.names">
@@ -9714,6 +9711,7 @@ vars.put(&quot;body&quot;, body);
                 </collectionProp>
               </collectionProp>
               <boolProp name="UserParameters.per_iteration">false</boolProp>
+              <stringProp name="TestPlan.comments">PI=public inquiry=公开询价</stringProp>
             </UserParameters>
             <hashTree/>
             <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="定义循环条件" enabled="true">
@@ -13498,15 +13496,11 @@ catch (Throwable ex) {
           <collectionProp name="UserParameters.names">
             <stringProp name="1370822415">loginUserId</stringProp>
             <stringProp name="1216985755">password</stringProp>
-            <stringProp name="3208616">host</stringProp>
-            <stringProp name="3446913">port</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="-922664929">
+            <collectionProp name="195706816">
               <stringProp name="1958102679">1003009</stringProp>
               <stringProp name="2138274831">f492a324fbf16d306ee09f5d0ac5e1eb</stringProp>
-              <stringProp name="-2071820130">hzdev.offerplus.com</stringProp>
-              <stringProp name="1786">82</stringProp>
             </collectionProp>
           </collectionProp>
           <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -20671,17 +20665,13 @@ log.info(&quot;****************&quot;+a+&quot;*************&quot;);
           <collectionProp name="UserParameters.names">
             <stringProp name="-1496737826">adminAccount</stringProp>
             <stringProp name="1216985755">password</stringProp>
-            <stringProp name="3208616">host</stringProp>
-            <stringProp name="3446913">port</stringProp>
             <stringProp name="3433509">path</stringProp>
             <stringProp name="1636031437">subAccount</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="-1552893459">
+            <collectionProp name="-1521975346">
               <stringProp name="1958102672">1003002</stringProp>
               <stringProp name="2138274831">f492a324fbf16d306ee09f5d0ac5e1eb</stringProp>
-              <stringProp name="-2071820130">hzdev.offerplus.com</stringProp>
-              <stringProp name="1786">82</stringProp>
               <stringProp name="98689">com</stringProp>
               <stringProp name="1958102672">1003002</stringProp>
             </collectionProp>
