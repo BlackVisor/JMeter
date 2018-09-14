@@ -32,9 +32,9 @@ catch (Throwable ex) {
 
 //offerplus这个jar包中的部分方法
 Oujia oujia = new Oujia();
-oujia.appEncrypt(string content, string appKey); //用于app的出参解密
-oujia.webEncrypt(string content, string webKey); //用于web的入参解密
-oujia.webDecrypt(string content, string webKey); //用于web的出参解密
+oujia.appEncrypt(string content, string APPKEY); //用于app的出参解密
+oujia.webEncrypt(string content, string WEBKEY); //用于web的入参解密
+oujia.webDecrypt(string content, string WEBKEY); //用于web的出参解密
 oujia.saltyPwd(string content); //用于把明文密码加盐加密
 
 JSONObject commonList = new JSONObject.parseObject(props.get(&quot;commonList&quot;));
@@ -56,8 +56,8 @@ import com.alibaba.fastjson.JSONArray;
 
 
 //定义aes用的AppKey和WebKey
-props.put(&quot;appKey&quot;, &quot;6mpQfK5BSzzOfrZ6&quot;);
-props.put(&quot;webKey&quot;, &quot;viFZiOhDArcQTjkC&quot;);
+props.put(&quot;APPKEY&quot;, &quot;6mpQfK5BSzzOfrZ6&quot;);
+props.put(&quot;WEBKEY&quot;, &quot;viFZiOhDArcQTjkC&quot;);
 //所有常用参数列表放在这个json里
 JSONObject commonList = new JSONObject();
 
@@ -13498,7 +13498,7 @@ catch (Throwable ex) {
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Customer" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Customer" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -13736,7 +13736,7 @@ JSONObject request = new JSONObject();
 //入参输入
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -14115,7 +14115,7 @@ request.put(&quot;lastName&quot;, vars.get(&quot;loginUserId&quot;)+&quot;の名
 vars.put(&quot;newName&quot;, request.getString(&quot;firstName&quot;)+&quot; &quot;+request.getString(&quot;lastName&quot;));
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -14378,7 +14378,7 @@ request.put(&quot;productTotal&quot;, ${__Random(1,10,)});
 request.put(&quot;subAccountTotal&quot;, ${__Random(1,10,)});
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -14492,7 +14492,7 @@ request.put(&quot;userSearchStatus&quot;, ${__Random(0,1,)});
 vars.put(&quot;privateSetting&quot;, request.getString(&quot;userStrangeStatus&quot;)+request.getString(&quot;userStrangeStatus&quot;));
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -14597,7 +14597,7 @@ JSONObject request = new JSONObject();
 //入参输入
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -14752,7 +14752,7 @@ JSONObject request = new JSONObject();
 //入参输入
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -14903,7 +14903,7 @@ request.put(&quot;email&quot;, vars.get(&quot;hisEmail&quot;));
 request.put(&quot;checkType&quot;, &quot;3&quot;);
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -15029,7 +15029,7 @@ request.put(&quot;email&quot;, vars.get(&quot;hisNewEmail&quot;));
 request.put(&quot;checkType&quot;, &quot;2&quot;);
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -15150,7 +15150,7 @@ request.put(&quot;email&quot;, vars.get(&quot;hisNewEmail&quot;));
 request.put(&quot;unbindCode&quot;, ${unBindCode_1});
 request.put(&quot;bindCode&quot;, ${bindCode_1});
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -15304,7 +15304,7 @@ request.put(&quot;email&quot;, vars.get(&quot;hisEmail&quot;));
 request.put(&quot;checkType&quot;, &quot;2&quot;);
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -15424,7 +15424,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;email&quot;, vars.get(&quot;hisEmail&quot;));
 request.put(&quot;checkCode&quot;, ${bindCode_1});
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -15575,7 +15575,7 @@ JSONObject request = new JSONObject();
 //入参输入
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -15729,7 +15729,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;checkType&quot;, &quot;1&quot;);
 //入参输入结束
 
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -15856,7 +15856,7 @@ request.put(&quot;bindCountry&quot;, vars.get(&quot;hisCountry&quot;));
 request.put(&quot;checkType&quot;, &quot;0&quot;);
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -15978,7 +15978,7 @@ request.put(&quot;bindCountry&quot;, vars.get(&quot;hisCountry&quot;));
 request.put(&quot;unBindCode&quot;, ${unBindCode_1});
 request.put(&quot;bindCode&quot;, ${bindCode_1});
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -16135,7 +16135,7 @@ request.put(&quot;bindCountry&quot;, &quot;China_86&quot;);
 request.put(&quot;checkType&quot;, &quot;0&quot;);
 //入参输入结束
 
-String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;));
+String encrypted = oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;));
 map.put(&quot;data&quot;, java.net.URLEncoder.encode(encrypted));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
@@ -16256,7 +16256,7 @@ request.put(&quot;bindPhone&quot;, vars.get(&quot;hisNewPhone&quot;));
 request.put(&quot;bindCountry&quot;, &quot;China_86&quot;);
 request.put(&quot;checkCode&quot;, ${bindCode_1});
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -16417,7 +16417,7 @@ JSONArray intervalFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);	
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -16573,7 +16573,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;categoryId&quot;, vars.get(&quot;categoryId&quot;));
 request.put(&quot;catalogName&quot;, &quot;这是&quot;+vars.get(&quot;loginUserId&quot;)+&quot;のCategory&quot;+vars.get(&quot;categoryId&quot;));
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -16683,7 +16683,7 @@ JSONObject request = new JSONObject();
 //入参输入
 request.put(&quot;catalogName&quot;, &quot;这是&quot;+vars.get(&quot;loginUserId&quot;)+&quot;のCategory&quot;+L);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -16808,7 +16808,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -16985,7 +16985,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -17153,7 +17153,7 @@ catch (Throwable ex) {
 }
 
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -17279,7 +17279,7 @@ for(int i=0; i&lt;deleteNumber; i++){
 request.put(&quot;categoryId&quot;, vars.get(&quot;categoryId&quot;));
 request.put(&quot;productId&quot;, toDeleteId.toJSONString().substring(1,toDeleteId.toJSONString().length()-1));
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -17391,7 +17391,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;categoryId&quot;, vars.get(&quot;toDeleteCategoryId&quot;));
 
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -17518,7 +17518,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -17641,7 +17641,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -17820,7 +17820,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -17935,7 +17935,7 @@ request.put(&quot;name&quot;, vars.get(&quot;loginUserId&quot;)+&quot;のTag&quo
 //request.put(&quot;offerTagId&quot;, &quot;24251&quot;);
 //request.put(&quot;name&quot;, &quot;201807241447&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18041,7 +18041,7 @@ JSONObject request = new JSONObject();
 //入参输入
 request.put(&quot;offerTagId&quot;, vars.get(&quot;offerTagId&quot;));
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18147,7 +18147,7 @@ request.put(&quot;name&quot;, vars.get(&quot;loginUserId&quot;)+&quot;のTag&quo
 
 //request.put(&quot;name&quot;, &quot;201807241447&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18270,7 +18270,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18440,7 +18440,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18570,7 +18570,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18694,7 +18694,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18871,7 +18871,7 @@ JSONArray multiFilts = new JSONArray();
 //排序规则
 //request.put(&quot;sortOrder&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -18984,7 +18984,7 @@ request.put(&quot;page&quot;, &quot;1&quot;);
 request.put(&quot;pageNum&quot;, &quot;20&quot;);
 //进行搜索要加下面这个参数
 //map.put(&quot;searchName&quot;, &quot;200&quot;);
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -19134,7 +19134,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;productFrom&quot;, &quot;0&quot;);
 //如果是已删除的offerId需要单独再获取一次
 request.put(&quot;offerIds&quot;, vars.get(&quot;originalOfferId&quot;));
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 //log.info(&quot;****************被copy的myProductId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
 
@@ -19230,7 +19230,7 @@ JSONObject request = new JSONObject();
 
 request.put(&quot;page&quot;, &quot;1&quot;);
 request.put(&quot;pageNum&quot;, &quot;20&quot;);
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -19381,7 +19381,7 @@ JSONObject request = new JSONObject();
 //以下为接口必传参数
 request.put(&quot;page&quot;, &quot;1&quot;);
 request.put(&quot;pageNum&quot;, &quot;20&quot;);
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -19528,7 +19528,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;page&quot;, 1);
 request.put(&quot;pageNum&quot;, 20);
 request.put(&quot;contactUserId&quot;, vars.get(&quot;memberId&quot;));
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -19680,7 +19680,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;productFrom&quot;, &quot;1&quot;);
 //如果是已删除的offerId需要单独再获取一次
 request.put(&quot;offerIds&quot;, vars.get(&quot;originalOfferId&quot;));
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 //log.info(&quot;****************被copy的myProductId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
 
@@ -19776,7 +19776,7 @@ JSONObject request = new JSONObject();
 
 request.put(&quot;page&quot;, &quot;1&quot;);
 request.put(&quot;pageNum&quot;, &quot;20&quot;);
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -19939,7 +19939,7 @@ request.put(&quot;page&quot;, &quot;1&quot;);
 request.put(&quot;pageNum&quot;, &quot;20&quot;);
 //进行搜索要加下面这个参数
 //map.put(&quot;searchName&quot;, &quot;200&quot;);
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -20079,7 +20079,7 @@ Oujia oujia = new Oujia();
 JSONObject request = new JSONObject();
 
 request.put(&quot;offerIds&quot;, vars.get(&quot;originalOfferId&quot;));
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 //log.info(&quot;****************被copy的myProductId=&quot;+vars.get(&quot;originalOfferId&quot;)+&quot;****************&quot;);
 
@@ -20180,7 +20180,7 @@ request.put(&quot;page&quot;, &quot;1&quot;);
 request.put(&quot;pageNum&quot;, &quot;20&quot;);
 //进行搜索要加下面这个参数
 //map.put(&quot;searchName&quot;, &quot;200&quot;);
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -20343,7 +20343,7 @@ JSONArray equalFilts = new JSONArray();
 JSONArray multiFilts = new JSONArray();
 //request.put(&quot;intervalFilts&quot;, intervalFilts);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -20460,7 +20460,7 @@ JSONArray equalFilts = new JSONArray();
 JSONArray multiFilts = new JSONArray();
 //request.put(&quot;intervalFilts&quot;, intervalFilts);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -20568,7 +20568,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;cryType&quot;, &quot;8&quot;);
 request.put(&quot;categoryId&quot;, &quot;123&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -20684,7 +20684,7 @@ multiFilts.add(multi_1);
 request.put(&quot;multiFilts&quot;, multiFilts);
 
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -20790,7 +20790,7 @@ JSONObject request = new JSONObject();
 request.put(&quot;&quot;, &quot;&quot;);
 request.put(&quot;&quot;, &quot;&quot;);
 //入参输入结束
-map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;webKey&quot;))));
+map.put(&quot;data&quot;, java.net.URLEncoder.encode(oujia.webEncrypt(request.toJSONString(), props.get(&quot;WEBKEY&quot;))));
 map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
@@ -21230,6 +21230,1683 @@ map.put(&quot;timestamp&quot;, String.valueOf(L));
 
 
 
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+          </BeanShellTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+          <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="Beanshell断言" enabled="true">
+            <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(response.size() &gt; 0) {
+			int num = random.nextInt(response.size());
+			vars.put(&quot;&quot;, response.getJSONObject(num).getInteger(&quot;&quot;).toString());
+			log.info(&quot;****************=&quot;++&quot;****************&quot;);
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+            <stringProp name="BeanShellAssertion.filename"></stringProp>
+            <stringProp name="BeanShellAssertion.parameters"></stringProp>
+            <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+          </BeanShellAssertion>
+          <hashTree/>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="DEBUG" enabled="false">
+          <stringProp name="BeanShellSampler.query">${__counter(TRUE,order)};
+log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie 管理器" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+        </CookieManager>
+        <hashTree/>
+        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="配置主账号" enabled="true">
+          <collectionProp name="UserParameters.names">
+            <stringProp name="663884173">adminEmail</stringProp>
+            <stringProp name="1216985755">password</stringProp>
+            <stringProp name="3433509">path</stringProp>
+          </collectionProp>
+          <collectionProp name="UserParameters.thread_values">
+            <collectionProp name="1149944452">
+              <stringProp name="314386015">812264061@qq.com</stringProp>
+              <stringProp name="1450575459">123456</stringProp>
+              <stringProp name="835260333">manager</stringProp>
+            </collectionProp>
+          </collectionProp>
+          <boolProp name="UserParameters.per_iteration">false</boolProp>
+        </UserParameters>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="管理员登录" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">${path}/admin/login.do</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+//入参输入
+map.put(&quot;email&quot;, vars.get(&quot;adminEmail&quot;));
+map.put(&quot;password&quot;, &quot;a688cbe1c576e83f83926ab355ef869b&quot;);
+//开发环境目前验证码随意填
+map.put(&quot;checkCode&quot;, &quot;666666&quot;);
+//入参输入结束
+map.put(&quot;timestamp&quot;, String.valueOf(L));
+
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+          </BeanShellTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用户列表" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">${path}/user/list.do</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+long L = System.currentTimeMillis();
+
+Map map = new HashMap();
+map.put(&quot;page&quot;, &quot;1&quot;);
+map.put(&quot;pageNum&quot;, &quot;20&quot;);
+//搜索内容，与searchType相结合
+map.put(&quot;searchName&quot;, &quot;1050712&quot;);
+//搜索字段，0=userId，1=userName
+map.put(&quot;searchType&quot;, &quot;0&quot;);
+//会员类型，0=basic，1=pro，2=pros，3=prom，4=prosm
+//map.put(&quot;memberType&quot;, &quot;1&quot;);
+
+
+
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+          </BeanShellTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+          <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="取userId" enabled="true">
+            <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	vars.put(&quot;hasUser&quot;, &quot;false&quot;);
+	vars.put(&quot;notSubAccount&quot;, &quot;false&quot;);
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(response.size() &gt; 0) {
+			int num = random.nextInt(response.size());
+			vars.put(&quot;userId&quot;, response.getJSONObject(num).getInteger(&quot;userId&quot;).toString());
+			vars.put(&quot;userStatus&quot;, response.getJSONObject(num).getInteger(&quot;userStatus&quot;).toString());
+			vars.put(&quot;hisDetail&quot;, response.getJSONObject(num).toJSONString());
+			log.info(&quot;************此人是&quot;+vars.get(&quot;userId&quot;)+&quot;**************&quot;);
+			vars.put(&quot;hasUser&quot;, &quot;true&quot;);
+			if(!response.getJSONObject(num).getInteger(&quot;userType&quot;).equals(2)){
+				vars.put(&quot;notSubAccount&quot;, &quot;true&quot;);
+			}
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+            <stringProp name="BeanShellAssertion.filename"></stringProp>
+            <stringProp name="BeanShellAssertion.parameters"></stringProp>
+            <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+          </BeanShellAssertion>
+          <hashTree/>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:取到userId" enabled="true">
+          <stringProp name="IfController.condition">${hasUser}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+        </IfController>
+        <hashTree>
+          <SwitchController guiclass="SwitchControllerGui" testclass="SwitchController" testname="封禁解封此人" enabled="false">
+            <stringProp name="SwitchController.value">${userStatus}</stringProp>
+          </SwitchController>
+          <hashTree>
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="先封后解" enabled="true">
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
+              <boolProp name="TransactionController.parent">false</boolProp>
+            </TransactionController>
+            <hashTree>
+              <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="封禁此人" enabled="true">
+                <boolProp name="TransactionController.includeTimers">false</boolProp>
+                <boolProp name="TransactionController.parent">false</boolProp>
+              </TransactionController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="封禁此人" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/frozen.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+//0=解封，1=封禁
+map.put(&quot;status&quot;, &quot;1&quot;);
+//封禁理由
+map.put(&quot;reason&quot;, &quot;封禁&quot;+vars.get(&quot;userId&quot;)+&quot;@&quot;+new Date().toString());
+map.put(&quot;userId&quot;, vars.get(&quot;userId&quot;));
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="验证封禁结果" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/list.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+map.put(&quot;page&quot;, &quot;1&quot;);
+map.put(&quot;pageNum&quot;, &quot;20&quot;);
+//搜索内容，与searchType相结合
+map.put(&quot;searchName&quot;, vars.get(&quot;userId&quot;));
+log.info(&quot;************查询&quot;+map.get(&quot;searchName&quot;)+&quot;封禁结果**************&quot;);
+//搜索字段，0=userId，1=userName
+map.put(&quot;searchType&quot;, &quot;0&quot;);
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
+                  <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="验证封禁结果" enabled="true">
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	vars.put(&quot;hasUser&quot;, &quot;false&quot;);
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(response.size() &gt; 0) {
+			if(response.getJSONObject(0).getInteger(&quot;userStatus&quot;).equals(1)){
+				Failure = false;
+			}else{
+				Failure = true;
+				FailureMessage = &quot;没封成功啊&quot;;
+			}
+		}else{
+			Failure = true;
+			FailureMessage = &quot;这人找不到了&quot;;
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+                    <stringProp name="BeanShellAssertion.filename"></stringProp>
+                    <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                    <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                  </BeanShellAssertion>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+              <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="解封此人" enabled="true">
+                <boolProp name="TransactionController.includeTimers">false</boolProp>
+                <boolProp name="TransactionController.parent">false</boolProp>
+              </TransactionController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="解封此人" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/frozen.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+//0=解封，1=封禁
+map.put(&quot;status&quot;, &quot;0&quot;);
+//封禁理由
+map.put(&quot;reason&quot;, &quot;解封&quot;+vars.get(&quot;userId&quot;)+&quot;@&quot;+new Date().toString());
+map.put(&quot;userId&quot;, vars.get(&quot;userId&quot;));
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="验证解封结果" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/list.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+map.put(&quot;page&quot;, &quot;1&quot;);
+map.put(&quot;pageNum&quot;, &quot;20&quot;);
+//搜索内容，与searchType相结合
+map.put(&quot;searchName&quot;, vars.get(&quot;userId&quot;));
+log.info(&quot;************查询&quot;+map.get(&quot;searchName&quot;)+&quot;解封结果**************&quot;);
+//搜索字段，0=userId，1=userName
+map.put(&quot;searchType&quot;, &quot;0&quot;);
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
+                  <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="验证解封结果" enabled="true">
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	vars.put(&quot;hasUser&quot;, &quot;false&quot;);
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(response.size() &gt; 0) {
+			if(response.getJSONObject(0).getInteger(&quot;userStatus&quot;).equals(0)){
+				Failure = false;
+			}else{
+				Failure = true;
+				FailureMessage = &quot;解封失败&quot;;
+			}
+		}else{
+			Failure = true;
+			FailureMessage = &quot;这人找不到了&quot;;
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+                    <stringProp name="BeanShellAssertion.filename"></stringProp>
+                    <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                    <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                  </BeanShellAssertion>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="先解后封" enabled="true">
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
+              <boolProp name="TransactionController.parent">false</boolProp>
+            </TransactionController>
+            <hashTree>
+              <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="解封此人" enabled="true">
+                <boolProp name="TransactionController.includeTimers">false</boolProp>
+                <boolProp name="TransactionController.parent">false</boolProp>
+              </TransactionController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="解封此人" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/frozen.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+//0=解封，1=封禁
+map.put(&quot;status&quot;, &quot;0&quot;);
+//封禁理由
+map.put(&quot;reason&quot;, &quot;解封&quot;+vars.get(&quot;userId&quot;)+&quot;@&quot;+new Date().toString());
+map.put(&quot;userId&quot;, vars.get(&quot;userId&quot;));
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="验证解封结果" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/list.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+map.put(&quot;page&quot;, &quot;1&quot;);
+map.put(&quot;pageNum&quot;, &quot;20&quot;);
+//搜索内容，与searchType相结合
+map.put(&quot;searchName&quot;, vars.get(&quot;userId&quot;));
+log.info(&quot;************查询&quot;+map.get(&quot;searchName&quot;)+&quot;解封结果**************&quot;);
+//搜索字段，0=userId，1=userName
+map.put(&quot;searchType&quot;, &quot;0&quot;);
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
+                  <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="验证解封结果" enabled="true">
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	vars.put(&quot;hasUser&quot;, &quot;false&quot;);
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(response.size() &gt; 0) {
+			if(response.getJSONObject(0).getInteger(&quot;userStatus&quot;).equals(0)){
+				Failure = false;
+			}else{
+				Failure = true;
+				FailureMessage = &quot;解封失败&quot;;
+			}
+		}else{
+			Failure = true;
+			FailureMessage = &quot;这人找不到了&quot;;
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+                    <stringProp name="BeanShellAssertion.filename"></stringProp>
+                    <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                    <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                  </BeanShellAssertion>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+              <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="封禁此人" enabled="true">
+                <boolProp name="TransactionController.includeTimers">false</boolProp>
+                <boolProp name="TransactionController.parent">false</boolProp>
+              </TransactionController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="封禁此人" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/frozen.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+//0=解封，1=封禁
+map.put(&quot;status&quot;, &quot;1&quot;);
+//封禁理由
+map.put(&quot;reason&quot;, &quot;封禁&quot;+vars.get(&quot;userId&quot;)+&quot;@&quot;+new Date().toString());
+map.put(&quot;userId&quot;, vars.get(&quot;userId&quot;));
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="验证封禁结果" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/user/list.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+map.put(&quot;page&quot;, &quot;1&quot;);
+map.put(&quot;pageNum&quot;, &quot;20&quot;);
+//搜索内容，与searchType相结合
+map.put(&quot;searchName&quot;, vars.get(&quot;userId&quot;));
+log.info(&quot;************查询&quot;+map.get(&quot;searchName&quot;)+&quot;封禁结果**************&quot;);
+//搜索字段，0=userId，1=userName
+map.put(&quot;searchType&quot;, &quot;0&quot;);
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
+                  <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="验证封禁结果" enabled="true">
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	vars.put(&quot;hasUser&quot;, &quot;false&quot;);
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(response.size() &gt; 0) {
+			if(response.getJSONObject(0).getInteger(&quot;userStatus&quot;).equals(1)){
+				Failure = false;
+			}else{
+				Failure = true;
+				FailureMessage = &quot;没封成功啊&quot;;
+			}
+		}else{
+			Failure = true;
+			FailureMessage = &quot;这人找不到了&quot;;
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+                    <stringProp name="BeanShellAssertion.filename"></stringProp>
+                    <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                    <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                  </BeanShellAssertion>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:非子账号" enabled="true">
+          <stringProp name="IfController.condition">${notSubAccount}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="设置会员" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">${path}/</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+map.put(&quot;userId&quot;, vars.get(&quot;userId&quot;));
+JSONObject hisDetail = JSONObject.parseObject(vars.get(&quot;hisDetail&quot;));
+JSONObject newMembership = new JSONObject();
+if(hisDetail.getInteger(&quot;userType&quot;).equals(0)){
+	map.put(&quot;month&quot;, 6*${__Random(1,2,)});
+	map.put(&quot;productTotal&quot;, ${__Random(0,5,)});
+	map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)});
+	
+	newMembership.put(&quot;month&quot;, map.get(&quot;month&quot;));
+	newMembership.put(&quot;productTotal&quot;, map.get(&quot;productTotal&quot;));
+	newMembership.put(&quot;subAccountTotal&quot;, map.get(&quot;subAccountTotal&quot;));
+}else{
+	//决定是否续费
+	if(${__Random(0,1,)}!=0){
+		map.put(&quot;month&quot;, 6*${__Random(1,2,)});
+		map.put(&quot;productTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;productTotal&quot;));
+		map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;subAccountTotal&quot;));
+		if(${__Random(0,1,)}==0){
+			map.remove(&quot;productTotal&quot;);
+		}
+		if(${__Random(0,1,)}==0){
+			map.remove(&quot;subAccountTotal&quot;);
+		}
+		newMembership.put(&quot;month&quot;, map.get(&quot;month&quot;));
+		newMembership.put(&quot;productTotal&quot;, map.get(&quot;productTotal&quot;));
+		newMembership.put(&quot;subAccountTotal&quot;, map.get(&quot;subAccountTotal&quot;));
+	}else{
+		map.put(&quot;productTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;productTotal&quot;));
+		map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;subAccountTotal&quot;));
+		if(${__Random(0,1,)}==0){
+			map.remove(&quot;productTotal&quot;);
+		}else{
+			newMembership.put(&quot;productTotal&quot;, map.get(&quot;productTotal&quot;));	
+		}
+		if(${__Random(0,1,)}==0){
+			map.remove(&quot;subAccountTotal&quot;);
+		}else{
+			newMembership.put(&quot;subAccountTotal&quot;, map.get(&quot;subAccountTotal&quot;));
+		}
+	}
+}
+vars.put(&quot;newMembership&quot;, newMembership.toJSONString());
+
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="验证设置成功" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+            <stringProp name="HTTPSampler.path">${path}/</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+map.put(&quot;page&quot;, &quot;1&quot;);
+map.put(&quot;pageNum&quot;, &quot;20&quot;);
+//搜索内容，与searchType相结合
+map.put(&quot;searchName&quot;, vars.get(&quot;userId&quot;));
+log.info(&quot;************查询&quot;+map.get(&quot;searchName&quot;)+&quot;设置会员后结果**************&quot;);
+//搜索字段，0=userId，1=userName
+map.put(&quot;searchType&quot;, &quot;0&quot;);
+
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+            </BeanShellTimer>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="验证设置会员" enabled="true">
+              <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(response.size() &gt; 0) {
+			JSONObject hisDetail = JSONObject.parseObject(vars.get(&quot;hisDetail&quot;));
+			JSONObject newMembership = JSONObject.parseObject(vars.get(&quot;newMembership&quot;));
+			if(hisDetail.getInteger(&quot;userType&quot;).equals(0)){
+				if(newMembership.getInteger(&quot;&quot;)){}
+			}else{
+				
+			}
+		}else{
+			Failure = true;
+			FailureMessage = &quot;这人找不到了&quot;;
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TEMPLATE" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${body}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">${path}/</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+map.put(&quot;&quot;, &quot;&quot;);
+map.put(&quot;&quot;, &quot;&quot;);
+//入参输入结束
 
 //拼接入参
 String []str = new String[map.size()];
