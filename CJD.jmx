@@ -8876,8 +8876,8 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
               <stringProp name="-649439915">memberId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1456994559">
-                <stringProp name="1958102671">1003001</stringProp>
+              <collectionProp name="-578718521">
+                <stringProp name="1961979411">1049425</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -9080,7 +9080,7 @@ if(vars.get(&quot;response&quot;).equals(&quot;-1&quot;)){
             <hashTree/>
             <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
               <stringProp name="BeanShellSampler.query">vars.put(&quot;tokenId&quot;, &quot;${token_id_1}&quot;);
-vars.put(&quot;rechargeType&quot;, &quot;2&quot;);</stringProp>
+vars.put(&quot;rechargeType&quot;, &quot;0&quot;);</stringProp>
               <stringProp name="BeanShellSampler.filename"></stringProp>
               <stringProp name="BeanShellSampler.parameters"></stringProp>
               <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -13498,7 +13498,7 @@ catch (Throwable ex) {
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Customer" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Customer" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -13681,7 +13681,7 @@ vars.put(&quot;data&quot;, &quot;-1&quot;);
           </BeanShellAssertion>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Account" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Account" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1.获取Profile" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -14053,7 +14053,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
               <hashTree/>
             </hashTree>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="3.修改用户名" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="3.修改用户名" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -14110,8 +14110,10 @@ Map map = new HashMap();
 Oujia oujia = new Oujia();
 JSONObject request = new JSONObject();
 //入参输入
-request.put(&quot;firstName&quot;, vars.get(&quot;loginUserId&quot;)+&quot;の姓&quot;+(char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1))));
-request.put(&quot;lastName&quot;, vars.get(&quot;loginUserId&quot;)+&quot;の名&quot;+(char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1))));
+//request.put(&quot;firstName&quot;, vars.get(&quot;loginUserId&quot;)+&quot;の姓&quot;+(char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1))));
+//request.put(&quot;lastName&quot;, vars.get(&quot;loginUserId&quot;)+&quot;の名&quot;+(char) ( 44032 + (int)(Math.random() * (55203 - 44032 + 1))));
+request.put(&quot;firstName&quot;, &quot;&quot;);
+request.put(&quot;lastName&quot;, &quot;&quot;);
 vars.put(&quot;newName&quot;, request.getString(&quot;firstName&quot;)+&quot; &quot;+request.getString(&quot;lastName&quot;));
 //入参输入结束
 
@@ -20512,7 +20514,7 @@ vars.put(&quot;body&quot;, body);
             <hashTree/>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="筛选列表" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="筛选列表" enabled="false"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="币种列表" enabled="false">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -21317,7 +21319,7 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
