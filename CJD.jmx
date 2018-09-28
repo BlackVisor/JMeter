@@ -124,7 +124,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
 //log.info(&quot;****************&quot;+props.get(&quot;commonList&quot;));</stringProp>
       </BeanShellPreProcessor>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="true">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="false">
         <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
           <collectionProp name="Arguments.arguments">
@@ -21576,7 +21576,7 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
             <stringProp name="3433509">path</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="-457568208">
+            <collectionProp name="-687138540">
               <stringProp name="314386015">812264061@qq.com</stringProp>
               <stringProp name="-1224104529">a688cbe1c576e83f83926ab355ef869b</stringProp>
               <stringProp name="835260333">manager</stringProp>
@@ -21691,7 +21691,7 @@ vars.put(&quot;body&quot;, body);
           </ResultAction>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="用户管理" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="用户管理" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用户列表" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -21742,7 +21742,7 @@ Map map = new HashMap();
 map.put(&quot;page&quot;, &quot;1&quot;);
 map.put(&quot;pageNum&quot;, &quot;20&quot;);
 //搜索内容，与searchType相结合
-map.put(&quot;searchName&quot;, &quot;1001200&quot;);
+map.put(&quot;searchName&quot;, &quot;1003001&quot;);
 //搜索字段，0=userId，1=userName
 map.put(&quot;searchType&quot;, &quot;0&quot;);
 //会员类型，0=basic，1=pro，2=pros，3=prom，4=prosm
@@ -21794,14 +21794,14 @@ vars.put(&quot;body&quot;, body);
               <stringProp name="Assertion.custom_message"></stringProp>
             </ResponseAssertion>
             <hashTree/>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="false">
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="取userId" enabled="false">
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="取userId" enabled="true">
               <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
 Random random = new Random();
@@ -21837,7 +21837,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:取到userId" enabled="false">
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:取到userId" enabled="true">
             <stringProp name="IfController.condition">${hasUser}</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
@@ -22885,30 +22885,24 @@ if(hisDetail.getInteger(&quot;userType&quot;).equals(0)){
 	//决定是否续费
 	if(${__Random(0,1,)}!=0){
 		map.put(&quot;month&quot;, 6*${__Random(1,2,)});
-		map.put(&quot;productTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;productTotal&quot;));
-		map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;subAccountTotal&quot;));
+		map.put(&quot;productTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;usedProductTotal&quot;));
+		map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;usedSubAccountTotal&quot;));
 		if(${__Random(0,1,)}==0){
-			map.remove(&quot;productTotal&quot;);
+			//随机决定是否额外买产品名额
+			map.put(&quot;productTotal&quot;, hisDetail.getInteger(&quot;usedProductTotal&quot;));
 		}
 		if(${__Random(0,1,)}==0){
-			map.remove(&quot;subAccountTotal&quot;);
+			//随机决定是否额外买子账号名额
+			map.put(&quot;subAccountTotal&quot;, hisDetail.getInteger(&quot;usedSubAccountTotal&quot;));
 		}
 		newMembership.put(&quot;month&quot;, map.get(&quot;month&quot;));
 		newMembership.put(&quot;productTotal&quot;, map.get(&quot;productTotal&quot;));
 		newMembership.put(&quot;subAccountTotal&quot;, map.get(&quot;subAccountTotal&quot;));
 	}else{
-		map.put(&quot;productTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;productTotal&quot;));
-		map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;subAccountTotal&quot;));
-		if(${__Random(0,1,)}==0){
-			map.remove(&quot;productTotal&quot;);
-		}else{
-			newMembership.put(&quot;productTotal&quot;, map.get(&quot;productTotal&quot;));	
-		}
-		if(${__Random(0,1,)}==0){
-			map.remove(&quot;subAccountTotal&quot;);
-		}else{
-			newMembership.put(&quot;subAccountTotal&quot;, map.get(&quot;subAccountTotal&quot;));
-		}
+		map.put(&quot;productTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;usedProductTotal&quot;));
+		map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;usedSubAccountTotal&quot;));
+		newMembership.put(&quot;productTotal&quot;, map.get(&quot;productTotal&quot;));	
+		newMembership.put(&quot;subAccountTotal&quot;, map.get(&quot;subAccountTotal&quot;));
 	}
 }
 vars.put(&quot;newMembership&quot;, newMembership.toJSONString());
@@ -23101,13 +23095,13 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 		            }
 		        }
 		        if(newMembership.containsKey(&quot;productTotal&quot;)){
-		            if(!((response.getJSONObject(0).getInteger(&quot;productTotal&quot;)-hisDetail.getInteger(&quot;productTotal&quot;))==(newMembership.getInteger(&quot;productTotal&quot;)))){
+		            if(!(response.getJSONObject(0).getInteger(&quot;productTotal&quot;)==newMembership.getInteger(&quot;productTotal&quot;))){
 		                Failure = true;
 		                FailureMessage = &quot;productTotal对不上&quot;;
 		            }
 		        }
 		        if(newMembership.containsKey(&quot;subAccountTotal&quot;)){
-		            if(!((response.getJSONObject(0).getInteger(&quot;subAccountTotal&quot;)-hisDetail.getInteger(&quot;subAccountTotal&quot;))==(newMembership.getInteger(&quot;subAccountTotal&quot;)))){
+		            if(!(response.getJSONObject(0).getInteger(&quot;subAccountTotal&quot;)==newMembership.getInteger(&quot;subAccountTotal&quot;))){
 		                Failure = true;
 		                FailureMessage = &quot;subAccountTotal对不上&quot;;
 		            }
@@ -23130,7 +23124,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 <hashTree/>
               </hashTree>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查充值列表" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查充值列表" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -23222,7 +23216,7 @@ vars.put(&quot;body&quot;, body);
               </ResponseAssertion>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查操作列表" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查操作列表" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -23314,7 +23308,7 @@ vars.put(&quot;body&quot;, body);
               </ResponseAssertion>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查试用记录" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查试用记录" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -24009,7 +24003,7 @@ vars.put(&quot;body&quot;, &quot;-1&quot;);</stringProp>
             <hashTree/>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="运营管理" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="运营管理" enabled="false"/>
         <hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="运营主页" enabled="true"/>
           <hashTree>
