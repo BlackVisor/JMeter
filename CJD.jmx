@@ -124,7 +124,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
 //log.info(&quot;****************&quot;+props.get(&quot;commonList&quot;));</stringProp>
       </BeanShellPreProcessor>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="false">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="true">
         <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
           <collectionProp name="Arguments.arguments">
@@ -21742,7 +21742,7 @@ Map map = new HashMap();
 map.put(&quot;page&quot;, &quot;1&quot;);
 map.put(&quot;pageNum&quot;, &quot;20&quot;);
 //搜索内容，与searchType相结合
-map.put(&quot;searchName&quot;, &quot;1003001&quot;);
+map.put(&quot;searchName&quot;, &quot;1004001&quot;);
 //搜索字段，0=userId，1=userName
 map.put(&quot;searchType&quot;, &quot;0&quot;);
 //会员类型，0=basic，1=pro，2=pros，3=prom，4=prosm
@@ -22819,7 +22819,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
                 </hashTree>
               </hashTree>
             </hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:非子账号" enabled="false">
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:非子账号" enabled="true">
               <stringProp name="IfController.condition">${notSubAccount}</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
@@ -22901,6 +22901,14 @@ if(hisDetail.getInteger(&quot;userType&quot;).equals(0)){
 	}else{
 		map.put(&quot;productTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;usedProductTotal&quot;));
 		map.put(&quot;subAccountTotal&quot;, ${__Random(0,5,)}+hisDetail.getInteger(&quot;usedSubAccountTotal&quot;));
+		if(${__Random(0,1,)}==0){
+			//随机决定是否额外买产品名额
+			map.put(&quot;productTotal&quot;, hisDetail.getInteger(&quot;usedProductTotal&quot;));
+		}
+		if(${__Random(0,1,)}==0){
+			//随机决定是否额外买子账号名额
+			map.put(&quot;subAccountTotal&quot;, hisDetail.getInteger(&quot;usedSubAccountTotal&quot;));
+		}
 		newMembership.put(&quot;productTotal&quot;, map.get(&quot;productTotal&quot;));	
 		newMembership.put(&quot;subAccountTotal&quot;, map.get(&quot;subAccountTotal&quot;));
 	}
@@ -23400,7 +23408,7 @@ vars.put(&quot;body&quot;, body);
               </ResponseAssertion>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查用户数据" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查用户数据" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -23493,7 +23501,7 @@ vars.put(&quot;body&quot;, body);
               <hashTree/>
             </hashTree>
           </hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="最后初始化" enabled="false">
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="最后初始化" enabled="true">
             <stringProp name="BeanShellSampler.query">vars.put(&quot;hasUser&quot;, &quot;false&quot;);
 vars.put(&quot;notSubAccount&quot;, &quot;false&quot;);
 vars.put(&quot;userId&quot;, &quot;-1&quot;);
