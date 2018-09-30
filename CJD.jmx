@@ -266,7 +266,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -281,7 +281,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         <stringProp name="ThreadGroup.delay">2</stringProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="从Redis取Token" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="从Redis取Token" enabled="false">
           <stringProp name="BeanShellSampler.query">import redis.clients.jedis.Jedis;
 
 
@@ -9014,15 +9014,15 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="true"/>
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="谁想充值" enabled="true">
             <collectionProp name="UserParameters.names">
               <stringProp name="-649439915">memberId</stringProp>
             </collectionProp>
             <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="1356097022">
-                <stringProp name="1961707638">1040089</stringProp>
+              <collectionProp name="1958045044">
+                <stringProp name="1958045013">1001203</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>
@@ -21551,7 +21551,7 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
