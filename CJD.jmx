@@ -205,7 +205,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           </elementProp>
           <elementProp name="userId" elementType="Argument">
             <stringProp name="Argument.name">userId</stringProp>
-            <stringProp name="Argument.value">1001240</stringProp>
+            <stringProp name="Argument.value">1000705</stringProp>
             <stringProp name="Argument.desc">单用户时的userId</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -287,7 +287,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="true"/>
         <hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="从Redis取Token" enabled="true">
             <stringProp name="BeanShellSampler.query">import redis.clients.jedis.Jedis;
@@ -3603,7 +3603,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             </BeanShellAssertion>
             <hashTree/>
           </hashTree>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="14.新建产品-随机参数" enabled="false">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="14.新建产品-随机参数" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -4384,7 +4384,11 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 				sb.append(response.getJSONObject(i).getInteger(&quot;offerTagId&quot;).toString());
 			}
 		}
-		vars.put(&quot;offerTagList&quot;, vars.get(&quot;offerTagList&quot;)+&quot;,&quot;+sb.toString());
+		if(vars.get(&quot;offerTagList&quot;).equals(&quot;-1&quot;)){
+			vars.put(&quot;offerTagList&quot;, sb.toString());
+		}else{
+			vars.put(&quot;offerTagList&quot;, vars.get(&quot;offerTagList&quot;)+&quot;,&quot;+sb.toString());
+		}
 		log.info(&quot;****************&quot;+${userId}+&quot;のOfferTagList=&quot;+vars.get(&quot;offerTagList&quot;)+&quot;****************&quot;);
 	}else{
 		log.info(&quot;****************没有再加OfferTag****************&quot;);
@@ -4400,7 +4404,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
             <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：设定新建几个" enabled="true">
               <boolProp name="LoopController.continue_forever">true</boolProp>
-              <stringProp name="LoopController.loops">1</stringProp>
+              <stringProp name="LoopController.loops">99</stringProp>
             </LoopController>
             <hashTree>
               <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定定时器" enabled="true">
@@ -8906,7 +8910,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Membership" enabled="false"/>
         <hashTree>
           <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="谁想充值" enabled="true">
             <collectionProp name="UserParameters.names">
