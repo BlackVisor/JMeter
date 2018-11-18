@@ -124,7 +124,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
 //log.info(&quot;****************&quot;+props.get(&quot;commonList&quot;));</stringProp>
       </BeanShellPreProcessor>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="true">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="代理到本地Fiddler" enabled="false">
         <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
           <collectionProp name="Arguments.arguments">
@@ -266,7 +266,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -21795,7 +21795,7 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -21817,12 +21817,14 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
           <collectionProp name="UserParameters.names">
             <stringProp name="663884173">adminEmail</stringProp>
             <stringProp name="1216985755">password</stringProp>
+            <stringProp name="3446913">port</stringProp>
             <stringProp name="3433509">path</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="-687138540">
+            <collectionProp name="-2020582145">
               <stringProp name="314386015">812264061@qq.com</stringProp>
               <stringProp name="-1224104529">a688cbe1c576e83f83926ab355ef869b</stringProp>
+              <stringProp name="1788">84</stringProp>
               <stringProp name="835260333">manager</stringProp>
             </collectionProp>
           </collectionProp>
@@ -21935,7 +21937,7 @@ vars.put(&quot;body&quot;, body);
           </ResultAction>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="用户管理" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="用户管理" enabled="false"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用户列表" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -25735,6 +25737,464 @@ vars.put(&quot;body&quot;, &quot;-1&quot;);</stringProp>
             <hashTree/>
           </hashTree>
         </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="管理员管理" enabled="true"/>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="促销工具" enabled="true"/>
+          <hashTree>
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="新建优惠券" enabled="false">
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
+              <boolProp name="TransactionController.parent">false</boolProp>
+            </TransactionController>
+            <hashTree>
+              <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+                <boolProp name="LoopController.continue_forever">true</boolProp>
+                <stringProp name="LoopController.loops">100</stringProp>
+              </LoopController>
+              <hashTree>
+                <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="currentBatchId" elementType="Argument">
+                      <stringProp name="Argument.name">currentBatchId</stringProp>
+                      <stringProp name="Argument.value">96</stringProp>
+                      <stringProp name="Argument.desc">手动从数据库取最新的批次号，用于后面新增时递增批次号</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </Arguments>
+                <hashTree/>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建批次" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/coupon/add.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+//0=折扣券，1=满减券
+map.put(&quot;couponType&quot;, ${__Random(0,1,)});
+if(map.get(&quot;couponType&quot;).equals(0)){
+	map.put(&quot;couponName&quot;, &quot;这是第&quot;+(${__counter(TRUE,)}+Integer.parseInt(vars.get(&quot;currentBatchId&quot;))).toString()+&quot;批优惠券,&quot;+&quot;是折扣券&quot;);
+	//1-99
+	map.put(&quot;discount&quot;, ${__Random(1,99,)});
+	//0-99999
+	map.put(&quot;discountHighestPrice&quot;, ${__Random(10,99,)});
+	//0-99999
+	map.put(&quot;discountLowestPrice&quot;, ${__Random(1,9,)});
+}else{
+	map.put(&quot;couponName&quot;, &quot;这是第&quot;+(${__counter(TRUE,)}+Integer.parseInt(vars.get(&quot;currentBatchId&quot;))).toString()+&quot;批优惠券,&quot;+&quot;是满减券&quot;);
+	//0-99999
+	map.put(&quot;fullSubPrice&quot;, ${__Random(0,99,)});
+	//0-99999
+	map.put(&quot;fullSubDiscountPrice&quot;, ${__Random(1,99,)});
+}
+//0=积分兑换，1=兑换码兑换，2直接绑定
+switch(${__Random(0,2,)}){
+	case 0:
+		map.put(&quot;couponSource&quot;, &quot;0&quot;);
+		break;
+	case 1:
+		map.put(&quot;couponSource&quot;, &quot;1&quot;);
+		break;
+	case 2:
+		map.put(&quot;couponSource&quot;, &quot;2&quot;);
+		break;
+}
+
+Date date =  new Date();
+Calendar calendar = new GregorianCalendar();
+calendar.add(calendar.DATE, ${__Random(1,13,)});
+map.put(&quot;effectiveTime&quot;, String.valueOf(calendar.getTimeInMillis()));
+//1-99999
+if(${__Random(1,5,)}&lt;5){
+	map.put(&quot;couponTotal&quot;, ${__Random(1,10,)});
+}else{
+	map.put(&quot;couponTotal&quot;, ${__Random(10,200,)});
+}
+//上限800字符
+map.put(&quot;instructions&quot;, map.get(&quot;couponName&quot;));
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                  <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="遇错停止" enabled="true">
+                    <intProp name="OnError.action">1</intProp>
+                  </ResultAction>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="积分兑换奖励" enabled="true">
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
+              <boolProp name="TransactionController.parent">false</boolProp>
+            </TransactionController>
+            <hashTree>
+              <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="想新建几轮" enabled="true">
+                <boolProp name="LoopController.continue_forever">true</boolProp>
+                <stringProp name="LoopController.loops">1</stringProp>
+              </LoopController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="取有余票的批次" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">${body}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                  <stringProp name="HTTPSampler.port">${port}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                  <stringProp name="HTTPSampler.path">${path}/coupon/surplus/batch/list.do</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+map.put(&quot;couponType&quot;, ${__Random(0,1,)});
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                  </BeanShellTimer>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">16</intProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
+                  <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="Beanshell断言" enabled="true">
+                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	vars.put(&quot;hasSurplus&quot;, &quot;false&quot;);
+	try{
+		JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
+		if(!response.isEmpty()) {
+			int num = random.nextInt(response.size());
+			if(response.getJSONObject(num).getInteger(&quot;surplusTotal&quot;)&gt;0){
+				vars.put(&quot;hasSurplus&quot;, &quot;true&quot;);
+				vars.put(&quot;batchId&quot;, response.getJSONObject(num).getInteger(&quot;batchId&quot;).toString());
+				vars.put(&quot;redeemRewardCount&quot;, String.valueOf(${__Random(1,20,)}));
+				vars.put(&quot;newRedeemReward&quot;, &quot;true&quot;);
+			}else{
+				vars.put(&quot;hasSurplus&quot;, &quot;false&quot;);
+			}
+		}else{
+			Failure = true;
+			FailureMessage = &quot;无返回data&quot;;
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+                    <stringProp name="BeanShellAssertion.filename"></stringProp>
+                    <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                    <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                  </BeanShellAssertion>
+                  <hashTree/>
+                  <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="遇错停止" enabled="true">
+                    <intProp name="OnError.action">1</intProp>
+                  </ResultAction>
+                  <hashTree/>
+                </hashTree>
+                <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if:某批次有余票" enabled="true">
+                  <stringProp name="IfController.condition">${hasSurplus}</stringProp>
+                  <boolProp name="IfController.evaluateAll">false</boolProp>
+                </IfController>
+                <hashTree>
+                  <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While:没到预计奖励数" enabled="true">
+                    <stringProp name="WhileController.condition">${newRedeemReward}</stringProp>
+                  </WhileController>
+                  <hashTree>
+                    <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="新建Coins兑换奖励" enabled="true">
+                      <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                      <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                        <collectionProp name="Arguments.arguments">
+                          <elementProp name="" elementType="HTTPArgument">
+                            <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                            <stringProp name="Argument.value">${body}</stringProp>
+                            <stringProp name="Argument.metadata">=</stringProp>
+                          </elementProp>
+                        </collectionProp>
+                      </elementProp>
+                      <stringProp name="HTTPSampler.domain">${host}</stringProp>
+                      <stringProp name="HTTPSampler.port">${port}</stringProp>
+                      <stringProp name="HTTPSampler.protocol">http</stringProp>
+                      <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+                      <stringProp name="HTTPSampler.path">${path}/redeem/reward/save.do</stringProp>
+                      <stringProp name="HTTPSampler.method">POST</stringProp>
+                      <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                      <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                      <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                      <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                      <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                      <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                      <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                    </HTTPSamplerProxy>
+                    <hashTree>
+                      <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
+                        <boolProp name="resetInterpreter">false</boolProp>
+                        <stringProp name="parameters"></stringProp>
+                        <stringProp name="filename"></stringProp>
+                        <stringProp name="script">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+
+
+Map map = new HashMap();
+//入参输入
+${__counter(TRUE,currentReward)};
+map.put(&quot;batchId&quot;, vars.get(&quot;batchId&quot;));
+map.put(&quot;redeemName&quot;, &quot;这是批次&quot;+vars.get(&quot;batchId&quot;)+&quot;旗下的兑换奖励No.&quot;+String.valueOf(System.currentTimeMillis()));
+map.put(&quot;redeemCoins&quot;, ${__Random(1,49,)});
+map.put(&quot;redeemDesc&quot;, map.get(&quot;redeemName&quot;));
+map.put(&quot;redeemStatus&quot;, ${__Random(0,1,)});
+map.put(&quot;redeemSource&quot;, 0);
+//入参输入结束
+
+//拼接入参
+String []str = new String[map.size()];
+
+Iterator it = map.keySet().iterator();  
+
+StringBuffer sb = new StringBuffer();
+sb.append(&quot;&quot;);
+int i = 0;
+while(it.hasNext()) {
+	str[i] = (String) it.next();
+	i ++;
+}
+
+//排序
+Arrays.sort(str);
+
+for (int j = 0; j &lt; str.length; j ++) {
+	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
+	if (j != str.length -1) {
+		sb.append(&quot;&amp;&quot;);
+	} 
+}
+
+//对入参进行MD5签名
+String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
+
+String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
+
+vars.put(&quot;body&quot;, body);
+</stringProp>
+                      </BeanShellTimer>
+                      <hashTree/>
+                      <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+                        <collectionProp name="Asserion.test_strings">
+                          <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
+                        </collectionProp>
+                        <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                        <boolProp name="Assertion.assume_success">false</boolProp>
+                        <intProp name="Assertion.test_type">16</intProp>
+                        <stringProp name="Assertion.custom_message"></stringProp>
+                      </ResponseAssertion>
+                      <hashTree/>
+                      <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="Beanshell断言" enabled="true">
+                        <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+Random random = new Random();
+if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
+	Failure = true;
+	FailureMessage = &quot;无返回data&quot;;
+}else{
+	Failure = false;
+	try{
+		if(Integer.parseInt(vars.get(&quot;currentReward&quot;))&gt;Integer.parseInt(vars.get(&quot;redeemRewardCount&quot;))){
+			vars.put(&quot;newRedeemReward&quot;, &quot;false&quot;);
+		}
+	}catch (Throwable ex) {
+		log.error(&quot;Something went wrong&quot;, ex);
+		throw ex;
+	}
+}
+</stringProp>
+                        <stringProp name="BeanShellAssertion.filename"></stringProp>
+                        <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                        <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+                      </BeanShellAssertion>
+                      <hashTree/>
+                      <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="遇错停止" enabled="true">
+                        <intProp name="OnError.action">1</intProp>
+                      </ResultAction>
+                      <hashTree/>
+                    </hashTree>
+                  </hashTree>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TEMPLATE" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -25870,12 +26330,9 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
           <hashTree/>
         </hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="DEBUG" enabled="false">
-          <stringProp name="BeanShellSampler.query">import redis.clients.jedis.Jedis;
-
-
-Jedis jedis = new Jedis(&quot;hzdev.offerplus.com&quot;);
-jedis.auth(&quot;R7evMxOvLX&quot;);
-if(jedis.get(&quot;OFFER_TOKEN_W2050984&quot;));</stringProp>
+          <stringProp name="BeanShellSampler.query">${__counter(TRUE,aaa)};
+log.info(&quot;++++++++++++++++++&quot;+vars.get(&quot;aaa&quot;));
+</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
