@@ -205,7 +205,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           </elementProp>
           <elementProp name="userId" elementType="Argument">
             <stringProp name="Argument.name">userId</stringProp>
-            <stringProp name="Argument.value">1001200</stringProp>
+            <stringProp name="Argument.value">1040060</stringProp>
             <stringProp name="Argument.desc">单用户时的userId</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -287,7 +287,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Product" enabled="true"/>
         <hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="从Redis取Token" enabled="true">
             <stringProp name="BeanShellSampler.query">import redis.clients.jedis.Jedis;
@@ -3607,7 +3607,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
-            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="取好友列表" enabled="true">
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="取联系人列表" enabled="true">
               <boolProp name="TransactionController.includeTimers">false</boolProp>
               <boolProp name="TransactionController.parent">false</boolProp>
             </TransactionController>
@@ -3627,7 +3627,7 @@ if (isEncrypt.equals(&quot;true&quot;)) {
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
                 <stringProp name="HTTPSampler.protocol">http</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                <stringProp name="HTTPSampler.path">${path}/queryUserTag.do</stringProp>
+                <stringProp name="HTTPSampler.path">${path}/contactList.do</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -3720,12 +3720,12 @@ vars.put(&quot;body&quot;, body);
                 <hashTree/>
                 <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
-                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.tagList</stringProp>
+                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.contacts</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="随机取好友分组" enabled="true">
+                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="取联系人列表" enabled="true">
                   <stringProp name="TestPlan.comments">chosenUserTag</stringProp>
                   <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
@@ -3737,197 +3737,32 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
 	Failure = false;
 	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
 	if(response.size() &gt; 0) {
+		StringBuffer friendList = new StringBuffer();
+		friendList.append(&quot;&quot;);
 		JSONArray friendGroup = new JSONArray();
 		for(int i=0; i&lt;response.size(); i++){
-			if(response.getJSONObject(i).getInteger(&quot;tagNum&quot;).intValue()&gt;0 &amp;&amp; !response.getJSONObject(i).getString(&quot;tagName&quot;).equals(&quot;Custom Supplier&quot;)) 
-				friendGroup.add(response.getJSONObject(i));
+			if(response.getJSONObject(i).getJSONArray(&quot;list&quot;).size()&gt;0){
+				for(int j=0; j&lt;response.getJSONObject(i).getJSONArray(&quot;list&quot;).size(); j++){
+					friendList.append(response.getJSONObject(i).getJSONArray(&quot;list&quot;).getJSONObject(j).getInteger(&quot;contactUserId&quot;).toString());
+                         friendList.append(&apos;,&apos;);
+				}
+				
+			}
 		}
-		if(friendGroup.size()&gt;0){
-			vars.put(&quot;friendGroup&quot;, friendGroup.toJSONString());
-			vars.put(&quot;nextGroup&quot;, &quot;true&quot;);
-			vars.put(&quot;totalFriendGroup&quot;, friendGroup.size().toString());
-			vars.put(&quot;friendList&quot;, &quot;&quot;);
+		if(friendList.length()&gt;0){
+			friendList.deleteCharAt(friendList.length()-1);
+			vars.put(&quot;friendList&quot;, friendList.toString());
+			vars.put(&quot;friendGroup&quot;, &quot;0&quot;);
 		}else{
 			vars.put(&quot;friendGroup&quot;, &quot;-1&quot;);
-			vars.put(&quot;nextGroup&quot;, &quot;false&quot;);
 			Failure = true;
 			log.info(&quot;****************&quot;+${userId}+&quot;没有好友分组****************&quot;);
 		}
+	}else{
+		vars.put(&quot;friendGroup&quot;, &quot;-1&quot;);
+		Failure = true;
+		log.info(&quot;****************&quot;+${userId}+&quot;没有好友分组****************&quot;);
 	}
-}
-</stringProp>
-                  <stringProp name="BeanShellAssertion.filename"></stringProp>
-                  <stringProp name="BeanShellAssertion.parameters"></stringProp>
-                  <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-                </BeanShellAssertion>
-                <hashTree/>
-              </hashTree>
-              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While:有好友" enabled="true">
-                <stringProp name="WhileController.condition">${nextGroup}</stringProp>
-              </WhileController>
-              <hashTree>
-                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="按组取好友" enabled="true">
-                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                    <collectionProp name="Arguments.arguments">
-                      <elementProp name="" elementType="HTTPArgument">
-                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                        <stringProp name="Argument.value">${body}</stringProp>
-                        <stringProp name="Argument.metadata">=</stringProp>
-                      </elementProp>
-                    </collectionProp>
-                  </elementProp>
-                  <stringProp name="HTTPSampler.domain">${host}</stringProp>
-                  <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.protocol">http</stringProp>
-                  <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-                  <stringProp name="HTTPSampler.path">${path}/queryUserTagDetail.do</stringProp>
-                  <stringProp name="HTTPSampler.method">POST</stringProp>
-                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                  <stringProp name="TestPlan.comments">chosenFriend</stringProp>
-                </HTTPSamplerProxy>
-                <hashTree>
-                  <BeanShellTimer guiclass="TestBeanGUI" testclass="BeanShellTimer" testname="拼接入参" enabled="true">
-                    <boolProp name="resetInterpreter">false</boolProp>
-                    <stringProp name="parameters"></stringProp>
-                    <stringProp name="filename"></stringProp>
-                    <stringProp name="script">import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-
-long L = System.currentTimeMillis();
-
-Map map = new HashMap();
-
-//以下为接口必传参数
-map.put(&quot;appType&quot;, vars.get(&quot;appType&quot;));
-map.put(&quot;languagePack&quot;, vars.get(&quot;languagePack&quot;));
-map.put(&quot;packageName&quot;, vars.get(&quot;packageName&quot;));
-map.put(&quot;source&quot;, vars.get(&quot;source&quot;));
-map.put(&quot;timestamp&quot;, String.valueOf(L));
-map.put(&quot;tokenId&quot;, vars.get(&quot;tokenId&quot;));
-map.put(&quot;version&quot;, vars.get(&quot;version&quot;));
-
-//以下为接口可变参数
-try{
-	${__counter(TRUE,addFriendQueue)};
-	JSONArray friendGroup = JSONArray.parseArray(vars.get(&quot;friendGroup&quot;));
-	map.put(&quot;tagId&quot;, friendGroup.getJSONObject(${addFriendQueue}-1).getInteger(&quot;tagId&quot;));
-}
-catch (Throwable ex) {
-    log.error(&quot;Something went wrong&quot;, ex);
-    throw ex;
-}
-
-
-
-
-//拼接入参
-String []str = new String[map.size()];
-
-Iterator it = map.keySet().iterator();  
-
-StringBuffer sb = new StringBuffer();
-sb.append(&quot;&quot;);
-int i = 0;
-while(it.hasNext()) {
-	str[i] = (String) it.next();
-	i ++;
-}
-
-//排序
-Arrays.sort(str);
-
-for (int j = 0; j &lt; str.length; j ++) {
-	sb.append(str[j]).append(&quot;=&quot;).append(map.get(str[j]));
-	if (j != str.length -1) {
-		sb.append(&quot;&amp;&quot;);
-	} 
-}
-
-//对入参进行MD5签名
-String sign = DigestUtils.md5Hex(sb.toString() + &quot;&amp;99ca919b-4c6e-46d7-b25e-e0cbb9003436&quot;);
-
-String body = sb.append(&quot;&amp;sign=&quot;).append(sign).toString();
-
-vars.put(&quot;body&quot;, body);
-</stringProp>
-                  </BeanShellTimer>
-                  <hashTree/>
-                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
-                    <collectionProp name="Asserion.test_strings">
-                      <stringProp name="-1783684952">&quot;status&quot;:&quot;000&quot;</stringProp>
-                    </collectionProp>
-                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                    <boolProp name="Assertion.assume_success">false</boolProp>
-                    <intProp name="Assertion.test_type">16</intProp>
-                    <stringProp name="Assertion.custom_message"></stringProp>
-                  </ResponseAssertion>
-                  <hashTree/>
-                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
-                    <stringProp name="JSONPostProcessor.referenceNames">data</stringProp>
-                    <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.list</stringProp>
-                    <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
-                    <stringProp name="JSONPostProcessor.defaultValues">&quot;-1&quot;</stringProp>
-                  </JSONPostProcessor>
-                  <hashTree/>
-                  <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="随机取好友" enabled="true">
-                    <stringProp name="BeanShellAssertion.query">import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONArray;
-Random random = new Random();
-if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
-	Failure = true;
-	FailureMessage = &quot;无返回data&quot;;
-}else{
-	Failure = false;
-	JSONArray response = JSONArray.parseArray(vars.get(&quot;data&quot;));
-	if(response.size() &gt; 0) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(vars.get(&quot;friendList&quot;));
-		for(int i=0; i&lt;response.size(); i++){
-			if(i&lt;response.size()){
-				sb.append(response.getJSONObject(i).getInteger(&quot;contactUserId&quot;).toString()).append(&quot;,&quot;);
-			}else{
-				sb.append(response.getJSONObject(i).getInteger(&quot;contactUserId&quot;).toString());
-			}
-		}
-		vars.put(&quot;friendList&quot;, sb.toString());
-	}
-}
-</stringProp>
-                    <stringProp name="BeanShellAssertion.filename"></stringProp>
-                    <stringProp name="BeanShellAssertion.parameters"></stringProp>
-                    <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-                  </BeanShellAssertion>
-                  <hashTree/>
-                </hashTree>
-                <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="终止循环断言" enabled="true">
-                  <stringProp name="BeanShellAssertion.query">try{
-	if(${addFriendQueue}==Integer.valueOf(vars.get(&quot;totalFriendGroup&quot;))){
-//		Failure = true;
-//		FailureMessage = &quot;所有联系人遍历完毕，此处断言用来终止遍历！！！&quot;;
-		vars.put(&quot;nextGroup&quot;, &quot;false&quot;);
-		log.info(&quot;****************&quot;+${userId}+&quot;の好友列表=&quot;+vars.get(&quot;friendList&quot;)+&quot;****************&quot;);
-	}
-}
-catch (Throwable ex) {
-    log.error(&quot;Something went wrong&quot;, ex);
-    throw ex;
 }
 </stringProp>
                   <stringProp name="BeanShellAssertion.filename"></stringProp>
@@ -4403,7 +4238,7 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
             </hashTree>
             <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="循环：设定新建几个" enabled="true">
               <boolProp name="LoopController.continue_forever">true</boolProp>
-              <stringProp name="LoopController.loops">99</stringProp>
+              <stringProp name="LoopController.loops">23</stringProp>
             </LoopController>
             <hashTree>
               <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="固定定时器" enabled="true">
@@ -4617,7 +4452,7 @@ for(int i=0; i&lt;num; i++){
 	sheetList.remove(newNum);
 }
 //map.put(&quot;offerArrSheet&quot;, java.net.URLEncoder.encode(ja.toString()));
-if(random.nextInt(3)==0){
+if(random.nextInt(5)!=0){
 	map.put(&quot;offerArrSheet&quot;, chosenSheet.toJSONString());
 }else{
 	map.put(&quot;offerArrSheet&quot;, &quot;[]&quot;);	
@@ -13690,7 +13525,7 @@ catch (Throwable ex) {
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Coupon" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Coupon" enabled="false">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
