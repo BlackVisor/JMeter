@@ -266,7 +266,7 @@ props.put(&quot;commonList&quot;, commonList.toJSONString());
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：APP" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：OfferPlus" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -4464,7 +4464,7 @@ if(random.nextInt(5)!=0){
 
 String []str = new String[map.size()];
 
-Iterator it = map.keySet().iterator();  
+Iterator it = map.keySet().iterator();
 
 StringBuffer sb = new StringBuffer();
 sb.append(&quot;&quot;);
@@ -22439,7 +22439,7 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
         </BeanShellSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组：Manager" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -22457,7 +22457,7 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
           <boolProp name="CookieManager.clearEachIteration">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="配置客服号" enabled="true">
+        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="配置客服号" enabled="false">
           <collectionProp name="UserParameters.names">
             <stringProp name="663884173">adminEmail</stringProp>
             <stringProp name="1216985755">password</stringProp>
@@ -22475,7 +22475,7 @@ log.info(&quot;***&quot;+vars.get(&quot;order&quot;)+&quot;***&quot;);</stringPr
           <boolProp name="UserParameters.per_iteration">false</boolProp>
         </UserParameters>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="客服登录" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="客服登录" enabled="false">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
@@ -26381,7 +26381,7 @@ vars.put(&quot;body&quot;, &quot;-1&quot;);</stringProp>
             <hashTree/>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="管理员管理" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="管理员管理" enabled="false"/>
         <hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="促销工具" enabled="true"/>
           <hashTree>
@@ -26973,10 +26973,12 @@ if(vars.get(&quot;data&quot;).equals(&quot;-1&quot;)){
           </ResultAction>
           <hashTree/>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="DEBUG" enabled="false">
-          <stringProp name="BeanShellSampler.query">${__counter(TRUE,aaa)};
-log.info(&quot;++++++++++++++++++&quot;+vars.get(&quot;aaa&quot;));
-</stringProp>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="DEBUG" enabled="true">
+          <stringProp name="BeanShellSampler.query">import offerplus.Oujia;
+
+
+Oujia oujia = new Oujia();
+log.info(&quot;==================&quot;+oujia.saltyPwd(&quot;Bb123456&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
